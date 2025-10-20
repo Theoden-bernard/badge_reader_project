@@ -7,7 +7,7 @@ Template LaTeX professionnel pour la rédaction de votre dossier CDA au style co
 ```bash
 # 1. Cloner le repository
 git clone [URL_DU_REPO]
-cd Colint-cda
+cd cda-folder
 
 # 2. Vérifier les dépendances
 make install-deps
