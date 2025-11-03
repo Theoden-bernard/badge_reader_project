@@ -4,53 +4,38 @@
 
 Dans cette section, vous devez définir clairement les trois types d'objectifs de votre projet. Le jury attend une distinction nette entre les objectifs métier (bénéfices pour l'entreprise), techniques (performance, architecture) et pédagogiques (apprentissages CDA).
 
-\textbf{Objectifs métier :} \textit{[Décrivez les bénéfices attendus pour l'entreprise : gains de productivité, réduction des coûts, amélioration de la qualité, etc.]}
+\textbf{Objectifs métier :} \textit{Amelioration du trafique, Protection du batiment, Plus de Confort.}
 
-\textbf{Objectifs techniques :} \textit{[Précisez les performances attendues : temps de réponse, scalabilité, sécurité, maintenabilité, etc.]}
+\textbf{Objectifs techniques :} \textit{Securiser le batiment, compatibilité entre les appareil, crée une interface intuitive et minimaliste}
 
-\textbf{Objectifs pédagogiques :} \textit{[Listez les compétences CDA que vous souhaitez développer et valider]}
+\textbf{Objectifs pédagogiques :} \textit{\newline
+1. Test unitaire \newline
+2. Gestion de project et d'organisation \newline
+3. Securiter (clef de chiffrement...) \newline
+}
 
 \begin{exemple}
-\textbf{Exemple de tableau MoSCoW :}
-\begin{center}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Justification} \\
-\hline
-Must Have & Authentification & Sécurité obligatoire \\
-Must Have & Gestion des projets & Cœur métier \\
-Should Have & Tableaux de bord & Amélioration UX \\
-Could Have & Notifications push & Plus-value \\
-Won't Have & IA prédictive & Hors périmètre v1 \\
-\hline
-\end{tabular}
-\end{center}
 
-\textbf{Votre tableau MoSCoW :} \textit{[Créez votre propre tableau de priorisation]}
+    \textbf{Tableau MoSCoW :}
+    \begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline
+            \textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Justification} \\
+        \hline
+            Must Have & Application & Application inutile sans \\
+            Must Have & Authentification et chiffrement & Sécurité obligatoire \\ %prioriter
+            Should Have & Gen badge securiser et logique & Securiser le batiment\\ %prioriter moins importante
+            Could Have & Relier L'API de l'intra aux read badger & Accéder à la db\\ %bonnus pas obligatoir mais amelioration
+            Won't Have & Integrée le read badgeur dans l'intra & Question pratiques \\ %Pour une V2
+        \hline
 
-\textbf{Exemple de diagramme de périmètre MVP :}
-\begin{verbatim}
-                    +=================================+
-                    |        MVP v1.0 (6 mois)        |
-                    |                                 |
-                    +=================================+
-                                      |
-                    +-----------------+-----------------+
-                    |                 |                 |
-            +-------+-------+   +-------+-------+   +-------+-------+
-            | Auth.          |   | Gestion projets |   | Tableaux bord |
-            | (Must Have)      |   | (Must Have)    |   | (Should Have)    |
-            +------------------+   +----------------+   +------------------+
-                    |                 |                 |
-                    +-----------------+-----------------+
-                                      |
-                              +-------+-------+
-                              | Notifications |
-                              | (Could Have)  |
-                              +---------------+
-\end{verbatim}
+    \end{tabular}
+    \end{center}
 
-\textbf{Votre diagramme de périmètre MVP :} \textit{[Dessinez le périmètre de votre MVP]}
+    \textbf{Votre diagramme de périmètre MVP :}
+    \begin{center}
+        \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_perimetre.png}
+    \end{center}
 \end{exemple}
 
 \begin{conseil}
@@ -88,11 +73,20 @@ Won't Have & IA prédictive & Hors périmètre v1 \\
 
 Dans cette section, vous devez identifier et analyser vos utilisateurs cibles et toutes les parties prenantes du projet. Le jury attend une compréhension claire des besoins de chaque groupe et de leur influence sur le projet.
 
-\textbf{Personae utilisateurs :} \textit{[Décrivez vos utilisateurs types : rôles, besoins, contraintes, niveau technique]}
+\textbf{Personae utilisateurs :} \textit{\newline
+1. \underline{Pierre}: Il est etudiant à Colint school il viens en cours de 9h à 17h. \newline
+2. \underline{Les parents de Pierre}: On un rendez vous avec le directeur et leur fils le vendredi 24 Octobre 2025.\newline
+3. \underline{Maris}: Elle est coatchs à Colint school elle interviens le jeudi de 8h00 à 12h00. \newline
+4. \underline{Kwame}: Il peux intervenir quand il veux aux sein de l'ecole. \newline
+}
+\textbf{Parties prenantes :} \textit{\newline
+1. \underline{Etudiants de colint}: Il on besoins d'acceder aux batiment de 8h00 à 18h00. \newline
+2. \underline{Inviter pour colint}: Badge crée sur demande en fonctrion du besoins. Par exemple un parents n'aura acces que quelque heur aux batiment alors qu'un intervenant peux avoir un badge d'une semaine.\newline
+3. \underline{coatchs}: Il on besoins d'acceder aux batiment de 8h00 à 20h00. \newline
+4. \underline{Administrateurs}: Il n'on aucune restrictions. \newline
+}
 
-\textbf{Parties prenantes :} \textit{[Listez tous les acteurs impliqués : utilisateurs finaux, décideurs, équipe technique, administrateurs]}
-
-\textbf{Matrice d'influence :} \textit{[Analysez l'influence et l'intérêt de chaque partie prenante]}
+\textbf{Matrice d'influence :} \textit{Pour chaqu'une de ses partie il on un interet comment fludifier leur trafique aux sein de l'ecole. Mais egalement securiser le batiment. Apres 18h plus aucun etudiant ne peux rentrée dans l'ecole toute sortie est définitive ce qui permet de reduir les potentiels soucis.}
 
 La cartographie des parties prenantes facilite la communication et la gestion des attentes tout au long du projet. Cette approche systémique garantit que tous les besoins sont pris en compte dans la conception de la solution.
 
@@ -105,31 +99,31 @@ La cartographie des parties prenantes facilite la communication et la gestion de
 \end{itemize}
 
 \textbf{Critères d'acceptation :}
-\begin{itemize}
-    \item Le tableau de bord se charge en moins de 2 secondes
-    \item Les données sont synchronisées en temps réel
-    \item L'interface est responsive sur mobile et desktop
-\end{itemize}
+    \begin{itemize}
+        \item Le tableau de bord se charge en moins de 2 secondes
+        \item Les données sont synchronisées en temps réel
+        \item L'interface est responsive sur mobile et desktop
+    \end{itemize}
 \end{exemple}
 
 \begin{conseil}
-\begin{itemize}
-    \item Créer des personae détaillés avec leurs besoins spécifiques
-    \item Identifier toutes les parties prenantes du projet
-    \item Analyser l'influence et l'intérêt de chaque partie prenante
-    \item Définir des user stories avec critères d'acceptation clairs
-    \item Organiser des sessions de validation avec les utilisateurs
-\end{itemize}
+    \begin{itemize}
+        \item Créer des personae détaillés avec leurs besoins spécifiques
+        \item Identifier toutes les parties prenantes du projet
+        \item Analyser l'influence et l'intérêt de chaque partie prenante
+        \item Définir des user stories avec critères d'acceptation clairs
+        \item Organiser des sessions de validation avec les utilisateurs
+    \end{itemize}
 \end{conseil}
 
 \begin{jury}
-\begin{itemize}
-    \item Qui sont vos utilisateurs cibles principaux ?
-    \item Comment avez-vous validé vos user stories ?
-    \item Quelles parties prenantes ont le plus d'influence ?
-    \item Vos critères d'acceptation sont-ils mesurables ?
-    \item Comment gérez-vous les besoins contradictoires ?
-\end{itemize}
+    \begin{itemize}
+        \item Qui sont vos utilisateurs cibles principaux ?
+        \item Comment avez-vous validé vos user stories ?
+        \item Quelles parties prenantes ont le plus d'influence ?
+        \item Vos critères d'acceptation sont-ils mesurables ?
+        \item Comment gérez-vous les besoins contradictoires ?
+    \end{itemize}
 \end{jury}
 
 \section{Exigences fonctionnelles}
@@ -142,18 +136,18 @@ La sécurité et la confidentialité des données constituent des exigences crit
 
 Dans cette sous-section, vous devez détailler toutes les fonctionnalités accessibles aux utilisateurs finaux. Le jury attend une description précise de l'interface utilisateur et des interactions possibles.
 
-\textbf{Vos fonctionnalités Front Office :} \textit{[Listez toutes les fonctionnalités visibles par l'utilisateur final : navigation, formulaires, tableaux de bord, etc.]}
+\textbf{Vos fonctionnalités Front Office :} \textit{Pour les Inviter, Etudiants, Coatchs il ne pourrons acceder qu'a leur badge qui sera represernter sous la forme d'un QR code. Quand aux administrateurs ils aurons acces en plus a une partis pour gerer et crée les badge.}
 
-\begin{exemple}
-\textbf{Exemple de fonctionnalités Front Office :}
-\begin{itemize}
-    \item \textbf{Dashboard :} Vue d'ensemble des projets et tâches
-    \item \textbf{Gestion projets :} Création, modification, suppression
-    \item \textbf{Gestion tâches :} Attribution, suivi, mise à jour statut
-    \item \textbf{Profil utilisateur :} Modification informations personnelles
-    \item \textbf{Recherche :} Filtrage et recherche dans les projets
-\end{itemize}
-\end{exemple}
+\begin{for_you}
+    \textbf{Exemple de fonctionnalités Front Office :}
+    \begin{itemize}
+        \item \textbf{Dashboard :} Vue d'ensemble des projets et tâches
+        \item \textbf{Gestion projets :} Création, modification, suppression
+        \item \textbf{Gestion tâches :} Attribution, suivi, mise à jour statut
+        \item \textbf{Profil utilisateur :} Modification informations personnelles
+        \item \textbf{Recherche :} Filtrage et recherche dans les projets
+    \end{itemize}
+\end{for_you}
 
 \subsection{Fonctionnalités « Back Office »}
 
@@ -161,16 +155,16 @@ Dans cette sous-section, vous devez présenter les fonctionnalités administrati
 
 \textbf{Vos fonctionnalités Back Office :} \textit{[Décrivez les fonctions d'administration : gestion utilisateurs, configuration système, rapports, etc.]}
 
-\begin{exemple}
-\textbf{Exemple de fonctionnalités Back Office :}
-\begin{itemize}
-    \item \textbf{Gestion utilisateurs :} Création, modification, désactivation comptes
-    \item \textbf{Gestion rôles :} Attribution et modification des permissions
-    \item \textbf{Rapports système :} Logs, métriques, statistiques d'usage
-    \item \textbf{Configuration :} Paramètres système, maintenance
-    \item \textbf{Sauvegardes :} Gestion des sauvegardes et restauration
-\end{itemize}
-\end{exemple}
+\begin{for_you}
+    \textbf{Fonctionnalités Back Office :}
+    \begin{itemize}
+        \item \textbf{Gestion de badge :} Création, modification, désactivation badge.
+        \item \textbf{Gestion rôles :} Attribution et modification des permissions.
+        \item \textbf{Gestion de mail :} Recevoir et ajouter sont badge a sont wallet.
+        \item \textbf{Rapports système :} Logs, métriques, statistiques d'usage.
+        \item \textbf{Statistiques :} Trace écrite des entrée sortie.
+    \end{itemize}
+\end{for_you}
 
 \subsection{L'utilisateur (public)}
 
@@ -178,53 +172,52 @@ Dans cette sous-section, vous devez définir clairement qui peut accéder au sys
 
 \textbf{Vos types d'utilisateurs :} \textit{[Décrivez vos utilisateurs : internes, externes, partenaires, avec leurs besoins spécifiques]}
 
-\begin{exemple}
-\textbf{Exemple de typologie utilisateurs :}
-\begin{itemize}
-    \item \textbf{Utilisateurs internes :} Employés de l'entreprise avec accès complet
-    \item \textbf{Utilisateurs externes :} Clients ou partenaires avec accès limité
-    \item \textbf{Administrateurs :} Accès complet au système et aux données
-    \item \textbf{Consultants :} Accès temporaire avec restrictions
-\end{itemize}
-\end{exemple}
+\begin{for_you}
+    \textbf{Typologie utilisateurs :}
+    \begin{itemize}
+        \item \textbf{Etudiants et coatchs :} Acces a l'app et a un Qr code avec les droit de ce dernier
+        \item \textbf{Invités :} No acces a l'app mais recevera un mail avec le Qr code
+        \item \textbf{Administrateurs :} Accès complet au système et aux données
+    \end{itemize}
+\end{for_you}
 
 \subsection{Confidentialité}
 
 Dans cette sous-section, vous devez détailler les mesures de protection des données et le respect de la vie privée. Le jury attend une approche conforme au RGPD et aux bonnes pratiques de sécurité.
 
-\textbf{Vos mesures de confidentialité :} \textit{[Décrivez comment vous protégez les données personnelles et sensibles]}
+\textbf{Vos mesures de confidentialité :}
 
-\begin{exemple}
-\textbf{Exemple de mesures de confidentialité :}
-\begin{itemize}
-    \item \textbf{Chiffrement :} Données sensibles chiffrées en base
-    \item \textbf{Accès contrôlé :} Logs d'accès et audit trail
-    \item \textbf{RGPD :} Consentement, droit à l'oubli, portabilité
-    \item \textbf{Anonymisation :} Données anonymisées pour les rapports
-\end{itemize}
-\end{exemple}
+\begin{for_you}
+    \textbf{Mesures de confidentialité :}
+    \begin{itemize}
+        \item \textbf{Chiffrement :} Données sensibles chiffrées en base
+        \item \textbf{Accès contrôlé :} Logs d'accès et audit trail
+        \item \textbf{RGPD :} Consentement, droit à l'oubli, portabilité
+        \item \textbf{Anonymisation :} Données anonymisées pour les rapports
+    \end{itemize}
+\end{for_you}
 
 \subsection{Droits d'accès}
 
 Dans cette sous-section, vous devez présenter votre système de permissions et de contrôle d'accès. Le jury attend une matrice claire des droits par rôle et fonctionnalité.
 
-\textbf{Votre matrice de droits :} \textit{[Définissez qui peut faire quoi dans votre système]}
+\textbf{Votre matrice de droits :}
 
-\begin{exemple}
-\textbf{Matrice des rôles et droits :}
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\textbf{Rôle} & \textbf{Créer} & \textbf{Lire} & \textbf{Modifier} & \textbf{Supprimer} \\
-\hline
-Admin & \mycheckmark & \mycheckmark & \mycheckmark & \mycheckmark \\
-Manager & \mycheckmark & \mycheckmark & \mycheckmark & \mycross \\
-Développeur & \mycheckmark & \mycheckmark & \mycheckmark (ses projets) & \mycross \\
-Consultant & \mycross & \mycheckmark & \mycross & \mycross \\
-\hline
-\end{tabular}
-\end{center}
-\end{exemple}
+\begin{for_you}
+    \textbf{Matrice des rôles et droits :}
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|l|}
+            \hline
+            \textbf{Rôle} & \textbf{Créer} & \textbf{Lire} & \textbf{Modifier} & \textbf{Supprimer} \\
+            \hline
+            Admin & \mycheckmark & \mycheckmark & \mycheckmark & \mycheckmark \\
+            Coatchs & \mycross & \mycheckmark & \mycross  & \mycross \\
+            Etudiants & \mycross & \mycheckmark & \mycross & \mycross \\
+            Inviter & \mycross & \mycheckmark & \mycross & \mycross \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{for_you}
 
 \subsection{Authentification}
 
@@ -232,34 +225,33 @@ Dans cette sous-section, vous devez détailler votre système d'authentification
 
 \textbf{Votre système d'authentification :} \textit{[Décrivez comment les utilisateurs se connectent et restent authentifiés]}
 
-\begin{exemple}
-\textbf{Exemple de système d'authentification :}
-\begin{itemize}
-    \item \textbf{Connexion :} Email/mot de passe avec validation
-    \item \textbf{Sessions :} JWT avec expiration automatique
-    \item \textbf{Sécurité :} Mot de passe fort, 2FA optionnel
-    \item \textbf{Récupération :} Reset par email sécurisé
-\end{itemize}
-\end{exemple}
+\begin{for_you}
+    \textbf{Exemple de système d'authentification :}
+    \begin{itemize}
+        \item \textbf{Connexion :} Identifient/Mot de passe, face id...
+        \item \textbf{Sécurité :} Mot de passe fort, Stockage du badge en local
+        \item \textbf{Récupération :} Par email sécurisé
+    \end{itemize}
+\end{for_you}
 
 \begin{conseil}
-\begin{itemize}
-    \item Spécifier toutes les fonctionnalités front-end et back-end
-    \item Définir clairement les rôles et droits d'accès
-    \item Documenter les exigences de confidentialité
-    \item Prévoir les mécanismes d'authentification et d'autorisation
-    \item Valider les exigences avec les utilisateurs métier
-\end{itemize}
+    \begin{itemize}
+        \item Spécifier toutes les fonctionnalités front-end et back-end
+        \item Définir clairement les rôles et droits d'accès
+        \item Documenter les exigences de confidentialité
+        \item Prévoir les mécanismes d'authentification et d'autorisation
+        \item Valider les exigences avec les utilisateurs métier
+    \end{itemize}
 \end{conseil}
 
 \begin{jury}
-\begin{itemize}
-    \item Quelles sont vos exigences fonctionnelles prioritaires ?
-    \item Comment gérez-vous les droits d'accès ?
-    \item Vos exigences sont-elles testables ?
-    \item Avez-vous prévu la confidentialité des données ?
-    \item Comment validez-vous les exigences avec les utilisateurs ?
-\end{itemize}
+    \begin{itemize}
+        \item Quelles sont vos exigences fonctionnelles prioritaires ?
+        \item Comment gérez-vous les droits d'accès ?
+        \item Vos exigences sont-elles testables ?
+        \item Avez-vous prévu la confidentialité des données ?
+        \item Comment validez-vous les exigences avec les utilisateurs ?
+    \end{itemize}
 \end{jury}
 
 \section{Exigences et choix techniques}
@@ -272,47 +264,49 @@ Les choix techniques sont guidés par les exigences de performance, de scalabili
 
 Dans cette sous-section, vous devez détailler toutes les contraintes techniques et les exigences non-fonctionnelles de votre système. Le jury attend une analyse complète des performances, sécurité, scalabilité et maintenabilité.
 
-\textbf{Vos exigences techniques :} \textit{[Listez vos contraintes : performances, sécurité, disponibilité, scalabilité, etc.]}
+\textbf{Vos exigences techniques :} \textit{}
 
-\begin{exemple}
-\textbf{Exemple d'exigences techniques :}
-\begin{itemize}
-    \item \textbf{Performance :} Temps de réponse < 2s, support 100 utilisateurs simultanés
-    \item \textbf{Sécurité :} HTTPS obligatoire, authentification forte, audit logs
-    \item \textbf{Disponibilité :} 99.5\% uptime, sauvegardes quotidiennes
-    \item \textbf{Scalabilité :} Architecture horizontale, cache Redis
-    \item \textbf{Maintenabilité :} Code documenté, tests automatisés
-\end{itemize}
-\end{exemple}
+\begin{for_you}
+    \textbf{Exigences techniques :}
+    \begin{itemize}
+        \item \textbf{Performance :} Temps de réponse < 5s.
+        \item \textbf{Sécurité :} Chiffrement obligatoire, Digicode a partir d'une certaine heur en complement du badge, log.
+        \item \textbf{Multi Plateforme :} Soit disponible sur Apple et Android mais egalement pour des potenitel badge physique.
+        \item \textbf{Maintenabilité :} Code documenté, tests automatisés
+    \end{itemize}
+\end{for_you}
 
 \subsection{Choix}
 
 Dans cette sous-section, vous devez justifier vos choix technologiques par rapport aux exigences identifiées. Le jury attend une analyse comparative et une justification claire de chaque décision technique.
 
-\textbf{Vos choix techniques :} \textit{[Justifiez vos technologies : pourquoi cette stack plutôt qu'une autre ?]}
+\textbf{Vos choix techniques :} \textit{\newline
+    J'ai choisi Elixir car mon systeme est sencer etre fusionner avec l'intra de l'ecole qui est egalement coder en elixir donc nous gardons une coerence logiciel meme chose pour la data base.
+    En ce qui concerne Phoenix est le framework d'elicir il est donc parfait pour cette utilisation nous pouvons utiliser avec cela live vue qui est un outil pour faire du front}
+\newline
 
-\begin{exemple}
-\textbf{Architecture logique simplifiée :}
-\begin{verbatim}
-+-------------------+    +-------------------+    +-------------------+
-|   Frontend        |    |   Backend         |    |   Databases       |
-|   (React)         |<-->|   (Node.js)       |<-->|   PostgreSQL      |
-|                   |    |                   |    |   MongoDB         |
-+-------------------+    +-------------------+    +-------------------+
-\end{verbatim}
+\begin{for_you}
+    \textbf{Architecture logique simplifiée :}
+    \begin{verbatim}
+    +-------------------+    +-------------------+    +-------------------+
+    |   Frontend        |    |   Backend         |    |   Databases       |
+    |   (Phoenix,       |<-->|   (Elixir)        |<-->|   PostgreSQL      |
+    |    Live vue)      |    |                   |    |                   |
+    +-------------------+    +-------------------+    +-------------------+
+    \end{verbatim}
 
-\textbf{Exemple de modèle PostgreSQL :}
-\begin{lstlisting}[language=SQL]
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    role_id INTEGER REFERENCES roles(id),
-    created_at TIMESTAMP DEFAULT NOW()
-);
+    \textbf{Exemple de modèle PostgreSQL :}
+    \begin{lstlisting}[language=SQL]
+    CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        role_id INTEGER REFERENCES roles(id),
+        int badge
+    );
 
-CREATE INDEX idx_users_email ON users(email);
-\end{lstlisting}
-\end{exemple}
+    CREATE INDEX idx_users_email ON users(email);
+    \end{lstlisting}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
@@ -338,54 +332,56 @@ CREATE INDEX idx_users_email ON users(email);
 
 Le MVP concentre les fonctionnalités essentielles pour valider l'hypothèse produit : authentification, gestion des projets de base, et tableau de bord simple. Cette approche permet d'obtenir un retour utilisateur précoce et d'ajuster la roadmap en conséquence. Les scénarios essentiels couvrent les cas d'usage les plus fréquents et critiques pour le métier.
 
-\textbf{Votre définition du MVP :} \textit{[Définissez précisément le périmètre minimal viable de votre projet]}
+\textbf{Votre définition du MVP :} \textit{Mon project doit être aux minimum composer d'une application. Sont rôle sera de gerer les badge des user
+tout en gardent un trace du passage des gens dans le batiment.
+\newline}
 
-\begin{exemple}
-\textbf{Scénarios essentiels MVP :}
-\begin{enumerate}
-    \item Connexion utilisateur et gestion de session
-    \item Création et modification d'un projet
-    \item Attribution des tâches aux membres de l'équipe
-    \item Suivi de l'avancement en temps réel
-    \item Génération de rapports basiques
-\end{enumerate}
-\end{exemple}
+\begin{for_you}
+    \textbf{Scénarios essentiels MVP :}
+    \begin{enumerate}
+        \item Connexion utilisateur et gestion de session
+        \item Création et modification d'un badge
+        \item Statistiques sur les entrée/sorie
+        \item Chiffrement des données
+        \item Génération de rapports basiques
+    \end{enumerate}
+\end{for_you}
 
 \begin{conseil}
-\begin{itemize}
-    \item Délimiter précisément le périmètre du MVP
-    \item Identifier les scénarios essentiels prioritaires
-    \item Valider chaque fonctionnalité avec les utilisateurs
-    \item Mesurer l'impact de chaque feature
-    \item Prévoir des critères de succès clairs
-\end{itemize}
+    \begin{itemize}
+        \item Délimiter précisément le périmètre du MVP
+        \item Identifier les scénarios essentiels prioritaires
+        \item Valider chaque fonctionnalité avec les utilisateurs
+        \item Mesurer l'impact de chaque feature
+        \item Prévoir des critères de succès clairs
+    \end{itemize}
 \end{conseil}
 
 \begin{jury}
-\begin{itemize}
-    \item Votre MVP est-il vraiment minimal ?
-    \item Quels sont vos scénarios essentiels ?
-    \item Comment validez-vous chaque fonctionnalité ?
-    \item Avez-vous des critères de succès mesurables ?
-    \item Comment gérez-vous les demandes hors périmètre ?
-\end{itemize}
+    \begin{itemize}
+        \item Votre MVP est-il vraiment minimal ?
+        \item Quels sont vos scénarios essentiels ?
+        \item Comment validez-vous chaque fonctionnalité ?
+        \item Avez-vous des critères de succès mesurables ?
+        \item Comment gérez-vous les demandes hors périmètre ?
+    \end{itemize}
 \end{jury}
 
 \section{Roadmap}
 
 La roadmap v1 vers v2 prévoit l'ajout progressif de fonctionnalités avancées basées sur les retours utilisateurs et les besoins métier émergents. Cette approche itérative minimise les risques et optimise l'allocation des ressources.
 
-\textbf{Votre roadmap :} \textit{[Planifiez l'évolution de votre projet de v1 vers v2]}
+\textbf{Votre roadmap :}
 
-\begin{exemple}
+\begin{for_you}
 \textbf{Roadmap v1 \myarrow v2 :}
-\begin{itemize}
-    \item \textbf{v1.0 :} Fonctionnalités de base (MVP)
-    \item \textbf{v1.1 :} Notifications et alertes
-    \item \textbf{v1.2 :} Intégrations externes (API)
-    \item \textbf{v2.0 :} Analytics avancées et IA
-\end{itemize}
-\end{exemple}
+    \begin{itemize}
+        \item \textbf{v1.0 :} Fonctionnalités de base (MVP)
+        \item \textbf{v1.1 :} Compatibilitée telephone
+        \item \textbf{v1.2 :} Intégrations externes (API)
+        \item \textbf{v2.0 :} crosse Plateforme Apple/Android
+    \end{itemize}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
