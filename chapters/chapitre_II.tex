@@ -4,19 +4,34 @@
 
 Dans cette section, vous devez définir clairement les trois types d'objectifs de votre projet. Le jury attend une distinction nette entre les objectifs métier (bénéfices pour l'entreprise), techniques (performance, architecture) et pédagogiques (apprentissages CDA).
 
-\textbf{Objectifs métier :} \textit{Amelioration du trafique, Protection du batiment, Plus de Confort.}
+\textbf{Objectifs métier :} \textit{
+    \newline
+    1. Controler les acces / heur d'arriver.
+    \newline
+    2. Reduciton materiel.
+    \newline
+    3. Securiser le batiment.
+    \newline
+    4. Fludifier le trafique.
+    }
 
-\textbf{Objectifs techniques :} \textit{Securiser le batiment, compatibilité entre les appareil, crée une interface intuitive et minimaliste}
+\textbf{Objectifs techniques :} \textit{
+    \newline
+    1. Crée une application de controle d'acces et integrée un systeme de badge sur telephone.
+    \newline
+    2. Clef de chiffrement, autentification (Identifient/Mot de passe).
+    \newline
+    3. Crée une interface intuitive et minimaliste.
+    }
 
-\textbf{Objectifs pédagogiques :} \textit{\newline
-1. Test unitaire \newline
-2. Gestion de project et d'organisation \newline
-3. Securiter (clef de chiffrement...) \newline
+\textbf{Objectifs pédagogiques :} \textit{
+    \underline{C'est quoi ??}
+    \newline
 }
 
-\begin{exemple}
+\begin{for_you}
 
-    \textbf{Tableau MoSCoW :}
+    \textbf{Tableau MoSCoW : \newline}
     \begin{center}
     \begin{tabular}{|l|l|l|}
         \hline
@@ -32,11 +47,11 @@ Dans cette section, vous devez définir clairement les trois types d'objectifs d
     \end{tabular}
     \end{center}
 
-    \textbf{Votre diagramme de périmètre MVP :}
+    \textbf{\newline Votre diagramme de périmètre MVP :}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_perimetre.png}
     \end{center}
-\end{exemple}
+\end{for_you}
 
 \begin{conseil}
 \textbf{Ce que le jury attend dans cette section :}
@@ -74,37 +89,38 @@ Dans cette section, vous devez définir clairement les trois types d'objectifs d
 Dans cette section, vous devez identifier et analyser vos utilisateurs cibles et toutes les parties prenantes du projet. Le jury attend une compréhension claire des besoins de chaque groupe et de leur influence sur le projet.
 
 \textbf{Personae utilisateurs :} \textit{\newline
-1. \underline{Pierre}: Il est etudiant à Colint school il viens en cours de 9h à 17h. \newline
-2. \underline{Les parents de Pierre}: On un rendez vous avec le directeur et leur fils le vendredi 24 Octobre 2025.\newline
-3. \underline{Maris}: Elle est coatchs à Colint school elle interviens le jeudi de 8h00 à 12h00. \newline
-4. \underline{Kwame}: Il peux intervenir quand il veux aux sein de l'ecole. \newline
+1. \underline{Etudiants}: Accede aux batiment de 8h00 a 17h00 du lundi aux vendredi. \newline
+2. \underline{Staff}: Accede aux batiment de 8h00 a 19h00 du lundi aux samedi. \newline
+3. \underline{Admin}: N'a aucune restrictions. \newline
 }
 \textbf{Parties prenantes :} \textit{\newline
-1. \underline{Etudiants de colint}: Il on besoins d'acceder aux batiment de 8h00 à 18h00. \newline
+1. \underline{Etudiants de colint}: Il on besoins d'acceder aux batiment durrent sont année scolaire. \newline
 2. \underline{Inviter pour colint}: Badge crée sur demande en fonctrion du besoins. Par exemple un parents n'aura acces que quelque heur aux batiment alors qu'un intervenant peux avoir un badge d'une semaine.\newline
-3. \underline{coatchs}: Il on besoins d'acceder aux batiment de 8h00 à 20h00. \newline
-4. \underline{Administrateurs}: Il n'on aucune restrictions. \newline
+3. \underline{Staff}: Il on besoins d'acceder aux batiment durrent leur jours de travail. \newline
 }
 
-\textbf{Matrice d'influence :} \textit{Pour chaqu'une de ses partie il on un interet comment fludifier leur trafique aux sein de l'ecole. Mais egalement securiser le batiment. Apres 18h plus aucun etudiant ne peux rentrée dans l'ecole toute sortie est définitive ce qui permet de reduir les potentiels soucis.}
+\textbf{Matrice d'influence :} \textit{Pour chaqu'une de ses partie il on un interet comment fludifier leur trafique aux sein de l'ecole. Mais egalement securiser le batiment.}
 
 La cartographie des parties prenantes facilite la communication et la gestion des attentes tout au long du projet. Cette approche systémique garantit que tous les besoins sont pris en compte dans la conception de la solution.
 
-\begin{exemple}
+\begin{for_you}
 \textbf{User Stories prioritaires :}
 \begin{itemize}
-    \item En tant que \textbf{chef de projet}, je veux visualiser l'avancement des tâches pour optimiser la planification
-    \item En tant que \textbf{développeur}, je veux mettre à jour mon statut rapidement pour informer l'équipe
-    \item En tant que \textbf{manager}, je veux générer des rapports automatiques pour le suivi des performances
+    \item En tant que \textbf{Etudiants/Coatchs}, je veux acceder aux batiment pour venir travail
+    \item En tant que \textbf{Iniviter}, je veux acceder aux batiment.
+    \item En tant que \textbf{Admin}, je veux acceder aux batiment et acceder a une base de donée des Entrée/Sortie et gerer les rôles.
 \end{itemize}
 
 \textbf{Critères d'acceptation :}
     \begin{itemize}
-        \item Le tableau de bord se charge en moins de 2 secondes
-        \item Les données sont synchronisées en temps réel
-        \item L'interface est responsive sur mobile et desktop
+        \item En tant Etudiants/Coatchs/Inviter ou bien admin Je souhaite acceder aux batimentet, j'ai mon badge avec moi
+        je scane ce dernier lorsque je scane le systeme verifie que j'ai un badge valide en verifient depuis la base de donée mon badge. Mon badge est reconnus
+        alors la porte souvre.
+        \item En tant qu'administrateurs, Je souhaite acceder a mon application de controle d'acces etant donnée que je suis déconnecté et que je suis sur la page de connexion,
+        lorsque je remplis les champs «identifiant» et «Mot de passe» avec mes informations d'authentification et que je clique sur le bouton Connexion,
+        alors le système me connecte
     \end{itemize}
-\end{exemple}
+\end{for_you}
 
 \begin{conseil}
     \begin{itemize}
@@ -136,16 +152,14 @@ La sécurité et la confidentialité des données constituent des exigences crit
 
 Dans cette sous-section, vous devez détailler toutes les fonctionnalités accessibles aux utilisateurs finaux. Le jury attend une description précise de l'interface utilisateur et des interactions possibles.
 
-\textbf{Vos fonctionnalités Front Office :} \textit{Pour les Inviter, Etudiants, Coatchs il ne pourrons acceder qu'a leur badge qui sera represernter sous la forme d'un QR code. Quand aux administrateurs ils aurons acces en plus a une partis pour gerer et crée les badge.}
+\textbf{Vos fonctionnalités Front Office :} \textit{Pour les Inviter, Etudiants, Coatchs il ne pourrons acceder qu'a leur badge qui sera soit sous la forme physique ou virtuel depuis leur telephone. Quand aux administrateurs ils aurons acces en plus a une partis pour gerer et crée les badge avec des 
+donée sur qui Rentre/Sorte de l'etablisement.}
 
 \begin{for_you}
-    \textbf{Exemple de fonctionnalités Front Office :}
+    \textbf{fonctionnalités Front Office :}
     \begin{itemize}
-        \item \textbf{Dashboard :} Vue d'ensemble des projets et tâches
-        \item \textbf{Gestion projets :} Création, modification, suppression
-        \item \textbf{Gestion tâches :} Attribution, suivi, mise à jour statut
-        \item \textbf{Profil utilisateur :} Modification informations personnelles
-        \item \textbf{Recherche :} Filtrage et recherche dans les projets
+        \item \textbf{Information personnelle :} Information pour crée un badge, sous la forme d'un formulaire (nom, prenon, email, id...).
+        \item \textbf{Badge :} Acces a aux batiment.
     \end{itemize}
 \end{for_you}
 
@@ -162,7 +176,7 @@ Dans cette sous-section, vous devez présenter les fonctionnalités administrati
         \item \textbf{Gestion rôles :} Attribution et modification des permissions.
         \item \textbf{Gestion de mail :} Recevoir et ajouter sont badge a sont wallet.
         \item \textbf{Rapports système :} Logs, métriques, statistiques d'usage.
-        \item \textbf{Statistiques :} Trace écrite des entrée sortie.
+        \item \textbf{Controle entrée :} Trace écrite des Entrée/Sortie.
     \end{itemize}
 \end{for_you}
 
@@ -175,9 +189,9 @@ Dans cette sous-section, vous devez définir clairement qui peut accéder au sys
 \begin{for_you}
     \textbf{Typologie utilisateurs :}
     \begin{itemize}
-        \item \textbf{Etudiants et coatchs :} Acces a l'app et a un Qr code avec les droit de ce dernier
-        \item \textbf{Invités :} No acces a l'app mais recevera un mail avec le Qr code
-        \item \textbf{Administrateurs :} Accès complet au système et aux données
+        \item \textbf{Etudiants et coatchs :} Acces a sont badge.
+        \item \textbf{Invités :} Acces a un badge temporaire
+        \item \textbf{Administrateurs :} Accès a l'application de Statistiques mais également a sont badge.
     \end{itemize}
 \end{for_you}
 
@@ -191,7 +205,7 @@ Dans cette sous-section, vous devez détailler les mesures de protection des don
     \textbf{Mesures de confidentialité :}
     \begin{itemize}
         \item \textbf{Chiffrement :} Données sensibles chiffrées en base
-        \item \textbf{Accès contrôlé :} Logs d'accès et audit trail
+        \item \textbf{Accès contrôlé :} Logs d'accès
         \item \textbf{RGPD :} Consentement, droit à l'oubli, portabilité
         \item \textbf{Anonymisation :} Données anonymisées pour les rapports
     \end{itemize}
@@ -208,12 +222,12 @@ Dans cette sous-section, vous devez présenter votre système de permissions et 
     \begin{center}
         \begin{tabular}{|l|l|l|l|l|}
             \hline
-            \textbf{Rôle} & \textbf{Créer} & \textbf{Lire} & \textbf{Modifier} & \textbf{Supprimer} \\
+            \textbf{Rôle} & \textbf{App} & \textbf{Badge} \\
             \hline
-            Admin & \mycheckmark & \mycheckmark & \mycheckmark & \mycheckmark \\
-            Coatchs & \mycross & \mycheckmark & \mycross  & \mycross \\
-            Etudiants & \mycross & \mycheckmark & \mycross & \mycross \\
-            Inviter & \mycross & \mycheckmark & \mycross & \mycross \\
+            Admin & \mycheckmark & \mycheckmark \\
+            Coatchs & \mycross & \mycheckmark \\
+            Etudiants & \mycross & \mycheckmark \\
+            Inviter & \mycross & \mycheckmark \\
             \hline
         \end{tabular}
     \end{center}
@@ -226,12 +240,14 @@ Dans cette sous-section, vous devez détailler votre système d'authentification
 \textbf{Votre système d'authentification :} \textit{[Décrivez comment les utilisateurs se connectent et restent authentifiés]}
 
 \begin{for_you}
-    \textbf{Exemple de système d'authentification :}
+    \textbf{système d'authentification :}
     \begin{itemize}
-        \item \textbf{Connexion :} Identifient/Mot de passe, face id...
+        \item \textbf{Connexion :} Identifient/Mot de passe(JWT), face id...
         \item \textbf{Sécurité :} Mot de passe fort, Stockage du badge en local
         \item \textbf{Récupération :} Par email sécurisé
     \end{itemize}
+    J'ai decider de choisir JWT car c'est le seul moyen d'autentification que j'ai pue utiliser. Ajoutez face ID comme moyen de connexion est aussi interessant car il permet si nous posedons 
+    un appareil apple d'augmenter la securiter et la fluidifer de la conextion.
 \end{for_you}
 
 \begin{conseil}
