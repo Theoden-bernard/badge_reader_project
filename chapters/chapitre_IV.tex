@@ -35,28 +35,13 @@ Les Use Cases modélisent les interactions entre les acteurs et le système pour
 
 La modélisation des cas d'usage permet d'identifier les flux principaux et alternatifs, ainsi que les cas d'erreur à gérer. Cette analyse préalable guide la conception technique et les tests d'acceptation.
 
-\begin{exemple}
-\textbf{Diagramme Use Case simplifié :}
-\begin{verbatim}
-                    +-------------------+
-                    |   Système de      |
-                    |   Gestion         |
-                    |   Projets         |
-                    +---------+---------+
-                              |
-        +---------------------+---------------------+
-        |                     |                     |
-   +----+----+            +----+----+            +----+----+
-   |Chef de  |            |Dévelop-|             |Manager  |
-   |projet   |            |peur    |             |         |
-   +---------+            +---------+            +---------+
-        |                     |                     |
-        | Créer projet        | Mettre à jour       | Générer
-        | Assigner tâches     | statut              | rapport
-        | Suivre avancement   | Consulter           | Analyser
-                              | tâches              | performance
-\end{verbatim}
-\end{exemple}
+\begin{for_you}
+    \textbf{Diagramme de case d'usage simplifié :}
+    \newline
+    \begin{center}
+    \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_cas_d'utilisation.png}
+    \end{center}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
@@ -84,31 +69,13 @@ Les diagrammes de séquence détaillent les interactions temporelles entre les d
 
 La modélisation des séquences permet d'identifier les points de synchronisation, les appels asynchrones, et les mécanismes de gestion d'erreur. Cette analyse technique guide l'architecture et l'implémentation des APIs.
 
-\begin{exemple}
-\textbf{Diagramme de séquence - Création de projet :}
-\begin{verbatim}
-User    Frontend    Backend    Database
- |         |          |           |
- |--POST-->|          |           |
- |         |--POST--> |           |
- |         |          |--INSERT-> |
- |         |          |<--OK------|
- |         |<--201----|           |
- |<--200---|          |           |
-\end{verbatim}
-
-\textbf{Exemple de séquence avec gestion d'erreur :}
-\begin{verbatim}
-User    Frontend    Backend    Database
- |         |          |           |
- |--POST-->|          |           |
- |         |--POST--> |           |
- |         |          |--INSERT-> |
- |         |          |<--ERROR--|
- |         |<--400----|           |
- |<--400---|          |           |
-\end{verbatim}
-\end{exemple}
+\begin{for_you}
+\textbf{Diagramme de séquence :}
+\newline
+    \begin{center}
+        \includegraphics[width=10cm,height=80mm]{./assets/diagramme_de_sequence.png}
+    \end{center}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
@@ -140,27 +107,14 @@ L'expérience utilisateur (UX) privilégie la simplicité et l'efficacité pour 
 
 Dans cette sous-section, vous devez présenter l'organisation spatiale de vos interfaces. Le jury attend une analyse claire de la hiérarchie visuelle et de l'organisation des éléments.
 
-\textbf{Votre zoning :} \textit{[Décrivez l'organisation spatiale de vos pages principales]}
+\textbf{\newline Votre zoning :} \textit{[Décrivez l'organisation spatiale de vos pages principales]}
 
-\begin{exemple}
-\textbf{Zoning d'une page projet :}
+\begin{for_you}
+\textbf{Zoning d'une page de connexion :}
 \begin{center}
-\begin{tabular}{|p{4cm}|p{6cm}|p{3cm}|}
-\hline
-\multicolumn{3}{|c|}{\textbf{Header - Navigation principale}} \\
-\hline
-\textbf{Sidebar} & \textbf{Contenu principal} & \textbf{Panel latéral} \\
-\hline
-• Menu navigation & • Titre du projet & • Actions rapides \\
-• Filtres & • Liste des tâches & • Statistiques \\
-• Recherche & • Tableau de données & • Notifications \\
-• Paramètres & • Pagination & • Aide contextuelle \\
-\hline
-\multicolumn{3}{|c|}{\textbf{Footer - Informations légales}} \\
-\hline
-\end{tabular}
+\includegraphics[width=15cm,height=80mm]{./assets/zoning.png}
 \end{center}
-\end{exemple}
+\end{for_you}
 
 \subsection{Wireframe}
 
@@ -168,28 +122,12 @@ Dans cette sous-section, vous devez présenter vos wireframes pour les pages pri
 
 \textbf{Vos wireframes :} \textit{[Présentez vos wireframes pour les pages principales]}
 
-\begin{exemple}
-\textbf{Exemple de wireframe - Page de connexion :}
+\begin{for_you}
+\textbf{Wireframe - Page de connexion :}
 \begin{center}
-\begin{tabular}{|p{8cm}|}
-\hline
-\multicolumn{1}{|c|}{\textbf{LOGO DE L'APPLICATION}} \\
-\hline
-\multicolumn{1}{|c|}{} \\
-\multicolumn{1}{|c|}{\textbf{Connexion}} \\
-\multicolumn{1}{|c|}{} \\
-\multicolumn{1}{|c|}{Email : [\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_]} \\
-\multicolumn{1}{|c|}{} \\
-\multicolumn{1}{|c|}{Mot de passe : [\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_]} \\
-\multicolumn{1}{|c|}{} \\
-\multicolumn{1}{|c|}{[    Se connecter    ]} \\
-\multicolumn{1}{|c|}{} \\
-\multicolumn{1}{|c|}{Mot de passe oublié ?} \\
-\multicolumn{1}{|c|}{} \\
-\hline
-\end{tabular}
+    \includegraphics[width=15cm,height=80mm]{./assets/page_de_conextion.png}
 \end{center}
-\end{exemple}
+\end{for_you}
 
 \subsection{Maquettage}
 
@@ -263,29 +201,35 @@ Dans cette sous-section, vous devez détailler votre charte graphique complète.
 
 \subsubsection{Typographie}
 
-\textbf{Votre système typographique :} \textit{J'utiliserait la police d'ecriture \underline{Farro}}
-
+\textbf{Votre système typographique :} 
+\begin{for_you}
+    \textit{J'utiliserait la police d'ecriture \underline{Farro}}
+\end{for_you}
 \subsubsection{Logo}
 
-\textbf{Votre logo et son utilisation :} \textit{[Décrivez votre logo et ses variantes]}
+\textbf{Votre logo et son utilisation :} 
+\begin{for_you}
+    \textit{Mon logo sera celui de colint etant donée qu'il sera utiliser pour cette ecole et qu'il sera dans le future, integrer a l'intra de Colint. Il n'y auras pas de variante de ce logo.}
+\end{for_you}
 
-\begin{exemple}
+\textit{\newline}
+
+\begin{for_you}
 \textbf{Charte graphique :}
 \begin{center}
 \begin{tabular}{|p{3cm}|p{4cm}|p{5cm}|}
 \hline
 \textbf{Couleurs} & \textbf{Typographie} & \textbf{Composants} \\
 \hline
-Primaire: \#FFD700 & Inter (titres) & Boutons arrondis \\
-Secondaire: \#101820 & Arial (corps) & Cartes avec ombres \\
-Neutre: \#333A40 & Monospace (code) & Icônes Material Design \\
-Accent: \#007BFF & & \\
+Primaire: \#FFD401 & Farro (titres) & Boutons arrondis \\
+Secondaire: \#00000 & Farro (corps) & Cartes avec ombres \\
+Neutre: \#FFFFF & Monospace (code) & Icônes Material Design \\
 \hline
 \textbf{Espacement} & \textbf{Grille 8px} & \textbf{Marges cohérentes} \\
 \hline
 \end{tabular}
 \end{center}
-\end{exemple}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
