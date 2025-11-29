@@ -189,8 +189,7 @@ Dans cette sous-section, vous devez détailler votre charte graphique complète.
 
 \subsubsection{Couleurs}
 
-\textbf{Votre palette de couleurs :}
-\begin{for_you}
+\begin{for_you} \textbf{\underline{Votre palette de couleurs :}}
     \begin{itemize}
         \color{colintYellow}
         \item  Jaune 
@@ -209,15 +208,13 @@ Dans cette sous-section, vous devez détailler votre charte graphique complète.
 
 \subsubsection{Typographie}
 
-\textbf{Votre système typographique :} 
-\begin{for_you}
-    \textit{J'utiliserait la police d'ecriture \underline{Farro}}
+\begin{for_you} \textbf{\underline{Votre système typographique :}} 
+    \textit{\newline J'utiliserait la police d'ecriture \underline{Farro}}
 \end{for_you}
 \subsubsection{Logo}
 
-\textbf{Votre logo et son utilisation :} 
-\begin{for_you}
-    \textit{Mon logo sera celui de colint etant donée qu'il sera utiliser pour cette ecole et qu'il sera dans le future, integrer a l'intra de Colint. Il n'y auras pas de variante de ce logo.}
+\begin{for_you} \textbf{\underline{Votre logo et son utilisation :}}
+    \textit{\newline Mon logo sera celui de colint etant donée qu'il sera utiliser pour cette ecole et qu'il sera dans le future, integrer a l'intra de Colint. Il n'y auras pas de variante de ce logo.}
 \end{for_you}
 
 \textit{\newline}
@@ -357,14 +354,14 @@ L'architecture 3 tiers sépare clairement les responsabilités : couche présent
 
 Les flux de données sont optimisés pour minimiser les appels réseau et garantir la cohérence transactionnelle. L'API REST assure une communication standardisée entre les couches et facilite l'intégration avec d'autres systèmes.
 
-\begin{exemple}
+\begin{for_you}
 \textbf{Schéma architecture 3 tiers :}
 \begin{verbatim}
 +----------------------------------+
 |        TIER 1: PRESENTATION      |
 +-------+-------+-------+----------+
-| React | Router| State |         |
-| Comp. |       | Mgr.  |         |
+|         Elixir (liveVue)         |
+|                                  |
 +-------+-------+-------+----------+
                 |
                 | HTTP/HTTPS
@@ -372,8 +369,8 @@ Les flux de données sont optimisés pour minimiser les appels réseau et garant
 +----------------------------------+
 |        TIER 2: LOGIQUE METIER    |
 +-------+-------+-------+----------+
-|Express|Services| Auth  |         |
-|Routes | Layer  | Middleware      |
+|             Elixir               |
+|                                  |
 +-------+-------+-------+----------+
                 |
                 | SQL/NoSQL
@@ -381,8 +378,8 @@ Les flux de données sont optimisés pour minimiser les appels réseau et garant
 +----------------------------------+
 |        TIER 3: DONNEES           |
 +-------+-------+-------+----------+
-|PostgreSQL|MongoDB| Redis|       |
-|(Transactions)|(Logs)|(Cache)    |
+|           PostgreSQL             |
+|                                  |
 +-------+-------+-------+----------+
 \end{verbatim}
 
@@ -409,7 +406,7 @@ app.post('/api/projects', authenticateUser, async (req, res) => {
   }
 });
 \end{lstlisting}
-\end{exemple}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
