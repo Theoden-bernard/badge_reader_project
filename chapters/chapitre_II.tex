@@ -4,7 +4,8 @@
 
 Dans cette section, vous devez définir clairement les trois types d'objectifs de votre projet. Le jury attend une distinction nette entre les objectifs métier (bénéfices pour l'entreprise), techniques (performance, architecture) et pédagogiques (apprentissages CDA).
 
-\textbf{Objectifs métier :} \textit{
+\begin{for_you}{Objectifs métier :}
+    \textit{
     \newline
     1. Controler les acces / heur d'arriver.
     \newline
@@ -14,6 +15,8 @@ Dans cette section, vous devez définir clairement les trois types d'objectifs d
     \newline
     4. Fludifier le trafique.
     }
+\end{for_you}
+
 
 \textbf{Objectifs techniques :} \textit{
     \newline
@@ -29,28 +32,28 @@ Dans cette section, vous devez définir clairement les trois types d'objectifs d
     \newline
 }
 
-\begin{for_you}
+\begin{for_you}{Tableau MoSCoW et Diagramme de périmètre MVP :}
 
     \textbf{Tableau MoSCoW : \newline}
     \begin{center}
-    \begin{tabular}{|l|l|l|}
-        \hline
-            \textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Justification} \\
-        \hline
-            Must Have & Application & Application inutile sans \\
-            Must Have & Authentification et chiffrement & Sécurité obligatoire \\ %prioriter
-            Should Have & Gen badge securiser et logique & Securiser le batiment\\ %prioriter moins importante
-            Could Have & Relier L'API de l'intra aux read badger & Accéder à la db\\ %bonnus pas obligatoir mais amelioration
-            Won't Have & Integrée le read badgeur dans l'intra & Question pratiques \\ %Pour une V2
-        \hline
+        \begin{tabular}{|l|l|l|}
+            \hline
+                \textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Justification} \\
+            \hline
+                Must Have & Application & Application inutile sans \\
+                Must Have & Authentification et chiffrement & Sécurité obligatoire \\ %prioriter
+                Should Have & Gen badge securiser et logique & Securiser le batiment\\ %prioriter moins importante
+                Could Have & Relier L'API de l'intra aux read badger & Accéder à la db\\ %bonnus pas obligatoir mais amelioration
+                Won't Have & Integrée le read badgeur dans l'intra & Question pratiques \\ %Pour une V2
+            \hline
 
-    \end{tabular}
+        \end{tabular}
     \end{center}
 
-    \textbf{\newline Votre diagramme de périmètre MVP :}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_perimetre.png}
-    \end{center}
+    \textbf{\newline Diagramme de périmètre MVP :}
+        \begin{center}
+            \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_perimetre.png}
+        \end{center}
 \end{for_you}
 
 \begin{conseil}
@@ -87,28 +90,45 @@ Dans cette section, vous devez définir clairement les trois types d'objectifs d
 \section{Cibles et parties prenantes}
 
 Dans cette section, vous devez identifier et analyser vos utilisateurs cibles et toutes les parties prenantes du projet. Le jury attend une compréhension claire des besoins de chaque groupe et de leur influence sur le projet.
+\newline
+\begin{for_you}{Personae utilisateurs :}
+    
+    \textit{\newline
+    1. \underline{Etudiants}: Accede aux batiment de 8h00 a 17h00 du lundi aux vendredi. \newline
+    2. \underline{Staff}: Accede aux batiment de 8h00 a 19h00 du lundi aux samedi. \newline
+    3. \underline{Admin}: N'a aucune restrictions.
+    }
+\end{for_you}
 
-\textbf{Personae utilisateurs :} \textit{\newline
-1. \underline{Etudiants}: Accede aux batiment de 8h00 a 17h00 du lundi aux vendredi. \newline
-2. \underline{Staff}: Accede aux batiment de 8h00 a 19h00 du lundi aux samedi. \newline
-3. \underline{Admin}: N'a aucune restrictions. \newline
-}
-\textbf{Parties prenantes :} \textit{\newline
+\textit{\newline}
+
+\begin{for_you}{Parties prenantes :}
+
+\textit{\newline
 1. \underline{Etudiants de colint}: Il on besoins d'acceder aux batiment durrent sont année scolaire. \newline
 2. \underline{Inviter pour colint}: Badge crée sur demande en fonctrion du besoins. Par exemple un parents n'aura acces que quelque heur aux batiment alors qu'un intervenant peux avoir un badge d'une semaine.\newline
-3. \underline{Staff}: Il on besoins d'acceder aux batiment durrent leur jours de travail. \newline
+3. \underline{Staff}: Il on besoins d'acceder aux batiment durrent leur jours de travail.
 }
+\end{for_you}
 
-\textbf{Matrice d'influence :} \textit{Pour chaqu'une de ses partie il on un interet comment fludifier leur trafique aux sein de l'ecole. Mais egalement securiser le batiment.}
+\textit{\newline}
+
+\begin{for_you}{Matrice d'influence :}
+
+\textit{Pour chaqu'une de ses partie il on un interet comment fludifier leur
+trafique aux sein de l'ecole. Mais egalement securiser le batiment.}
+\end{for_you}
 
 La cartographie des parties prenantes facilite la communication et la gestion des attentes tout au long du projet. Cette approche systémique garantit que tous les besoins sont pris en compte dans la conception de la solution.
 
-\begin{for_you}
+\begin{for_you}{User Stories prioritaires et Critères d'acceptation :}
+
 \textbf{User Stories prioritaires :}
 \begin{itemize}
     \item En tant que \textbf{Etudiants/Coatchs}, je veux acceder aux batiment pour venir travail
     \item En tant que \textbf{Iniviter}, je veux acceder aux batiment.
     \item En tant que \textbf{Admin}, je veux acceder aux batiment et acceder a une base de donée des Entrée/Sortie et gerer les rôles.
+    \newline
 \end{itemize}
 
 \textbf{Critères d'acceptation :}
@@ -152,11 +172,11 @@ La sécurité et la confidentialité des données constituent des exigences crit
 
 Dans cette sous-section, vous devez détailler toutes les fonctionnalités accessibles aux utilisateurs finaux. Le jury attend une description précise de l'interface utilisateur et des interactions possibles.
 
-\textbf{Vos fonctionnalités Front Office :} \textit{Pour les Inviter, Etudiants, Coatchs il ne pourrons acceder qu'a leur badge qui sera soit sous la forme physique ou virtuel depuis leur telephone. Quand aux administrateurs ils aurons acces en plus a une partis pour gerer et crée les badge avec des 
+\textbf{Fonctionnalités Front Office :} \textit{Pour les Inviter, Etudiants, Coatchs il ne pourrons acceder qu'a leur badge qui sera soit sous la forme physique ou virtuel depuis leur telephone. Quand aux administrateurs ils aurons acces en plus a une partis pour gerer et crée les badge avec des 
 donée sur qui Rentre/Sorte de l'etablisement.}
 
-\begin{for_you}
-    \textbf{fonctionnalités Front Office :}
+\begin{for_you}{Fonctionnalités Front Office :}
+
     \begin{itemize}
         \item \textbf{Information personnelle :} Information pour crée un badge, sous la forme d'un formulaire (nom, prenon, email, id...).
         \item \textbf{Badge :} Acces a aux batiment.
@@ -167,10 +187,7 @@ donée sur qui Rentre/Sorte de l'etablisement.}
 
 Dans cette sous-section, vous devez présenter les fonctionnalités administratives et de gestion du système. Le jury attend une distinction claire entre les fonctions métier et les fonctions d'administration.
 
-\textbf{Vos fonctionnalités Back Office :} \textit{[Décrivez les fonctions d'administration : gestion utilisateurs, configuration système, rapports, etc.]}
-
-\begin{for_you}
-    \textbf{Fonctionnalités Back Office :}
+\begin{for_you}{Fonctionnalités Back Office :}
     \begin{itemize}
         \item \textbf{Gestion de badge :} Création, modification, désactivation badge.
         \item \textbf{Gestion rôles :} Attribution et modification des permissions.
@@ -184,10 +201,8 @@ Dans cette sous-section, vous devez présenter les fonctionnalités administrati
 
 Dans cette sous-section, vous devez définir clairement qui peut accéder au système et dans quelles conditions. Le jury attend une analyse des différents types d'utilisateurs et de leurs besoins spécifiques.
 
-\textbf{Vos types d'utilisateurs :} \textit{[Décrivez vos utilisateurs : internes, externes, partenaires, avec leurs besoins spécifiques]}
+\begin{for_you}{Types d’utilisateurs :}
 
-\begin{for_you}
-    \textbf{Typologie utilisateurs :}
     \begin{itemize}
         \item \textbf{Etudiants et coatchs :} Acces a sont badge.
         \item \textbf{Invités :} Acces a un badge temporaire
@@ -199,12 +214,11 @@ Dans cette sous-section, vous devez définir clairement qui peut accéder au sys
 
 Dans cette sous-section, vous devez détailler les mesures de protection des données et le respect de la vie privée. Le jury attend une approche conforme au RGPD et aux bonnes pratiques de sécurité.
 
-\textbf{Vos mesures de confidentialité :}
-
-\begin{for_you}
-    \textbf{Mesures de confidentialité :}
+\begin{for_you}{Mesures de confidentialité :}
+    
     \begin{itemize}
         \item \textbf{Chiffrement :} Données sensibles chiffrées en base
+        \item \textbf{Securiter :} Suppression de badge auto.
         \item \textbf{Accès contrôlé :} Logs d'accès
         \item \textbf{RGPD :} Consentement, droit à l'oubli, portabilité
         \item \textbf{Anonymisation :} Données anonymisées pour les rapports
@@ -215,10 +229,8 @@ Dans cette sous-section, vous devez détailler les mesures de protection des don
 
 Dans cette sous-section, vous devez présenter votre système de permissions et de contrôle d'accès. Le jury attend une matrice claire des droits par rôle et fonctionnalité.
 
-\textbf{Votre matrice de droits :}
+\begin{for_you}{Matrice de droits :}
 
-\begin{for_you}
-    \textbf{Matrice des rôles et droits :}
     \begin{center}
         \begin{tabular}{|l|l|l|l|l|}
             \hline
@@ -237,9 +249,7 @@ Dans cette sous-section, vous devez présenter votre système de permissions et 
 
 Dans cette sous-section, vous devez détailler votre système d'authentification et de gestion des sessions. Le jury attend une approche sécurisée et robuste.
 
-\textbf{Votre système d'authentification :} \textit{[Décrivez comment les utilisateurs se connectent et restent authentifiés]}
-
-\begin{for_you}
+\begin{for_you}{Système d'authentification :}
     \textbf{système d'authentification :}
     \begin{itemize}
         \item \textbf{Connexion :} Identifient/Mot de passe(JWT), face id...
@@ -280,10 +290,8 @@ Les choix techniques sont guidés par les exigences de performance, de scalabili
 
 Dans cette sous-section, vous devez détailler toutes les contraintes techniques et les exigences non-fonctionnelles de votre système. Le jury attend une analyse complète des performances, sécurité, scalabilité et maintenabilité.
 
-\textbf{Vos exigences techniques :} \textit{}
+\begin{for_you}{Exigences techniques :}
 
-\begin{for_you}
-    \textbf{Exigences techniques :}
     \begin{itemize}
         \item \textbf{Performance :} Temps de réponse < 5s.
         \item \textbf{Sécurité :} Chiffrement obligatoire, Digicode a partir d'une certaine heur en complement du badge, log.
@@ -298,7 +306,7 @@ Dans cette sous-section, vous devez justifier vos choix technologiques par rappo
 
 \textbf{Vos choix techniques :} \textit{\newline
     J'ai choisi Elixir car mon systeme est sencer etre fusionner avec l'intra de l'ecole qui est egalement coder en elixir donc nous gardons une coerence logiciel meme chose pour la data base.
-    En ce qui concerne Phoenix est le framework d'elicir il est donc parfait pour cette utilisation nous pouvons utiliser avec cela live vue qui est un outil pour faire du front}
+    En ce qui concerne Phoenix on pourrais le comparer a react pour js mais lui est le framework d'elixir il est donc parfait pour cette utilisation nous pouvons utiliser avec cela live vue qui est un outil pour faire du front}
 \newline
 
 \begin{for_you}
@@ -348,16 +356,16 @@ Dans cette sous-section, vous devez justifier vos choix technologiques par rappo
 
 Le MVP concentre les fonctionnalités essentielles pour valider l'hypothèse produit : authentification, gestion des projets de base, et tableau de bord simple. Cette approche permet d'obtenir un retour utilisateur précoce et d'ajuster la roadmap en conséquence. Les scénarios essentiels couvrent les cas d'usage les plus fréquents et critiques pour le métier.
 
-\textbf{Votre définition du MVP :} \textit{Mon project doit être aux minimum composer d'une application. Sont rôle sera de gerer les badge des user
+\textbf{Votre définition du V1 :} \textit{Mon project doit être aux minimum composer d'une application. Sont rôle sera de gerer les badge des user
 tout en gardent un trace du passage des gens dans le batiment.
 \newline}
 
 \begin{for_you}
-    \textbf{Scénarios essentiels MVP :}
+    \textbf{Scénarios essentiels V1 :}
     \begin{enumerate}
         \item Connexion utilisateur et gestion de session
         \item Création et modification d'un badge
-        \item Statistiques sur les entrée/sorie
+        \item Donée sur les entrées/sories
         \item Chiffrement des données
         \item Génération de rapports basiques
     \end{enumerate}

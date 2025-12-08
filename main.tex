@@ -149,21 +149,26 @@
     after skip=0pt
 }
 
-\newtcolorbox{for_you}{
-    colback=colintYellow!20,
-    colframe=colintYellow,
-    colbacktitle=colintYellow!30,
-    coltitle=colintBlack,
-    boxrule=1pt,
-    arc=3pt,
-    left=3pt,
-    right=3pt,
-    top=3pt,
-    bottom=3pt,
-    fonttitle=\bfseries,
-    title=For you,
-    before skip=0pt,
-    after skip=0pt
+\newenvironment{for_you}[1]{%
+    \tcbset{
+        colback=colintYellow!20,
+        colframe=colintYellow,
+        colbacktitle=colintYellow!30,
+        coltitle=colintBlack,
+        boxrule=1pt,
+        arc=3pt,
+        left=3pt,
+        right=3pt,
+        top=3pt,
+        bottom=3pt,
+        fonttitle=\bfseries,
+        title=#1, % <-- Ici, #1 est remplacé par l'argument donné
+        before skip=0pt,
+        after skip=0pt
+    }
+    \begin{tcolorbox}
+}{%
+    \end{tcolorbox}
 }
 
 \newtcolorbox{focusgithub}{
