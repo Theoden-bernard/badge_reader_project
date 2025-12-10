@@ -16,30 +16,39 @@ Dans cette sous-section, vous devez détailler la couche présentation de votre 
 \textbf{Technologies de présentation :}
 \begin{itemize}
     \item \textbf{Framework :} Phoenix 1.8.0
-    \item \textbf{État :} Redux Toolkit pour la gestion d'état globale
-    \item \textbf{Routing :} React Router pour la navigation
+    \item \textbf{État(Pannes) :} GenServer, Agents et ETS(Erlang Term Storage)
+    \item \textbf{Db :} Ecto
+    \item \textbf{Routing et HTTP:} Pipeline Plug
     \item \textbf{UI :} liveVue 1.1
-    \item \textbf{HTTP :} Axios pour les appels API
 \end{itemize}
 
 \textbf{Structure des composants :}
 \begin{verbatim}
-src/
-+-- components/                    # Composants réutilisables
-|   +-- common/
-|   |   +-- Button.tsx
-|   |   +-- Modal.tsx
-|   |   +-- LoadingSpinner.tsx
-|   +-- projects/                  # Fonctionnalité projets
-|   |   +-- ProjectList.tsx
-|   |   +-- ProjectCard.tsx
-|   |   +-- ProjectForm.tsx
-|   +-- tasks/                     # Fonctionnalité tâches
-|       +-- TaskList.tsx
-|       +-- TaskItem.tsx
-+-- hooks/                         # Hooks personnalisés
-+-- services/                      # Appels API
-+-- utils/                         # Fonctions utilitaires
+badge_reader/
++-- _build/dev/lib/badge_reader
+|   +-- .mix/
+|   |   +-- compile.app_cache
+|   |   +-- compile.elixir
+|   |   +-- compile.elixir_scm
+|   |   +-- compile.protocols
+|   +-- consolidated/
+|   |   +-- Elixir.Collectable.beam
+|   |   +-- Elixir.Enumerable.beam
+|   |   +-- Elixir.IEx.Info.beam
+|   |   +-- Elixir.Inspect.beam
+|   |   +-- Elixir.JSON.Encoder.beam
+|   |   +-- Elixir.List.Chars.beam
+|   |   +-- Elixir.String.Chars.beam
+|   +-- ebin/
+|   |   +-- badge_reader.app
+|   |   +-- Elixir.BadgeReader.beam
++-- lib/                          
+|   +-- badge_reader.ex
++-- test/                         
+|   +-- badge_reader_test.exs
+|   +-- test_helper.exs
++-- .formatter.exs                      
++-- mix.exs                       
 \end{verbatim}
 \end{for_you}
 
