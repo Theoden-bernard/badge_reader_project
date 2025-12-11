@@ -2,16 +2,11 @@
 
 \section{Architecture 3 tiers}
 
-Dans cette section, vous devez présenter votre architecture 3 tiers et expliquer la répartition des responsabilités entre les couches. Le jury attend une compréhension claire de la séparation physique des composants.
-
 \textbf{Mon architecture 3 tiers :} 
-\textit{[Décrivez votre architecture et la répartition des responsabilités]}
+\textit{Cette architecture est conçue pour des applications web modernes, orientées vers la haute performance, la concurrence et l'interactivité en temps réel.
+Elle s'appuie sur la pile Elixir/Phoenix}
 
 \subsection{Couche Présentation (Frontend)}
-
-Dans cette sous-section, vous devez détailler la couche présentation de votre application. Le jury attend une explication claire des technologies et de l'organisation du code.
-
-\textbf{Votre couche présentation :} \textit{[Décrivez votre stack frontend et son organisation]}
 
 \begin{for_you}{Technologies de présentation et Structure des composants :}
 \textbf{Technologies de présentation :}
@@ -20,7 +15,7 @@ Dans cette sous-section, vous devez détailler la couche présentation de votre 
     \item \textbf{État(Pannes) :} GenServer, Agents et ETS(Erlang Term Storage)
     \item \textbf{Db :} Ecto
     \item \textbf{Routing et HTTP:} Pipeline Plug
-    \item \textbf{UI :} liveVue 1.1
+    \item \textbf{UI :} liveVue 1.1\newline
 \end{itemize}
 
 \textbf{Structure des composants :}
@@ -43,9 +38,9 @@ badge_reader/
 |   +-- ebin/
 |   |   +-- badge_reader.app
 |   |   +-- Elixir.BadgeReader.beam
-+-- lib/                          
++-- lib/                               #code file
 |   +-- badge_reader.ex
-+-- test/                         
++-- test/                              #test file
 |   +-- badge_reader_test.exs
 |   +-- test_helper.exs
 +-- .formatter.exs                      
@@ -55,10 +50,11 @@ badge_reader/
 
 \subsection{Couche Logique Métier (Backend)}
 
-Dans cette sous-section, vous devez présenter la couche logique métier de votre application. Le jury attend une explication de l'architecture et de l'organisation du code.
-
-\textbf{Votre couche logique métier :} \textit{[Décrivez votre stack backend et son organisation]}
-
+\textbf{Couche logique métier :\newline} 
+\textit{Elixir utilise un environement "mix" c'est un outil de construction "build tool" et un gestionnaire de projets qui est itegrer a Elixir de magniere native.
+il peux etre comparer a "npm" de Node.js, ou de "Maven/Gradle" de Java. 
+buil est tout ce qui concerne la compilation, le code quand a lui est ranger dans lib et test comme sont nom l'indique sera utilie pour tester notre code
+}
 \subsubsection{Controller}
 
 \textbf{Vos contrôleurs :} \textit{[Décrivez vos contrôleurs et leur rôle]}
@@ -356,26 +352,33 @@ Le backend implémente une API REST avec Express.js suivant le pattern Controlle
 
 L'authentification JWT sécurise les endpoints sensibles avec des middlewares de vérification. La documentation OpenAPI/Swagger facilite l'intégration frontend et la maintenance de l'API.
 
-\begin{exemple}
-\textbf{Structure backend :}
+\begin{for_you}{Structure backend :}
 \begin{verbatim}
-src/
-+-- controllers/                   # Gestion des requêtes HTTP
-|   +-- projectController.js
-|   +-- taskController.js
-+-- services/                      # Logique métier
-|   +-- projectService.js
-|   +-- taskService.js
-+-- repositories/                  # Accès aux données
-|   +-- projectRepository.js
-|   +-- taskRepository.js
-+-- middleware/                    # Middlewares Express
-|   +-- auth.js
-|   +-- validation.js
-|   +-- errorHandler.js
-+-- routes/                        # Définition des routes
-    +-- projects.js
-    +-- tasks.js
+badge_reader/
++-- _build/dev/lib/badge_reader        #compile file
+|   +-- .mix/
+|   |   +-- compile.app_cache
+|   |   +-- compile.elixir
+|   |   +-- compile.elixir_scm
+|   |   +-- compile.protocols
+|   +-- consolidated/
+|   |   +-- Elixir.Collectable.beam
+|   |   +-- Elixir.Enumerable.beam
+|   |   +-- Elixir.IEx.Info.beam
+|   |   +-- Elixir.Inspect.beam
+|   |   +-- Elixir.JSON.Encoder.beam
+|   |   +-- Elixir.List.Chars.beam
+|   |   +-- Elixir.String.Chars.beam
+|   +-- ebin/
+|   |   +-- badge_reader.app
+|   |   +-- Elixir.BadgeReader.beam
++-- lib/                               #code file
+|   +-- badge_reader.ex
++-- test/                              #test file
+|   +-- badge_reader_test.exs
+|   +-- test_helper.exs
++-- .formatter.exs                      
++-- mix.exs
 \end{verbatim}
 
 \textbf{Exemple de contrôleur avec validation :}
@@ -405,7 +408,7 @@ const createProject = async (req, res, next) => {
   }
 };
 \end{lstlisting}
-\end{exemple}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
