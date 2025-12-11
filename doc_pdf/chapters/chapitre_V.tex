@@ -4,7 +4,8 @@
 
 Dans cette section, vous devez présenter votre architecture 3 tiers et expliquer la répartition des responsabilités entre les couches. Le jury attend une compréhension claire de la séparation physique des composants.
 
-\textbf{Votre architecture 3 tiers :} \textit{[Décrivez votre architecture et la répartition des responsabilités]}
+\textbf{Mon architecture 3 tiers :} 
+\textit{[Décrivez votre architecture et la répartition des responsabilités]}
 
 \subsection{Couche Présentation (Frontend)}
 
@@ -25,7 +26,7 @@ Dans cette sous-section, vous devez détailler la couche présentation de votre 
 \textbf{Structure des composants :}
 \begin{verbatim}
 badge_reader/
-+-- _build/dev/lib/badge_reader
++-- _build/dev/lib/badge_reader        #compile file
 |   +-- .mix/
 |   |   +-- compile.app_cache
 |   |   +-- compile.elixir
@@ -163,48 +164,55 @@ class ProjectRepository {
 
 Dans cette sous-section, vous devez expliquer comment les différents tiers communiquent entre eux. Le jury attend une compréhension claire des flux de données et des protocoles utilisés.
 
-\textbf{Vos flux de communication :} \textit{[Décrivez comment vos tiers communiquent]}
+\textbf{flux de communication :} 
 
-\begin{exemple}
-\textbf{Flux de communication 3 tiers :}
-\begin{verbatim}
+\begin{for_you}{Flux de communication 3 tiers :}
+
+\textbf{L'architecture 3-Tier avec Elixir/Phoenix est particulièrement puissante car :\newline}
+\begin{itemize}
+    \item \textbf{1} Le Tier 2 est le seul point d'accès au Tier 3, renforçant la sécurité.
+    \item \textbf{2} Elixir/Phoenix (Tier 2) est l'endroit idéal pour la scalabilité horizontale grâce au BEAM, qui permet de clusteriser les serveurs d'application sans effort.
+    \item \textbf{3} LiveView brouille légèrement la frontière entre Tier 1 et Tier 2, mais la séparation logique est maintenue : le Tier 1 s'occupe de l'affichage, et le Tier 2 (le LiveView process) gère l'état et la logique via les Contexts.
+\end{itemize}
+
+  \begin{verbatim}
+
     +===============================================================+
     |                    ARCHITECTURE 3 TIERS                       |
     +===============================================================+
 
-    +-------------------+    HTTP/HTTPS     +-------------------+
-    |   TIER 1           | <--------------> |   TIER 2           |
-    |   PRESENTATION     |     JSON/REST     |   LOGIQUE METIER   |
-    |                   |                   |                   |
-    |   +-------------+ |                   |   +-------------+ |
-    |   |   React     | |                   |   |   Node.js   | |
-    |   |   Frontend  | |                   |   |   Express   | |
-    |   +-------------+ |                   |   +-------------+ |
-    +-------------------+                   +-------------------+
-                                                      |
-                                                      | SQL/NoSQL
-                                                      | Transactions
-                                                      v
-                                            +-------------------+
-                                            |   TIER 3           |
-                                            |   DONNEES          |
-                                            |                   |
-                                            |   +-------------+ |
-                                            |   | PostgreSQL  | |
-                                            |   | MongoDB     | |
-                                            |   +-------------+ |
-                                            +-------------------+
+      +-------------------+     HTTP/HTTPS    +-------------------+
+      |   TIER 1          |  <--------------> |   TIER 2          |
+      |   PRESENTATION    |      WebSocket    |   LOGIQUE METIER  |
+      |   (frontend)      |                   |   (backend)       |
+      |                   |                   |                   |
+      |  +-------------+  |                   |  +-------------+  |
+      |  |   LiveView  |  |                   |  |   Elixir    |  |
+      |  |             |  |                   |  |   Phoenix   |  |
+      |  +-------------+  |                   |  +-------------+  |
+      +-------------------+                   +-------------------+
+                                                        |
+                                                        | SQL/NoSQL
+                                                        | Ecto
+                                                        v
+                                              +-------------------+
+                                              |   TIER 3          |
+                                              |   DONNEES         |
+                                              |   (db)            |
+                                              |                   |
+                                              |  +-------------+  |
+                                              |  | PostgreSQL  |  |
+                                              |  | MongoDB     |  |
+                                              |  +-------------+  |
+                                              +-------------------+
 \end{verbatim}
-\end{exemple}
+\end{for_you}
 
 \subsection{Avantages de l'architecture 3 tiers}
 
-Dans cette sous-section, vous devez expliquer les avantages de votre architecture 3 tiers. Le jury attend une justification claire des choix architecturaux.
+\textbf{Avantages de mon architecture :} \textit{Elixir et Phoenix sont conçu pour fonctionner en archetucture 3 tiere avec des outils a disposition.\newline}
 
-\textbf{Avantages de votre architecture :} \textit{[Justifiez les bénéfices de votre approche]}
-
-\begin{exemple}
-\textbf{Avantages de l'architecture 3 tiers :}
+\begin{for_you}{Avantages de l'architecture 3 tiers :}
 \begin{itemize}
     \item \textbf{Séparation des responsabilités :} Chaque tier a un rôle défini
     \item \textbf{Scalabilité :} Possibilité de scaler chaque tier indépendamment
@@ -212,8 +220,8 @@ Dans cette sous-section, vous devez expliquer les avantages de votre architectur
     \item \textbf{Tests :} Tests unitaires par tier facilités
     \item \textbf{Sécurité :} Contrôle d'accès par tier
     \item \textbf{Performance :} Optimisation possible par tier
-\end{itemize}
-\end{exemple}
+  \end{itemize}
+\end{for_you}
 
 \begin{conseil}
 \begin{itemize}
