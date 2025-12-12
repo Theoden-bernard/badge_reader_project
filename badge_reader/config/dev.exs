@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :badge_reader, BadgeReader.Repo,
-  username: "postgres",
+  username: "theoden",
   password: "postgres",
   hostname: "localhost",
   database: "badge_reader_dev",
