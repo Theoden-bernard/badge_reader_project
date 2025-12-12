@@ -21,30 +21,21 @@ Elle s'appuie sur la pile Elixir/Phoenix}
 \textbf{Structure des composants :}
 \begin{verbatim}
 badge_reader/
-+-- _build/dev/lib/badge_reader        #compile file
-|   +-- .mix/
-|   |   +-- compile.app_cache
-|   |   +-- compile.elixir
-|   |   +-- compile.elixir_scm
-|   |   +-- compile.protocols
-|   +-- consolidated/
-|   |   +-- Elixir.Collectable.beam
-|   |   +-- Elixir.Enumerable.beam
-|   |   +-- Elixir.IEx.Info.beam
-|   |   +-- Elixir.Inspect.beam
-|   |   +-- Elixir.JSON.Encoder.beam
-|   |   +-- Elixir.List.Chars.beam
-|   |   +-- Elixir.String.Chars.beam
-|   +-- ebin/
-|   |   +-- badge_reader.app
-|   |   +-- Elixir.BadgeReader.beam
-+-- lib/                               #code file
++-- _build/                            #Compile directory
++-- assets/
++-- config/
++-- deps/
++-- lib/                               #Code directory
+|   +-- badge_reader/                  #Backend directory
+|   +-- badge_reader_web/              #Frontend directory
+|   +-- badge_reader_web.ex
 |   +-- badge_reader.ex
-+-- test/                              #test file
-|   +-- badge_reader_test.exs
-|   +-- test_helper.exs
-+-- .formatter.exs                      
-+-- mix.exs                       
++-- priv/
++-- test/                              #Test directory
++-- .formatter.exs
++-- AGENTS.md
++-- mix.exs
++-- mix.lock                     
 \end{verbatim}
 \end{for_you}
 
@@ -245,31 +236,45 @@ Dans cette sous-section, vous devez expliquer comment les différents tiers comm
 
 Dans cette section, vous devez présenter votre approche de développement frontend et expliquer vos choix techniques. Le jury attend une compréhension claire de votre architecture frontend et des bonnes pratiques appliquées.
 
-\textbf{Technologies choisies :} \textit{[React, Vue, Angular, ou autre ? Justifiez votre choix]}
+\textbf{Technologies choisies :} \newline
+\textit{J'ai choisi le Framework Phoenix car il met a disposition un outils qui ce nome LiveView. 
+C'est un outil parfait pour faire du fronte car il a des caracteristique interessante comme :}
+\begin{itemize}
+  \item Interactions en Temps Réel.
+  \item Sécurité Renforcée (traitement des données restent sur le serveur).
+  \item Optimiser pour Elixir.
+\end{itemize}
 
-\textbf{Architecture des composants :} \textit{[Décrivez votre organisation des composants et leur réutilisabilité]}
+\textbf{Architecture des composants :} \newline
+\textit{Mon architecture est baser sur l'environement mix fournie par Elixir tout mon code ce trouve dans lib/ et a l'interieur de lib ce trouve mes dossier backend et frontend.}
 
 \textbf{Accessibilité et UX :} \textit{[Expliquez comment vous respectez les standards RGAA/WCAG et utilisez Lighthouse pour mesurer les performances]}
 
 \begin{exemple}
 \textbf{Structure des composants :}
 \begin{verbatim}
-src/
-+-- components/                    # Composants réutilisables
-|   +-- common/
-|   |   +-- Button.tsx
-|   |   +-- Modal.tsx
-|   |   +-- LoadingSpinner.tsx
-|   +-- projects/                  # Fonctionnalité projets
-|   |   +-- ProjectList.tsx
-|   |   +-- ProjectCard.tsx
-|   |   +-- ProjectForm.tsx
-|   +-- tasks/                     # Fonctionnalité tâches
-|       +-- TaskList.tsx
-|       +-- TaskItem.tsx
-+-- hooks/                         # Hooks personnalisés
-+-- services/                      # Appels API
-+-- utils/                         # Fonctions utilitaires
+badge_reader/
++-- _build/                            #Compile directory
++-- assets/
++-- config/
++-- deps/
++-- lib/                               #Code directory
+|   +-- badge_reader/                  #Backend directory
+|   +-- badge_reader_web/              #Frontend directory
+|   |   +-- components/
+|   |   +-- controllers/
+|   |   +-- endpoint.ex
+|   |   +-- gettext.ex
+|   |   +-- router.ex
+|   |   +-- telemetry.ex
+|   +-- badge_reader_web.ex
+|   +-- badge_reader.ex
++-- priv/
++-- test/                              #Test directory
++-- .formatter.exs
++-- AGENTS.md
++-- mix.exs
++-- mix.lock 
 \end{verbatim}
 \end{exemple}
 
@@ -355,30 +360,24 @@ L'authentification JWT sécurise les endpoints sensibles avec des middlewares de
 \begin{for_you}{Structure backend :}
 \begin{verbatim}
 badge_reader/
-+-- _build/dev/lib/badge_reader        #compile file
-|   +-- .mix/
-|   |   +-- compile.app_cache
-|   |   +-- compile.elixir
-|   |   +-- compile.elixir_scm
-|   |   +-- compile.protocols
-|   +-- consolidated/
-|   |   +-- Elixir.Collectable.beam
-|   |   +-- Elixir.Enumerable.beam
-|   |   +-- Elixir.IEx.Info.beam
-|   |   +-- Elixir.Inspect.beam
-|   |   +-- Elixir.JSON.Encoder.beam
-|   |   +-- Elixir.List.Chars.beam
-|   |   +-- Elixir.String.Chars.beam
-|   +-- ebin/
-|   |   +-- badge_reader.app
-|   |   +-- Elixir.BadgeReader.beam
-+-- lib/                               #code file
++-- _build/                            #Compile directory
++-- assets/
++-- config/
++-- deps/
++-- lib/                               #Code directory
+|   +-- badge_reader/                  #Backend directory
+|   |   +-- application.ex
+|   |   +-- mailer.ex
+|   |   +-- repo.ex
+|   +-- badge_reader_web/              #Frontend directory
+|   +-- badge_reader_web.ex
 |   +-- badge_reader.ex
-+-- test/                              #test file
-|   +-- badge_reader_test.exs
-|   +-- test_helper.exs
-+-- .formatter.exs                      
++-- priv/
++-- test/                              #Test directory
++-- .formatter.exs
++-- AGENTS.md
 +-- mix.exs
++-- mix.lock
 \end{verbatim}
 
 \textbf{Exemple de contrôleur avec validation :}
