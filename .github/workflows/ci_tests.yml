@@ -22,4 +22,5 @@ jobs:
                 otp-version: '27'
             
             - name: Installation des dépendances Mix
+              working-directory: ./badge_reader
               run: mix deps.get
