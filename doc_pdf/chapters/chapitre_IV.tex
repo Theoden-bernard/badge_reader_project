@@ -1,13 +1,9 @@
 \chapter{Conception fonctionnelle et technique}
 
-\textbf{IMPORTANT :} Cette phase de conception est \textbf{CRUCIALE} et doit être \textbf{COMPLÈTEMENT TERMINÉE} avant de commencer le développement. Le jury attend une conception solide et documentée qui justifie tous vos choix techniques.
+Dans ce chapitre, Je vais vous présentez ma conception fonctionnelle et technique complète. Cette phase détermine la réussite de mon projet et est soigneusement planifiée et documentée.
+\newline
 
-Dans ce chapitre, vous devez présenter votre conception fonctionnelle et technique complète. Cette phase détermine la réussite de votre projet et doit être soigneusement planifiée et documentée.
-
-\textbf{Votre approche de conception :} \textit{[Décrivez votre méthodologie de conception et votre processus de validation]}
-
-\begin{conseil}
-\textbf{Pourquoi la conception est-elle si importante ?}
+\begin{for_you}{Pourquoi la conception est-elle si importante ?}
 \begin{itemize}
     \item \textbf{Évite les refactorisations coûteuses} : Une bonne conception évite de reprendre le code
     \item \textbf{Guide le développement} : Chaque développeur sait exactement quoi faire
@@ -16,7 +12,8 @@ Dans ce chapitre, vous devez présenter votre conception fonctionnelle et techni
     \item \textbf{Améliore la communication} : Tous les acteurs comprennent le système
 \end{itemize}
 
-\textbf{Checklist de conception complète :}
+\textbf{\newline}
+\textbf{Dans ce chapitre vous retrouverez :}
 \begin{itemize}
     \item \mycheckmark Diagrammes de cas d'usage (Use Cases) validés
     \item \mycheckmark Diagrammes de séquence pour les flux principaux
@@ -27,7 +24,7 @@ Dans ce chapitre, vous devez présenter votre conception fonctionnelle et techni
     \item \mycheckmark Charte graphique définie
     \item \mycheckmark Plan de tests établi
 \end{itemize}
-\end{conseil}
+\end{for_you}
 
 \section{Use Cases et diagrammes UML}
 
@@ -41,57 +38,18 @@ La modélisation des cas d'usage permet d'identifier les flux principaux et alte
     \end{center}
 \end{for_you}
 
-\begin{conseil}
-\begin{itemize}
-    \item Identifier tous les acteurs du système
-    \item Modéliser les cas d'usage principaux et alternatifs
-    \item Documenter les préconditions et postconditions
-    \item Prévoir les cas d'erreur et exceptions
-    \item Valider les Use Cases avec les utilisateurs métier
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Quels sont vos acteurs principaux ?
-    \item Avez-vous modélisé tous les cas d'usage critiques ?
-    \item Comment gérez-vous les cas d'erreur ?
-    \item Vos Use Cases sont-ils validés par les utilisateurs ?
-    \item Avez-vous prévu les flux alternatifs ?
-\end{itemize}
-\end{jury}
-
 \section{Diagrammes de séquence}
 
 Les diagrammes de séquence détaillent les interactions temporelles entre les différents composants du système pour chaque cas d'usage. Cette modélisation précise les responsabilités de chaque couche (présentation, logique métier, données) et facilite l'implémentation technique. Les diagrammes servent également de référence pour les tests d'intégration.
 
 La modélisation des séquences permet d'identifier les points de synchronisation, les appels asynchrones, et les mécanismes de gestion d'erreur. Cette analyse technique guide l'architecture et l'implémentation des APIs.
+\newline
 
 \begin{for_you}{Diagramme de séquence :}
     \begin{center}
         \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence.png}
     \end{center}
 \end{for_you}
-
-\begin{conseil}
-\begin{itemize}
-    \item Modéliser les séquences pour chaque cas d'usage critique
-    \item Prévoir la gestion des erreurs et exceptions
-    \item Identifier les appels synchrones et asynchrones
-    \item Documenter les timeouts et retry policies
-    \item Valider les séquences avec l'équipe technique
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Avez-vous modélisé les séquences critiques ?
-    \item Comment gérez-vous les erreurs dans vos séquences ?
-    \item Vos diagrammes sont-ils cohérents avec l'architecture ?
-    \item Avez-vous prévu les cas de timeout ?
-    \item Comment validez-vous vos modèles de séquence ?
-\end{itemize}
-\end{jury}
 
 \section{Conception de l'interface graphique}
 
@@ -101,7 +59,8 @@ L'expérience utilisateur (UX) privilégie la simplicité et l'efficacité pour 
 
 \subsection{Zoning}
 
-Dans cette sous-section, vous devez présenter l'organisation spatiale de vos interfaces. Le jury attend une analyse claire de la hiérarchie visuelle et de l'organisation des éléments.
+Dans cette sous-section, je vais vous présentez l'organisation spatiale de mes interfaces. Nous verrons une analyse claire de la hiérarchie visuelle et de l'organisation des éléments.
+\newline
 
 \begin{for_you}{Page de connexion}
     \begin{center}
@@ -127,9 +86,8 @@ Dans cette sous-section, vous devez présenter l'organisation spatiale de vos in
 
 \subsection{Wireframe}
 
-Dans cette sous-section, vous devez présenter vos wireframes pour les pages principales. Le jury attend une représentation claire de la structure et des interactions.
-
-\textbf{\newline}
+Dans cette sous-section, je vais vous présentez mes wireframes pour les pages principales. Nous verrons une représentation claire de la structure et des interactions.
+\newline
 
 \begin{for_you}{Page de connexion}
     \begin{center}
@@ -163,7 +121,7 @@ Dans cette sous-section, vous devez présenter vos wireframes pour les pages pri
 
 \subsection{Maquettage}
 
-Dans cette sous-section, vous devez présenter vos maquettes haute fidélité. Le jury attend une représentation visuelle fidèle au rendu final.
+Dans cette sous-section, je vais vous présentez mes maquettes. nous verrons une représentation visuelle fidèle au rendu final.
 
 \begin{for_you}{Page de connexion}
     \begin{center}
@@ -209,36 +167,16 @@ Dans cette sous-section, vous devez présenter vos maquettes haute fidélité. L
 
 \subsection{Outils de conception et diagrammes}
 
-Dans cette sous-section, vous devez présenter les outils que vous utilisez pour créer vos diagrammes de qualité professionnelle. Le jury attend des diagrammes clairs et bien conçus qui facilitent la compréhension de votre architecture.
+Dans cette sous-section, je vais vous présenter les outils que j'ai utilisée pour créer mes diagrammes. Nous verrons des diagrammes clairs et bien conçus qui facilitent la compréhension de votre architecture.
 \newline
 
-\textbf{Vos outils de diagrammes :} \textit{J'utilise Lucidchart c'est gratuit, sur internet et pratique car il dispose de beaucoup de video a sont sujet. De plus il a une interface moderne qui donne envie de travailler.
+\textbf{Mes outils de diagrammes :} \textit{J'utilise Lucidchart c'est gratuit, sur internet et pratique car il dispose de beaucoup de video a sont sujet. De plus il a une interface moderne qui donne envie de travailler.
 \newline}
-
-\begin{conseil}
-\textbf{Outils recommandés pour des diagrammes de qualité :}
-\begin{itemize}
-    \item \textbf{Draw.io (diagrams.net) :} Gratuit, intégré à GitHub, parfait pour les diagrammes UML
-    \item \textbf{Lucidchart :} Professionnel, templates UML, collaboration en équipe
-    \item \textbf{PlantUML :} Code-based, versioning Git, intégration LaTeX
-    \item \textbf{Mermaid :} Intégré GitHub, syntaxe simple, diagrammes de flux
-\end{itemize}
-
-\textbf{Conseils pour des diagrammes professionnels :}
-\begin{itemize}
-    \item Utilisez des couleurs cohérentes et une légende
-    \item Respectez les conventions UML (acteurs, cas d'usage, relations)
-    \item Gardez vos diagrammes simples et lisibles
-    \item Versionnez vos diagrammes avec votre code
-    \item Intégrez-les dans votre documentation GitHub
-\end{itemize}
-\end{conseil}
 
 \subsection{Charte graphique}
 
-Dans cette sous-section, vous devez détailler votre charte graphique complète. Le jury attend une cohérence visuelle et une identité forte.
-
-\subsubsection{Couleurs}
+Dans cette sous-section, Je vais vous détailler ma charte graphique complète. Nous verrons les cohérence visuelle et une identité forte.
+\textit{\newline}
 
 \begin{for_you}{Palette de couleurs :}
     \begin{itemize}
@@ -256,13 +194,12 @@ Dans cette sous-section, vous devez détailler votre charte graphique complète.
         : HEX : [FFFFF]
     \end{itemize}
 \end{for_you}
-
-\subsubsection{Typographie}
+\textit{\newline}
 
 \begin{for_you}{Système typographique :}
     \textit{\newline J'utiliserait la police d'ecriture \underline{Farro}}
 \end{for_you}
-\subsubsection{Logo}
+\textit{\newline}
 
 \begin{for_you}{Logo et son utilisation :}
     \textit{\newline Mon logo sera celui de colint etant donée qu'il sera utiliser pour cette ecole et qu'il sera dans le future, integrer a l'intra de Colint. Il n'y auras pas de variante de ce logo.}
@@ -286,143 +223,79 @@ Neutre: \#FFFFF & Monospace (code) & Icônes Material Design \\
 \end{center}
 \end{for_you}
 
-\begin{conseil}
-\begin{itemize}
-    \item Définir une charte graphique cohérente
-    \item Créer des wireframes pour toutes les pages principales
-    \item Développer des maquettes haute fidélité
-    \item Tester l'accessibilité et la responsivité
-    \item Utiliser Lighthouse pour valider les performances et l'accessibilité
-    \item Valider les choix UX avec les utilisateurs
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Votre charte graphique est-elle cohérente ?
-    \item Avez-vous testé vos interfaces avec les utilisateurs ?
-    \item Vos maquettes respectent-elles l'accessibilité ?
-    \item Quels sont vos scores Lighthouse pour l'accessibilité ?
-    \item Comment gérez-vous la responsivité ?
-    \item Avez-vous défini des composants réutilisables ?
-\end{itemize}
-\end{jury}
-
 \section{Conception de base de données}
 
-La conception de base de données suit la méthode Merise avec un Modèle Conceptuel de Données (MCD), un Modèle Logique de Données (MLD), et un Modèle Physique de Données (MPD). Cette approche progressive garantit la cohérence et l'optimisation des données. Les contraintes d'intégrité et les index optimisent les performances et la fiabilité.
+Les conception de base de données avec un Modèle Conceptuel de Données (MCD), un Modèle Logique de Données (MLD), et un Modèle Physique de Données (MPD). Cette approche progressive garantit la cohérence et l'optimisation des données. Les contraintes d'intégrité et les index optimisent les performances et la fiabilité.
 
-PostgreSQL gère les données transactionnelles avec des contraintes strictes, tandis que MongoDB stocke les logs et rapports avec une structure flexible. Cette architecture hybride optimise les performances selon le type de données.
+PostgreSQL gère les données transactionnelles avec des contraintes strictes.
 
+\newpage
 \subsection{MCD (Modèle Conceptuel de Données)}
 
-Dans cette sous-section, vous devez présenter votre modèle conceptuel de données. Le jury attend une représentation claire des entités et de leurs relations.
+Dans cette sous-section, je vais vous présentez mes modèle conceptuel de données. Nous verrons une représentation claire des entités et de leurs relations.
+\newline
 
-\textbf{Votre MCD :}
-
-\begin{center}
-    \includegraphics[width=15cm,height=80mm]{./assets/uml/mcd.png}
-\end{center}
+\begin{for_you}{Mon MCD :}
+    \begin{center}
+        \includegraphics[width=15cm,height=80mm]{./assets/uml/mcd.png}
+    \end{center}
+\end{for_you}
 
 \subsection{MLD (Modèle Logique de Données)}
 
-Dans cette sous-section, vous devez détailler votre modèle logique de données. Le jury attend une traduction du MCD en structure de base de données.
+Dans cette sous-section, je vais vous détailler mon modèle logique de données. Nous verrons une traduction du MCD en structure de base de données.
+\newline
 
-\textbf{Votre MLD :} 
+\begin{for_you}{Mon MLD :}
+    \begin{center}
+        \includegraphics[width=15cm,height=80mm]{./assets/uml/mld.png}
+    \end{center}
+\end{for_you}
 
-\begin{center}
-    \includegraphics[width=15cm,height=80mm]{./assets/uml/mld.png}
-\end{center}
-
+\newpage
 \subsection{MPD (Modèle Physique de Données)}
 
-Dans cette sous-section, vous devez présenter votre modèle physique de données. Le jury attend une implémentation concrète avec les contraintes et index.
+Dans cette sous-section, je vais vous présenter mon modèle physique de données. Nous verrons une implémentation concrète avec les contraintes et index.
+\newline
 
-\textbf{Votre MPD :} 
-
+\begin{for_you}{Mon MPD :}
 \begin{center}
     \includegraphics[width=15cm,height=80mm]{./assets/uml/mpd.png}
 \end{center}
+\end{for_you}
+\textit{\newline}
 
-\begin{exemple}
-\textbf{MCD simplifié :}
-\begin{verbatim}
-PROJET (id, nom, description, date_debut, date_fin)
-    |
-    | 1,n
-    |
-TACHE (id, titre, description, statut, priorite)
-    |
-    | n,1
-    |
-UTILISATEUR (id, email, nom, prenom, role)
-\end{verbatim}
+\begin{for_you}{Exemple de contraintes PostgreSQL :}
+    \begin{lstlisting}[language=SQL]
+    -- Contraintes d'intégrité
+    ALTER TABLE taches ADD CONSTRAINT fk_tache_projet
+        FOREIGN KEY (projet_id) REFERENCES projets(id)
+        ON DELETE CASCADE;
 
-\textbf{Exemple de contraintes PostgreSQL :}
-\begin{lstlisting}[language=SQL]
--- Contraintes d'intégrité
-ALTER TABLE taches ADD CONSTRAINT fk_tache_projet
-    FOREIGN KEY (projet_id) REFERENCES projets(id)
-    ON DELETE CASCADE;
+    -- Index pour optimiser les performances
+    CREATE INDEX idx_taches_statut ON taches(statut);
+    CREATE INDEX idx_taches_projet_statut ON taches(projet_id, statut);
 
--- Index pour optimiser les performances
-CREATE INDEX idx_taches_statut ON taches(statut);
-CREATE INDEX idx_taches_projet_statut ON taches(projet_id, statut);
+    -- Contrainte de validation
+    ALTER TABLE projets ADD CONSTRAINT chk_dates
+        CHECK (date_fin > date_debut);
+    \end{lstlisting}
+\end{for_you}
 
--- Contrainte de validation
-ALTER TABLE projets ADD CONSTRAINT chk_dates
-    CHECK (date_fin > date_debut);
-\end{lstlisting}
-
-\textbf{Exemple de document MongoDB :}
-\begin{lstlisting}[language=JSON]
-{
-  "_id": ObjectId("..."),
-  "userId": "user123",
-  "action": "task_created",
-  "timestamp": ISODate("2025-01-15T10:30:00Z"),
-  "metadata": {
-    "projectId": "proj456",
-    "taskId": "task789",
-    "ipAddress": "192.168.1.100"
-  }
-}
-\end{lstlisting}
-\end{exemple}
-
-\begin{conseil}
-\begin{itemize}
-    \item Modéliser le MCD avec toutes les entités et relations
-    \item Définir les contraintes d'intégrité référentielle
-    \item Optimiser avec des index appropriés
-    \item Prévoir la migration et l'évolution du schéma
-    \item Documenter les choix de conception
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Montrez votre MCD et expliquez 2 contraintes d'intégrité
-    \item Comment optimisez-vous les performances de vos requêtes ?
-    \item Avez-vous prévu la migration des données ?
-    \item Pourquoi utiliser PostgreSQL ET MongoDB ?
-    \item Comment gérez-vous la cohérence entre les deux bases ?
-\end{itemize}
-\end{jury}
-
+\newpage
 \section{Architecture 3 tiers}
 
-L'architecture 3 tiers sépare clairement les responsabilités : couche présentation (React), couche logique métier (Node.js), et couche données (PostgreSQL/MongoDB). Cette séparation facilite la maintenance, la scalabilité et les tests. Chaque tier peut évoluer indépendamment selon les besoins techniques et métier.
+L'architecture 3 tiers sépare clairement les responsabilités : couche présentation (liveVue), couche logique métier (Elixir), et couche données (PostgreSQL). Cette séparation facilite la maintenance, la scalabilité et les tests. Chaque tier peut évoluer indépendamment selon les besoins techniques et métier.
 
-Les flux de données sont optimisés pour minimiser les appels réseau et garantir la cohérence transactionnelle. L'API REST assure une communication standardisée entre les couches et facilite l'intégration avec d'autres systèmes.
+Les flux de données sont optimisés pour minimiser les appels réseau et garantir la cohérence transactionnelle.
+\newline
 
-\begin{for_you}
-\textbf{Schéma architecture 3 tiers :}
+\begin{for_you}{Schéma architecture 3 tiers :}
 \begin{verbatim}
 +----------------------------------+
 |        TIER 1: PRESENTATION      |
 +-------+-------+-------+----------+
-|         Elixir (liveVue)         |
+|         Phoenix (liveVue)        |
 |                                  |
 +-------+-------+-------+----------+
                 |
@@ -443,52 +316,9 @@ Les flux de données sont optimisés pour minimiser les appels réseau et garant
 |           PostgreSQL             |
 |                                  |
 +-------+-------+-------+----------+
+
 \end{verbatim}
-
-\textbf{Exemple de flux de données :}
-\begin{lstlisting}[language=JavaScript]
-// Tier 1: Frontend (React)
-const createProject = async (projectData) => {
-  const response = await fetch('/api/projects', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(projectData)
-  });
-  return response.json();
-};
-
-// Tier 2: Backend (Node.js/Express)
-app.post('/api/projects', authenticateUser, async (req, res) => {
-  try {
-    const project = await projectService.createProject(req.body);
-    await auditService.logAction('project_created', req.user.id);
-    res.status(201).json(project);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-\end{lstlisting}
 \end{for_you}
-
-\begin{conseil}
-\begin{itemize}
-    \item Documenter clairement les responsabilités de chaque tier
-    \item Définir les interfaces entre les couches
-    \item Prévoir la scalabilité horizontale et verticale
-    \item Implémenter des mécanismes de cache appropriés
-    \item Tester l'intégration entre les tiers
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Quelles sont les responsabilités de chaque tier ?
-    \item Comment gérez-vous la communication entre les tiers ?
-    \item Votre architecture est-elle scalable ?
-    \item Avez-vous prévu la gestion des erreurs inter-tiers ?
-    \item Comment optimisez-vous les performances ?
-\end{itemize}
-\end{jury}
 
 \section{Liens utiles}
 
