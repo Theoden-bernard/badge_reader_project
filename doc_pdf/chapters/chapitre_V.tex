@@ -149,7 +149,7 @@ class ProjectRepository {
 
 \subsection{Communication entre les tiers}
 
-Dans cette sous-section, vous devez expliquer comment les différents tiers communiquent entre eux. Le jury attend une compréhension claire des flux de données et des protocoles utilisés.
+Dans cette sous-section, je vais vous expliquez comment les différents tiers communiquent entre eux. Nous verrons une compréhension claire des flux de données et des protocoles utilisés.
 
 \textbf{flux de communication :} 
 
@@ -210,45 +210,28 @@ Dans cette sous-section, vous devez expliquer comment les différents tiers comm
   \end{itemize}
 \end{for_you}
 
-\begin{conseil}
-\begin{itemize}
-    \item Séparer clairement les responsabilités par tier
-    \item Documenter les interfaces entre les tiers
-    \item Prévoir la scalabilité de chaque tier
-    \item Implémenter des tests par tier
-    \item Gérer les erreurs et exceptions de manière cohérente
-    \item Optimiser les performances par tier
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Comment justifiez-vous votre architecture 3 tiers ?
-    \item Quels sont les avantages de votre approche ?
-    \item Comment gérez-vous la communication entre les tiers ?
-    \item Votre architecture est-elle scalable ?
-    \item Comment testez-vous chaque tier ?
-    \item Quels sont les points de performance de votre architecture ?
-\end{itemize}
-\end{jury}
-
 \section{Développement Frontend}
 
-Dans cette section, vous devez présenter votre approche de développement frontend et expliquer vos choix techniques. Le jury attend une compréhension claire de votre architecture frontend et des bonnes pratiques appliquées.
+Dans cette section, je vais vous présentez mon approche de développement frontend et expliquer mes choix techniques. Nous verrons une compréhension claire de mon architecture frontend et des bonnes pratiques appliquées.
+\newline
 
-\textbf{Technologies choisies :} \newline
+\textbf{Technologies choisies :} 
 \textit{J'ai choisi le Framework Phoenix car il met a disposition un outils qui ce nome LiveView. 
 C'est un outil parfait pour faire du fronte car il a des caracteristique interessante comme :}
 \begin{itemize}
   \item Interactions en Temps Réel.
   \item Sécurité Renforcée (traitement des données restent sur le serveur).
   \item Optimiser pour Elixir.
+  \newline
 \end{itemize}
 
-\textbf{Architecture des composants :} \newline
+\textbf{Architecture des composants :}
 \textit{Mon architecture est baser sur l'environement mix fournie par Elixir tout mon code ce trouve dans lib/ et a l'interieur de lib ce trouve mes dossier backend et frontend.}
+\newline
 
-\textbf{Accessibilité et UX :} \textit{[Expliquez comment vous respectez les standards RGAA/WCAG et utilisez Lighthouse pour mesurer les performances]}
+\textbf{Accessibilité et UX :} 
+\textit{[Expliquez comment vous respectez les standards RGAA/WCAG et utilisez Lighthouse pour mesurer les performances]}
+\newline
 
 \begin{for_you}{Structure frontend :}
 \begin{verbatim}
@@ -277,6 +260,7 @@ badge_reader/
 \end{verbatim}
 \end{for_you}
 
+\newpage
 \textbf{Exemple de composant accessible :}
 \begin{lstlisting}[language=JavaScript]
 const ProjectCard = ({ project, onEdit }) => {
@@ -315,9 +299,12 @@ const ProjectCard = ({ project, onEdit }) => {
 \end{lstlisting}
 \end{exemple}
 
+\textit{\newline}
+
 \begin{exemple}
 \textbf{Exemple de rapport Lighthouse (2/2) :}
 \begin{lstlisting}[language=json]
+{
   "audits": {
     "first-contentful-paint": { "score": 0.95 },
     "largest-contentful-paint": { "score": 0.88 },
@@ -327,28 +314,6 @@ const ProjectCard = ({ project, onEdit }) => {
 }
 \end{lstlisting}
 \end{exemple}
-
-\begin{conseil}
-\begin{itemize}
-    \item Organiser les composants par fonctionnalité métier
-    \item Respecter les standards d'accessibilité RGAA/WCAG
-    \item Utiliser Lighthouse pour mesurer les performances et l'accessibilité
-    \item Implémenter la protection XSS avec React
-    \item Utiliser TypeScript pour la sécurité des types
-    \item Tester les composants avec Jest et React Testing Library
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Comment organisez-vous votre code frontend ?
-    \item Vos composants respectent-ils l'accessibilité ?
-    \item Quels sont vos scores Lighthouse pour les performances et l'accessibilité ?
-    \item Comment protégez-vous contre les attaques XSS ?
-    \item Utilisez-vous TypeScript ? Pourquoi ?
-    \item Comment testez-vous vos composants ?
-\end{itemize}
-\end{jury}
 
 \section{Développement Backend}
 
@@ -408,29 +373,9 @@ const createProject = async (req, res, next) => {
 \end{lstlisting}
 \end{for_you}
 
-\begin{conseil}
-\begin{itemize}
-    \item Séparer clairement les responsabilités (Controller/Service/Repository)
-    \item Valider systématiquement les données d'entrée
-    \item Implémenter une gestion d'erreur centralisée
-    \item Documenter l'API avec OpenAPI/Swagger
-    \item Logger toutes les actions importantes
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Comment structurez-vous votre API REST ?
-    \item Quels middlewares utilisez-vous ?
-    \item Comment gérez-vous la validation des données ?
-    \item Avez-vous documenté votre API ?
-    \item Comment tracez-vous les erreurs ?
-\end{itemize}
-\end{jury}
-
 \section{Gestion des données}
 
-La couche données utilise un ORM (Prisma) pour PostgreSQL et le driver natif pour MongoDB. Les transactions garantissent la cohérence des données critiques, tandis que les requêtes optimisées avec des index améliorent les performances. Le pattern Repository abstrait l'accès aux données et facilite les tests.
+La couche données utilise un ORM (Ecto) pour PostgreSQL et le driver natif pour MongoDB. Les transactions garantissent la cohérence des données critiques, tandis que les requêtes optimisées avec des index améliorent les performances. Le pattern Repository abstrait l'accès aux données et facilite les tests.
 
 PostgreSQL gère les données transactionnelles avec des contraintes strictes, MongoDB stocke les logs et rapports avec des pipelines d'agrégation pour les analytics. Cette séparation optimise les performances selon le type d'opération.
 
@@ -490,26 +435,6 @@ const getProjectStats = async (projectId, dateRange) => {
 };
 \end{lstlisting}
 \end{exemple}
-
-\begin{conseil}
-\begin{itemize}
-    \item Utiliser un ORM pour simplifier les requêtes SQL
-    \item Optimiser les requêtes avec des index appropriés
-    \item Implémenter des transactions pour la cohérence
-    \item Séparer les données transactionnelles et analytiques
-    \item Tester les requêtes avec des données réalistes
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Comment gérez-vous les transactions ?
-    \item Avez-vous optimisé vos requêtes avec des index ?
-    \item Pourquoi utiliser Prisma plutôt que du SQL brut ?
-    \item Comment gérez-vous la cohérence entre PostgreSQL et MongoDB ?
-    \item Avez-vous testé les performances de vos requêtes ?
-\end{itemize}
-\end{jury}
 
 \section{Liens utiles}
 
