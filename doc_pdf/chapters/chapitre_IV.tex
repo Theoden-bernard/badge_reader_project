@@ -1,6 +1,6 @@
 \chapter{Conception fonctionnelle et technique}
 
-Dans ce chapitre, Je vais vous présentez ma conception fonctionnelle et technique complète. Cette phase détermine la réussite de mon projet et est soigneusement planifiée et documentée.
+Dans ce chapitre, je vais vous présenter ma conception fonctionnelle et technique complète. Cette phase détermine la réussite de mon projet et est soigneusement planifiée et documentée.
 \newline
 
 \begin{for_you}{Pourquoi la conception est-elle si importante ?}
@@ -32,7 +32,7 @@ Les Use Cases modélisent les interactions entre les acteurs et le système pour
 
 La modélisation des cas d'usage permet d'identifier les flux principaux et alternatifs, ainsi que les cas d'erreur à gérer. Cette analyse préalable guide la conception technique et les tests d'acceptation.
 
-\begin{for_you}{Diagramme de case d'usage simplifié :}
+\begin{for_you}{Diagramme de cas d'usage simplifié :}
     \begin{center}
     \includegraphics[width=15cm,height=80mm]{./assets/uml/diagramme_de_cas_d'utilisation.png}
     \end{center}
@@ -42,12 +42,18 @@ La modélisation des cas d'usage permet d'identifier les flux principaux et alte
 
 Les diagrammes de séquence détaillent les interactions temporelles entre les différents composants du système pour chaque cas d'usage. Cette modélisation précise les responsabilités de chaque couche (présentation, logique métier, données) et facilite l'implémentation technique. Les diagrammes servent également de référence pour les tests d'intégration.
 
-La modélisation des séquences permet d'identifier les points de synchronisation, les appels asynchrones, et les mécanismes de gestion d'erreur. Cette analyse technique guide l'architecture et l'implémentation des APIs.
+La modélisation des séquences permet d'identifier les points de synchronisation, les appels asynchrones, et les mécanismes de gestion d'erreur. Cette analyse technique guide l'architecture et l'implémentation des API.
 \newline
 
-\begin{for_you}{Diagramme de séquence :}
+\begin{for_you}{Diagramme de séquence accès site :}
     \begin{center}
-        \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence.png}
+        \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence_acces_site.png}
+    \end{center}
+\end{for_you}
+
+\begin{for_you}{Diagramme de séquence accès bâtiment :}
+    \begin{center}
+        \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence_acces_batiment.png}
     \end{center}
 \end{for_you}
 
@@ -59,7 +65,7 @@ L'expérience utilisateur (UX) privilégie la simplicité et l'efficacité pour 
 
 \subsection{Zoning}
 
-Dans cette sous-section, je vais vous présentez l'organisation spatiale de mes interfaces. Nous verrons une analyse claire de la hiérarchie visuelle et de l'organisation des éléments.
+Dans cette sous-section, je vais vous présenter l'organisation spatiale de mes interfaces. Nous verrons une analyse claire de la hiérarchie visuelle et de l'organisation des éléments.
 \newline
 
 \begin{for_you}{Page de connexion}
@@ -86,7 +92,7 @@ Dans cette sous-section, je vais vous présentez l'organisation spatiale de mes 
 
 \subsection{Wireframe}
 
-Dans cette sous-section, je vais vous présentez mes wireframes pour les pages principales. Nous verrons une représentation claire de la structure et des interactions.
+Dans cette sous-section, je vais vous présenter mes wireframes pour les pages principales. Nous verrons une représentation claire de la structure et des interactions.
 \newline
 
 \begin{for_you}{Page de connexion}
@@ -97,7 +103,7 @@ Dans cette sous-section, je vais vous présentez mes wireframes pour les pages p
 
 \textbf{\newline}
 
-\begin{for_you}{Page d'accueil(Rôle)}
+\begin{for_you}{Page d'accueil (Rôle)}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/wireframe/accueil_role.png}
     \end{center}
@@ -105,7 +111,7 @@ Dans cette sous-section, je vais vous présentez mes wireframes pour les pages p
 
 \textbf{\newline}
 
-\begin{for_you}{Page d'accueil(badge)}
+\begin{for_you}{Page d'accueil (badge)}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/wireframe/accueil_badge.png}
     \end{center}
@@ -113,7 +119,7 @@ Dans cette sous-section, je vais vous présentez mes wireframes pour les pages p
 
 \textbf{\newline}
 
-\begin{for_you}{Page d'accueil(controle)}
+\begin{for_you}{Page d'accueil (contrôle)}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/wireframe/accueil_controle.png}
     \end{center}
@@ -121,7 +127,7 @@ Dans cette sous-section, je vais vous présentez mes wireframes pour les pages p
 
 \subsection{Maquettage}
 
-Dans cette sous-section, je vais vous présentez mes maquettes. nous verrons une représentation visuelle fidèle au rendu final.
+Dans cette sous-section, je vais vous présenter mes maquettes. Nous verrons une représentation visuelle fidèle au rendu final.
 
 \begin{for_you}{Page de connexion}
     \begin{center}
@@ -131,7 +137,7 @@ Dans cette sous-section, je vais vous présentez mes maquettes. nous verrons une
 
 \textbf{\newline}
 
-\begin{for_you}{Page d'accueil(Rôle)}
+\begin{for_you}{Page d'accueil (Rôle)}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/maquette/accueil_role.png}
     \end{center}
@@ -139,7 +145,7 @@ Dans cette sous-section, je vais vous présentez mes maquettes. nous verrons une
 
 \textbf{\newline}
 
-\begin{for_you}{Page d'accueil(Badge)}
+\begin{for_you}{Page d'accueil (Badge)}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/maquette/accueil_badge.png}
     \end{center}
@@ -147,62 +153,50 @@ Dans cette sous-section, je vais vous présentez mes maquettes. nous verrons une
 
 \textbf{\newline}
 
-\begin{for_you}{Page d'accueil(controle)}
+\begin{for_you}{Page d'accueil (contrôle)}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/maquette/accueil_controle.png}
     \end{center}
 \end{for_you}
-% \begin{center}
-% \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
-% \hline
-% \textbf{Version 1} & \textbf{Version 2} & \textbf{Version 3} & \textbf{Final} \\
-% \hline
-% Maquettes basiques & Intégration charte & Maquettes interactives & Maquettes validées \\
-% Placeholders & Couleurs définies & Animations & Tests utilisateurs \\
-% Structure simple & Typographie & Micro-interactions & Optimisations UX \\
-% \hline
-% \end{tabular}
-% \end{center}
-
 
 \subsection{Outils de conception et diagrammes}
 
-Dans cette sous-section, je vais vous présenter les outils que j'ai utilisée pour créer mes diagrammes. Nous verrons des diagrammes clairs et bien conçus qui facilitent la compréhension de votre architecture.
+Dans cette sous-section, je vais vous présenter les outils que j'ai utilisés pour créer mes diagrammes. Nous verrons des diagrammes clairs et bien conçus qui facilitent la compréhension de votre architecture.
 \newline
 
-\textbf{Mes outils de diagrammes :} \textit{J'utilise Lucidchart c'est gratuit, sur internet et pratique car il dispose de beaucoup de video a sont sujet. De plus il a une interface moderne qui donne envie de travailler.
+\textbf{Mes outils de diagrammes :} \textit{J'utilise Lucidchart ; c'est gratuit, sur internet et pratique car il dispose de beaucoup de vidéos à son sujet. De plus, il a une interface moderne qui donne envie de travailler.
 \newline}
 
 \subsection{Charte graphique}
 
-Dans cette sous-section, Je vais vous détailler ma charte graphique complète. Nous verrons les cohérence visuelle et une identité forte.
+Dans cette sous-section, je vais vous détailler ma charte graphique complète. Nous verrons la cohérence visuelle et une identité forte.
 \textit{\newline}
 
 \begin{for_you}{Palette de couleurs :}
     \begin{itemize}
         \color{colintYellow}
-        \item  Jaune 
+        \item Jaune 
         \color{colintBlack}
         : HEX : [FFD401]
 
         \item Noir 
-        : HEX : [00000]
+        : HEX : [000000]
         
         \color{colintWhite}
         \item Blanc
         \color{colintBlack}
-        : HEX : [FFFFF]
+        : HEX : [FFFFFF]
     \end{itemize}
 \end{for_you}
 \textit{\newline}
 
 \begin{for_you}{Système typographique :}
-    \textit{\newline J'utiliserait la police d'ecriture \underline{Farro}}
+    \textit{\newline J'utiliserai la police d'écriture \underline{Farro}}
 \end{for_you}
 \textit{\newline}
 
 \begin{for_you}{Logo et son utilisation :}
-    \textit{\newline Mon logo sera celui de colint etant donée qu'il sera utiliser pour cette ecole et qu'il sera dans le future, integrer a l'intra de Colint. Il n'y auras pas de variante de ce logo.}
+    \textit{\newline Mon logo sera celui de Colint étant donné qu'il sera utilisé pour cette école et qu'il sera, dans le futur, intégré à l'intra de Colint. Il n'y aura pas de variante de ce logo.}
 \end{for_you}
 
 \textit{\newline}
@@ -213,9 +207,9 @@ Dans cette sous-section, Je vais vous détailler ma charte graphique complète. 
 \hline
 \textbf{Couleurs} & \textbf{Typographie} & \textbf{Composants} \\
 \hline
-Primaire: \#FFD401 & Farro (titres) & Boutons arrondis \\
-Secondaire: \#00000 & Farro (corps) & Cartes avec ombres \\
-Neutre: \#FFFFF & Monospace (code) & Icônes Material Design \\
+Primaire : \#FFD401 & Farro (titres) & Boutons arrondis \\
+Secondaire : \#000000 & Farro (corps) & Cartes avec ombres \\
+Neutre : \#FFFFFF & Monospace (code) & Icônes Material Design \\
 \hline
 \textbf{Espacement} & \textbf{Grille 8px} & \textbf{Marges cohérentes} \\
 \hline
@@ -225,14 +219,14 @@ Neutre: \#FFFFF & Monospace (code) & Icônes Material Design \\
 
 \section{Conception de base de données}
 
-Les conception de base de données avec un Modèle Conceptuel de Données (MCD), un Modèle Logique de Données (MLD), et un Modèle Physique de Données (MPD). Cette approche progressive garantit la cohérence et l'optimisation des données. Les contraintes d'intégrité et les index optimisent les performances et la fiabilité.
+La conception de base de données se fait avec un Modèle Conceptuel de Données (MCD), un Modèle Logique de Données (MLD), et un Modèle Physique de Données (MPD). Cette approche progressive garantit la cohérence et l'optimisation des données. Les contraintes d'intégrité et les index optimisent les performances et la fiabilité.
 
 PostgreSQL gère les données transactionnelles avec des contraintes strictes.
 
 \newpage
 \subsection{MCD (Modèle Conceptuel de Données)}
 
-Dans cette sous-section, je vais vous présentez mes modèle conceptuel de données. Nous verrons une représentation claire des entités et de leurs relations.
+Dans cette sous-section, je vais vous présenter mon modèle conceptuel de données. Nous verrons une représentation claire des entités et de leurs relations.
 \newline
 
 \begin{for_you}{Mon MCD :}
@@ -285,7 +279,7 @@ Dans cette sous-section, je vais vous présenter mon modèle physique de donnée
 \newpage
 \section{Architecture 3 tiers}
 
-L'architecture 3 tiers sépare clairement les responsabilités : couche présentation (liveVue), couche logique métier (Elixir), et couche données (PostgreSQL). Cette séparation facilite la maintenance, la scalabilité et les tests. Chaque tier peut évoluer indépendamment selon les besoins techniques et métier.
+L'architecture 3 tiers sépare clairement les responsabilités : couche présentation (LiveView), couche logique métier (Elixir), et couche données (PostgreSQL). Cette séparation facilite la maintenance, la scalabilité et les tests. Chaque tier peut évoluer indépendamment selon les besoins techniques et métier.
 
 Les flux de données sont optimisés pour minimiser les appels réseau et garantir la cohérence transactionnelle.
 \newline
@@ -295,7 +289,7 @@ Les flux de données sont optimisés pour minimiser les appels réseau et garant
 +----------------------------------+
 |        TIER 1: PRESENTATION      |
 +-------+-------+-------+----------+
-|         Phoenix (liveVue)        |
+|         Phoenix (LiveView)       |
 |                                  |
 +-------+-------+-------+----------+
                 |
