@@ -285,33 +285,9 @@ Les flux de données sont optimisés pour minimiser les appels réseau et garant
 \newline
 
 \begin{for_you}{Schéma architecture 3 tiers :}
-\begin{verbatim}
-+----------------------------------+
-|        TIER 1: PRESENTATION      |
-+-------+-------+-------+----------+
-|         Phoenix (LiveView)       |
-|                                  |
-+-------+-------+-------+----------+
-                |
-                | HTTP/HTTPS
-                v
-+----------------------------------+
-|        TIER 2: LOGIQUE METIER    |
-+-------+-------+-------+----------+
-|             Elixir               |
-|                                  |
-+-------+-------+-------+----------+
-                |
-                | SQL/NoSQL
-                v
-+----------------------------------+
-|        TIER 3: DONNEES           |
-+-------+-------+-------+----------+
-|           PostgreSQL             |
-|                                  |
-+-------+-------+-------+----------+
-
-\end{verbatim}
+    \begin{center}
+        \includegraphics[width=10cm,height=80mm]{./assets/schema/architecture_3_tier.png}
+    \end{center}
 \end{for_you}
 
 \section{Liens utiles}
