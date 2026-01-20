@@ -13,14 +13,12 @@ Dans cette section, nous allons définir clairement les trois types d'objectifs 
     2. Réduction de 90\% du matériel.
     \newline
     3. Sécuriser 100\% du bâtiment.
-    \newline
-    4. Fluidifier 100\% du trafic.
 }
 
 \textbf{Objectifs techniques :} 
 \textit{
     \newline
-    1. Créer une application de contrôle d'accès et intégrer un système de badge sur téléphone.
+    1. Créer un site de contrôle d'accès et intégrer un système de badge sur téléphone.
     \newline
     2. Clé de chiffrement, authentification (Identifiant/Mot de passe).
 }
@@ -36,7 +34,14 @@ Dans cette section, nous allons définir clairement les trois types d'objectifs 
     \newline
 }
 
-\begin{for_you}{Tableau MoSCoW et Diagramme de périmètre MVP :}
+    
+\section{Définition du MVP}
+
+Le MVP concentre les fonctionnalités essentielles pour valider l'hypothèse produit : authentification, gestion des projets de base, et tableau de bord simple. Cette approche permet d'obtenir un retour utilisateur précoce et d'ajuster la roadmap en conséquence. Les scénarios essentiels couvrent les cas d'usage les plus fréquents et critiques pour le métier.
+\newline
+
+
+\begin{for_you}{Tableau MoSCoW et Minimum Viable Product(MVP) :}
 
     \textbf{Tableau MoSCoW : \newline}
     \begin{center}
@@ -54,12 +59,13 @@ Dans cette section, nous allons définir clairement les trois types d'objectifs 
         \end{tabular}
     \end{center}
 
-    \textbf{\newline Diagramme de périmètre MVP :}
-        \begin{center}
-            \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_perimetre.png}
-        \end{center}
+    \textbf{\newline Scénarios essentiels MVP :}
+    \textit{Mon projet doit être au minimum composé d'un site internet.
+    Son rôle sera de gérer les badges des utilisateurs tout en gardant une trace du passage des personnes dans le bâtiment.
+    }
 \end{for_you}
 
+\newpage
 \section{Cibles et parties prenantes}
 
 Dans cette section, nous allons identifier et analyser nos utilisateurs cibles et toutes
@@ -286,23 +292,10 @@ Dans cette sous-section, je vais vous parler de mes choix technologiques par rap
 
 \newpage
 
-\section{Définition du MVP}
-
-Le MVP concentre les fonctionnalités essentielles pour valider l'hypothèse produit : authentification, gestion des projets de base, et tableau de bord simple. Cette approche permet d'obtenir un retour utilisateur précoce et d'ajuster la roadmap en conséquence. Les scénarios essentiels couvrent les cas d'usage les plus fréquents et critiques pour le métier.
-\newline
-
-\begin{for_you}{Ma V1}
-    
-    \textit{Mon projet doit être au minimum composé d'un site internet. Son rôle sera de gérer les badges des utilisateurs tout en gardant une trace du passage des personnes dans le bâtiment.
-    \newline
-    }
-
-    \textbf{Scénarios essentiels V1 :}
-    \begin{enumerate}
-        \item Système de filtrage de données.
-        \item Chiffrement des données.
-        \item Génération de rapports basiques.
-    \end{enumerate}
+\begin{for_you}{Diagramme de périmètre V1 :}
+    \begin{center}
+        \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_perimetre.png}
+    \end{center}
 \end{for_you}
 
 \section{Roadmap}
