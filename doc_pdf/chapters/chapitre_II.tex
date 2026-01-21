@@ -97,7 +97,7 @@ Elle permet de comprendre précisément leurs besoins, leurs usages et leur nive
 \newline
 1. \underline{Étudiants de Colint} : Utilisateurs quotidiens du système, nécessitant un accès fluide et fiable au bâtiment durant l’année scolaire.
 \newline
-2. \underline{Invités de Colint} : Accès ponctuel au bâtiment via des badges temporaires adaptés à la durée etn de leur présence (parents, intervenants externes, prestataires).
+2. \underline{Invités de Colint} : Accès ponctuel au bâtiment via des badges temporaires adaptés à la durée et de leur présence (exp: parents, intervenants externes, prestataires).
 \newline
 3. \underline{Staff} : Accès régulier au bâtiment durant leurs jours et horaires de travail.
 \newline
@@ -124,7 +124,7 @@ Cette approche systémique permet de concevoir une solution alignée à la fois 
     \begin{itemize}
         \item En tant qu’\textbf{Étudiant ou membre du staff}, je souhaite accéder au bâtiment afin de pouvoir travailler dans de bonnes conditions.
         \item En tant qu’\textbf{Invité}, je souhaite accéder au bâtiment pendant la durée autorisée de mon intervention.
-        \item En tant qu’\textbf{Administrateur}, je souhaite accéder au bâtiment, consulter l’historique des entrées et sorties et gérer les rôles et badges des utilisateurs.
+        \item En tant qu’\textbf{Administrateur}, je souhaite accéder au bâtiment, consulter l’historique des entrées/sorties et gérer les rôles et badges des utilisateurs.
     \end{itemize}
 
     \textbf{Critères d’acceptation :}
@@ -149,7 +149,7 @@ Cette sous-section décrit les fonctionnalités accessibles aux utilisateurs fin
 \begin{for_you}{Fonctionnalités Front Office :}
 
     \textit{
-    Les étudiants, coachs et invités accèdent uniquement à leur badge, qu’il soit physique ou dématérialisé via un smartphone.  
+    Les étudiants, membres du staff et invités accèdent uniquement à leur badge, qu’il soit physique ou dématérialisé via un smartphone.  
     Les administrateurs disposent, en complément, d’un accès à une interface web dédiée à la gestion des badges et à la consultation des entrées et sorties du bâtiment.
     }
     \newline
@@ -181,7 +181,7 @@ Cette sous-section définit les profils d’utilisateurs et leurs droits d’acc
 
 \begin{for_you}{Types d’utilisateurs :}
     \begin{itemize}
-        \item \textbf{Étudiants et coachs :} Accès à leur badge personnel pour entrer dans le bâtiment.
+        \item \textbf{Étudiants et membres du staff :} Accès à leur badge personnel pour entrer dans le bâtiment.
         \item \textbf{Invités :} Accès via un badge temporaire limité dans le temps.
         \item \textbf{Administrateurs :} Accès complet à l’application de gestion des badges et aux historiques d’accès.
     \end{itemize}
@@ -230,7 +230,7 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 
     \begin{itemize}
         \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de jetons JWT.
-        \item \textbf{Sécurité :} Politique de mots de passe forts et stockage sécurisé des informations locales.
+        \item \textbf{Sécurité :} Politique de mots de passe forts et verification des informations envoyer
         \item \textbf{Récupération de compte :} Procédure de réinitialisation du mot de passe par email sécurisé.
     \end{itemize}
 
@@ -241,8 +241,7 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 
 \section{Exigences et choix techniques}
 L’architecture en trois tiers (présentation, logique métier, données) permet une séparation claire des responsabilités et favorise la maintenabilité, l’évolutivité et la testabilité du système.  
-PostgreSQL est utilisé pour garantir la cohérence transactionnelle et l’intégrité des données métier critiques, tandis que MongoDB est dédié au stockage des logs et des rapports grâce à sa flexibilité documentaire.  
-Cette approche hybride permet d’optimiser les performances en fonction de la nature des données manipulées.
+PostgreSQL est utilisé pour garantir la cohérence transactionnelle et l’intégrité des données métier critiques.
 
 Les choix techniques sont guidés par des exigences fortes en matière de performance, de sécurité, de scalabilité et de maintenabilité.  
 Le recours à des technologies éprouvées limite les risques techniques tout en assurant une évolution progressive et maîtrisée de la solution.
@@ -274,6 +273,7 @@ Ce choix garantit une cohérence logicielle, facilite la maintenance et favorise
 \newline
 Le framework Phoenix est utilisé pour le développement de l’application web. Comparable à des frameworks frontend modernes dans son approche, il offre une excellente performance et une architecture robuste.  
 Phoenix LiveView permet de gérer des interfaces interactives sans recourir à un framework JavaScript lourd, tout en conservant une logique serveur centralisée.
+\newline
 }
 
 \begin{for_you}{Architecture logique simplifiée :}
@@ -282,7 +282,7 @@ Phoenix LiveView permet de gérer des interfaces interactives sans recourir à u
     +-------------------+    +-------------------+    +-------------------+
     |   Frontend        |    |   Backend         |    |   Bases de données|
     | (Phoenix,         |<-->| (Elixir)          |<-->| PostgreSQL        |
-    |  LiveView)        |    |                   |    | MongoDB           |
+    |  LiveView)        |    |                   |    |                   |
     +-------------------+    +-------------------+    +-------------------+
     \end{verbatim}
 
@@ -315,7 +315,7 @@ Cette approche permet de limiter les risques et d’optimiser l’allocation des
 \begin{for_you}{Ma roadmap :}
     \textbf{Roadmap v1 \myarrow v2 :}
     \begin{itemize}
-        \item \textbf{v1.0 :} Mise en place de filtres et de recherches sur les données.
+        \item \textbf{v1.0 :} Diagramme de périmètre ci-dessus.
         \item \textbf{v1.1 :} Compatibilité complète avec les smartphones (badge dématérialisé).
         \item \textbf{v1.2 :} Intégration de services externes via des API.
         \item \textbf{v2.0 :} Intégration complète au système intranet de Colint.
