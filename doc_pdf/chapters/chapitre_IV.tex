@@ -1,36 +1,36 @@
 \chapter{Conception fonctionnelle et technique}
 
-Dans ce chapitre, je vais vous présenter ma conception fonctionnelle et technique complète. Cette phase détermine la réussite de mon projet et est soigneusement planifiée et documentée.
+Ce chapitre présente l’ensemble de la conception fonctionnelle et technique du projet. Cette phase constitue un pilier fondamental de la réussite du système, car elle permet d’anticiper les contraintes, de structurer les choix techniques et de sécuriser le développement avant toute implémentation.
+
+La conception a été menée de manière rigoureuse et progressive afin de garantir la cohérence globale du système, la maintenabilité du code et l’adéquation avec les besoins métier identifiés.
 \newline
 
-\begin{for_you}{Pourquoi la conception est-elle si importante ?}
+\begin{for_you}{Pourquoi la phase de conception est déterminante}
 \begin{itemize}
-    \item \textbf{Évite les refactorisations coûteuses} : Une bonne conception évite de reprendre le code
-    \item \textbf{Guide le développement} : Chaque développeur sait exactement quoi faire
-    \item \textbf{Facilite les tests} : Les cas d'usage définis permettent de créer des tests pertinents
-    \item \textbf{Réduit les risques} : Les problèmes sont identifiés avant le développement
-    \item \textbf{Améliore la communication} : Tous les acteurs comprennent le système
+    \item \textbf{Réduction des coûts de refactorisation} : Une architecture bien pensée limite les reprises de code
+    \item \textbf{Pilotage du développement} : Chaque fonctionnalité est clairement définie avant implémentation
+    \item \textbf{Facilitation des tests} : Les cas d’usage servent de base aux scénarios de test
+    \item \textbf{Maîtrise des risques} : Les problèmes techniques et fonctionnels sont identifiés en amont
+    \item \textbf{Amélioration de la communication} : Une vision commune est partagée entre tous les acteurs
 \end{itemize}
 
 \textbf{\newline}
-\textbf{Dans ce chapitre vous retrouverez :}
+\textbf{Contenu du chapitre :}
 \begin{itemize}
-    \item \mycheckmark Diagrammes de cas d'usage (Use Cases) validés
-    \item \mycheckmark Diagrammes de séquence pour les flux principaux
-    \item \mycheckmark Modèle de données (MCD/MLD/MPD) défini
-    \item \mycheckmark Architecture technique choisie et justifiée
-    \item \mycheckmark User stories détaillées avec critères d'acceptation
-    \item \mycheckmark Maquettes et wireframes validés
-    \item \mycheckmark Charte graphique définie
-    \item \mycheckmark Plan de tests établi
+    \item \mycheckmark Diagrammes de cas d’usage (Use Cases) validés
+    \item \mycheckmark Diagrammes de séquence pour les flux critiques
+    \item \mycheckmark Modélisation des données (MCD, MLD, MPD)
+    \item \mycheckmark Architecture technique justifiée
+    \item \mycheckmark User stories avec critères d’acceptation
+    \item \mycheckmark Wireframes et maquettes validés
+    \item \mycheckmark Charte graphique cohérente
+    \item \mycheckmark Stratégie de tests définie
 \end{itemize}
 \end{for_you}
 
-\section{Use Cases et diagrammes UML}
-
-Les Use Cases modélisent les interactions entre les acteurs et le système pour identifier les fonctionnalités essentielles. Cette approche centrée utilisateur garantit que le système répond aux besoins métier réels. Les diagrammes UML facilitent la communication entre les équipes techniques et métier, réduisant les risques d'incompréhension.
-
-La modélisation des cas d'usage permet d'identifier les flux principaux et alternatifs, ainsi que les cas d'erreur à gérer. Cette analyse préalable guide la conception technique et les tests d'acceptation.
+\section{Cas d’usage et modélisation UML}
+Les cas d’usage modélisent les interactions entre les acteurs et le système afin d’identifier précisément les fonctionnalités attendues. Cette approche centrée utilisateur garantit une adéquation directe entre les besoins métier et les fonctionnalités implémentées.
+Les diagrammes UML constituent un support de communication essentiel entre les parties prenantes techniques et fonctionnelles, réduisant les risques d’ambiguïté et d’interprétation.
 
 \begin{for_you}{Diagramme de cas d'usage simplifié :}
     \begin{center}
@@ -39,10 +39,8 @@ La modélisation des cas d'usage permet d'identifier les flux principaux et alte
 \end{for_you}
 
 \section{Diagrammes de séquence}
-
-Les diagrammes de séquence détaillent les interactions temporelles entre les différents composants du système pour chaque cas d'usage. Cette modélisation précise les responsabilités de chaque couche (présentation, logique métier, données) et facilite l'implémentation technique. Les diagrammes servent également de référence pour les tests d'intégration.
-
-La modélisation des séquences permet d'identifier les points de synchronisation, les appels asynchrones, et les mécanismes de gestion d'erreur. Cette analyse technique guide l'architecture et l'implémentation des API.
+Les diagrammes de séquence décrivent les interactions temporelles entre les composants du système pour chaque cas d’usage critique. Ils permettent d’identifier clairement les responsabilités de chaque couche de l’architecture 3 tiers.
+Cette modélisation facilite l’implémentation des flux, la gestion des erreurs et la conception des tests d’intégration.
 \newline
 
 \begin{for_you}{Diagramme de séquence accès site :}
@@ -57,14 +55,11 @@ La modélisation des séquences permet d'identifier les points de synchronisatio
     \end{center}
 \end{for_you}
 
-\section{Conception de l'interface graphique}
-
-La conception graphique s'appuie sur une charte graphique cohérente avec l'identité visuelle de l'entreprise. Le zoning et les wireframes définissent la structure des interfaces avant le développement des maquettes haute fidélité. Cette approche progressive valide les choix UX et facilite l'implémentation front-end.
-
-L'expérience utilisateur (UX) privilégie la simplicité et l'efficacité pour réduire la courbe d'apprentissage et améliorer l'adoption. Les tests utilisateur permettent de valider les choix de conception et d'optimiser l'interface.
+\section{Conception de l’interface utilisateur}
+La conception de l’interface repose sur une démarche progressive : zoning, wireframes puis maquettes haute fidélité. Cette méthode permet de valider l’expérience utilisateur avant toute implémentation technique.
+L’UX a été pensée pour favoriser la simplicité, la lisibilité et l’efficacité, afin de réduire la courbe d’apprentissage et d’optimiser l’adoption du système.
 
 \subsection{Zoning}
-
 Dans cette sous-section, je vais vous présenter l'organisation spatiale de mes interfaces. Nous verrons une analyse claire de la hiérarchie visuelle et de l'organisation des éléments.
 \newline
 
@@ -168,8 +163,7 @@ Dans cette sous-section, je vais vous présenter les outils que j'ai utilisés p
 \newline}
 
 \subsection{Charte graphique}
-
-Dans cette sous-section, je vais vous détailler ma charte graphique complète. Nous verrons la cohérence visuelle et une identité forte.
+La charte graphique garantit une cohérence visuelle sur l’ensemble des interfaces. Elle s’appuie sur l’identité de l’établissement Colint afin d’assurer une intégration future naturelle au sein de l’intranet existant.
 \textit{\newline}
 
 \begin{for_you}{Palette de couleurs :}
@@ -217,11 +211,9 @@ Neutre : \#FFFFFF & Monospace (code) & Icônes Material Design \\
 \end{center}
 \end{for_you}
 
-\section{Conception de base de données}
-
-La conception de base de données se fait avec un Modèle Conceptuel de Données (MCD), un Modèle Logique de Données (MLD), et un Modèle Physique de Données (MPD). Cette approche progressive garantit la cohérence et l'optimisation des données. Les contraintes d'intégrité et les index optimisent les performances et la fiabilité.
-
-PostgreSQL gère les données transactionnelles avec des contraintes strictes.
+\section{Conception de la base de données}
+La conception de la base de données suit la méthode Merise avec une progression structurée : Modèle Conceptuel de Données (MCD), Modèle Logique de Données (MLD) et Modèle Physique de Données (MPD).
+Cette approche garantit l’intégrité des données, la cohérence des relations et l’optimisation des performances. PostgreSQL est utilisé pour sa robustesse, sa gestion stricte des contraintes et sa fiabilité transactionnelle.
 
 \newpage
 \subsection{MCD (Modèle Conceptuel de Données)}
@@ -278,10 +270,8 @@ Dans cette sous-section, je vais vous présenter mon modèle physique de donnée
 
 \newpage
 \section{Architecture 3 tiers}
-
-L'architecture 3 tiers sépare clairement les responsabilités : couche présentation (LiveView), couche logique métier (Elixir), et couche données (PostgreSQL). Cette séparation facilite la maintenance, la scalabilité et les tests. Chaque tier peut évoluer indépendamment selon les besoins techniques et métier.
-
-Les flux de données sont optimisés pour minimiser les appels réseau et garantir la cohérence transactionnelle.
+L’architecture retenue repose sur un modèle 3 tiers, séparant clairement la couche présentation (Phoenix LiveView), la logique métier (Elixir) et la couche données (PostgreSQL).
+Cette séparation favorise la maintenabilité, la scalabilité et la testabilité du système. Chaque couche peut évoluer indépendamment sans impacter l’ensemble de l’architecture.
 \newline
 
 \begin{for_you}{Schéma architecture 3 tiers :}

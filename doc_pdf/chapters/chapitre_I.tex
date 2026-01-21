@@ -1,64 +1,52 @@
-\chapter{Présentation personnelle et du projet}
+\chapter{Présentation du projet}
 
-\section{Mon Rôle et contexte}
+\section{Introduction}
 
-Dans cette section, Je vais vous présenter mon rôle dans le projet et le contexte organisationnel. Nous verrons une explication claire de mes responsabilités et de l'environnement de travail dans lequel s'inscrit mon projet CDA.
+Cette section est consacrée à la présentation de mon rôle dans le projet, de l'organisation dont j'ai fait preuve, ainsi qu’à une description de mes responsabilités et de l’environnement de travail du projet concepteur developeur d'application(CDA).
 \newline
 
-\textbf{Mon rôle :} \textit{Dans le cadre de mon PFE j'aimerais développer une application et gérer des badges. Je vais donc devoir concevoir et développer cette dernière.}
 
-\textbf{Contexte organisationnel :} \textit{J'utiliserai GitHub Project avec un système de Kanban pour s'organiser.}
-
-\textbf{Durée et planning :} \textit{Je suis en alternance du lundi au mercredi et en cours le jeudi et le vendredi}\newline
-
-\begin{for_you}{Pitch QQOQCP :}
-\begin{itemize}
-    \item \textbf{Quoi :} Application de gestion des projets internes
-    \item \textbf{Qui :} Équipes de développement et management
-    \item \textbf{Où :} Environnement cloud hybride
-    \item \textbf{Quand :} Déploiement progressif sur 6 mois
-    \item \textbf{Comment :} Architecture microservices avec React/Node.js
-    \item \textbf{Pourquoi :} Centraliser et optimiser le suivi des projets 
-    \newline
-\end{itemize}
-
-\textbf{Explication :} 
+\begin{for_you}{Badge reader :}
+    
 \textit{
-    Je vous présente un système de badge qui sera dédié aux membres de Colint mais également aux invités.
-    J'ai imaginé un système dans lequel chaque étudiant est assigné à un badge qui lui permet de rentrer mais également de sortir de l'école.
-    Mais également un système de génération temporaire de badge pour les invités de Colint comme par exemple des parents ou futurs étudiants intéressés par l'école.
+    Dans le cadre de mon projet de fin d’études (PFE), je souhaite concevoir et développer un site web dédié à la gestion des badges. Je vais donc devoir concevoir et développer ce dernière.
+}
+
+\textit{
     \newline
-    Tout ça combiné à un système de \underline{rôle} qui donnera des accès différents. Par exemple à partir de 18h les étudiants ne peuvent plus rentrer dans l'école, toute sortie est donc définitive ou ils devront faire appel à un membre du staff pour rentrer car lui peut rentrer jusqu'à 20h.
-    Le déploiement de ce système devra être mis en place le plus tôt possible mais je n'ai pas encore de date exacte à vous donner aujourd'hui par manque d'expertise à ce niveau-là.
+    Le projet sera organisé à l’aide de GitHub Projects, intégrant un système Kanban permettant de structurer les tâches et de suivre leur progression.
+}
+\newline
+
+\textit{
+    Le système proposé est un système de gestion de badges dédié aux membres de Colint. Il repose sur l’attribution d’un badge individuel à chaque membre, permettant l’accès et la sortie de l’établissement.
+    Par ailleurs, le système prévoit la génération de badges temporaires destinés aux visiteurs, tels que les parents ou les futurs étudiants.
+    \newline
+    L’ensemble est combiné à un système de \underline{rôles} définissant différents niveaux d’accès.
+    Par exemple, à partir de 18h, les étudiants ne pourront plus entrer dans l’école ; toute sortie sera alors définitive. Ils devront faire appel à un membre du staff pour accéder de nouveau à l’établissement, ce dernier disposant d’un droit d’entrée jusqu’à 20h.
+    Le déploiement de ce système devra être effectué le plus tôt possible. Toutefois, aucune date précise ne peut être communiquée à ce jour, en raison d’un manque d’expertise concernant cette phase.
     \newline
     \newline
-    Toute une application de contrôle d'accès pour les gens qui rentrent et qui sortent du bâtiment mais également la gestion de badge sera développée en \underline{Elixir} avec son framework \underline{Phoenix}. Étant donné que ce système de badge sera relié à l'intra de l'école j'ai donc choisi Elixir pour rester dans un environnement cohérent.
+    L’ensemble du système de contrôle d’accès — incluant la gestion des entrées et sorties du bâtiment ainsi que l’administration des badges — sera développé en \underline{Elixir}, en s’appuyant sur son framework \underline{Phoenix}.
+Ce choix technologique s’explique par le fait que le système de badges sera interconnecté avec l’intranet de l’école, afin de garantir une cohérence avec l’environnement existant.
 }
 \end{for_you}
 \newpage
 \section{Problématique et objectifs SMART}
 
-Dans cette section, nous allons identifier clairement la problématique que mon projet résout et définir des objectifs SMART mesurables.
+Cette section vise à définir précisément la problématique à laquelle répond le projet, puis à fixer des objectifs SMART, concrets et mesurables, afin d’en assurer le pilotage et l’évaluation.
 \newline
 
     \textbf{Problématique identifiée :} 
     \textit{
         Comment peut-on fluidifier, contrôler et sécuriser l’accès aux bâtiments de Colint pour permettre aux étudiants et membres du staff de pénétrer dans l’école ?
-    }
-    
-    \textbf{Objectifs S.M.A.R.T :}
-    \begin{itemize}
-        \item \textbf{Spécifique :} Développer une application de contrloe d'acces
-        \item \textbf{Mesurable :} Réduire de 40\% le temps de reporting hebdomadaire
-        \item \textbf{Atteignable :} Livrer la v1 en 6 mois a partir de decembre
-        \item \textbf{Pertinent :} Application symple d'utilisation et intuitive
-        \item \textbf{Temporel :} Déploiement complet avant fin d'année 2026
         \newline
-    \end{itemize}
+    }
     
     \textbf{Bénéfices attendus :} 
     \textit{
-        Fluidifier et sécuriser le trafic au sein du bâtiment. S’assurer de la légitimité des personnes qui rentrent dans le bâtiment.
+        Fluidifier et sécuriser le trafic au sein du bâtiment.
+        S’assurer de la légitimité des personnes qui rentrent dans le bâtiment.
         \newline 
     }
 
@@ -66,23 +54,28 @@ Dans cette section, nous allons identifier clairement la problématique que mon 
     
     \textit{
         \newline
-        \textbf{\underline{Dans un premier temps j'aimerais}} : Créer une application qui récupère des données sur les utilisateurs qui rentrent/sortent de l'école. Cette même application pourra gérer les badges et rôles des utilisateurs
-        et pour finir, créer des badges. Il serait intéressant de livrer une V1 dans 6 mois après décembre. Il est important que l'application soit simple et minimaliste.
+        \textbf{\underline{Phase 1 – Application principale :}}  
+        Concevoir et développer une application permettant de collecter et d’exploiter les données liées aux entrées et sorties des utilisateurs au sein de l’école.  
+        Cette application devra également assurer la gestion des utilisateurs, des rôles et des badges, ainsi que la création de badges physiques ou numériques.  
+        Une première version fonctionnelle (V1), simple, minimaliste et orientée efficacité, devra être livrée dans un délai de six mois à compter de décembre.
         \newline
         \newline
-        \textbf{\underline{Dans un second temps j'aimerais}}: Gérer un système de badge directement sur un téléphone, qu'il soit iPhone/Android cela devrait être fait dans les 3 mois suivants après l'application principale.
+        \textbf{\underline{Phase 2 – Badge dématérialisé :}}  
+        Mettre en place un système de badge dématérialisé directement utilisable sur smartphone, compatible iOS et Android.  
+        Cette évolution devra être réalisée dans les trois mois suivant la livraison de l’application principale.
         \newline
         \newline
-        Le tout devrait être livré pour fin 2026
+        L’ensemble du projet devra être finalisé et livré au plus tard fin 2026.
         \newline
     }
 
-    \textbf{Diagramme de contexte :}
+    \textbf{\underline{Diagramme de contexte :}}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/uml/diagramme_de_context.png}
     \end{center}
 
 \end{for_you}
+
 
 \section{Liens utiles}
 
