@@ -7,15 +7,15 @@ Cette section a pour objectif de définir de manière claire et structurée les 
 \textbf{Objectifs métier :}
 \textit{
     \newline
-    1. Garantir la sécurisation complète du bâtiment grâce à un système d’accès fiable et centralisé en assurer le contrôle de 100\% des accès au bâtiment.
+    1. Assurer le contrôle de 100\% des accès au bâtiment, incluant le suivi précis des heures d’entrée et de sortie des utilisateurs.
     \newline
-    2. Réduire de 90\% le matériel physique nécessaire au système de contrôle d’accès existant.
+    2. Seul les personnes autoriser peuve rentrée dans le batiment.
 }
 
 \textbf{Objectifs techniques :} 
 \textit{
     \newline
-    1. Concevoir et développer une application web de contrôle d’accès intégrant un système de badge dématérialisé utilisable sur smartphone.
+    1. Concevoir et développer une application web de contrôle d’accès intégrant un système de badge.
     \newline
     2. Mettre en œuvre des mécanismes de sécurité robustes incluant le chiffrement des données et un système d’authentification par identifiant et mot de passe.
 }
@@ -71,7 +71,7 @@ Les fonctionnalités retenues couvrent les cas d’usage les plus fréquents et 
 \newpage
 \section{Cibles et parties prenantes}
 
-Cette section vise à identifier et analyser les utilisateurs cibles ainsi que l’ensemble des parties prenantes du projet.  
+Cette section vise à identifier et analyser les utilisateurs cibles et de les categoriser.  
 Elle permet de comprendre précisément leurs besoins, leurs usages et leur niveau d’influence afin d’orienter les choix fonctionnels et techniques de la solution.
 \newline
 
@@ -123,7 +123,7 @@ Cette approche systémique permet de concevoir une solution alignée à la fois 
     \textbf{User Stories prioritaires :}
     \begin{itemize}
         \item En tant qu’\textbf{Étudiant ou membre du staff}, je souhaite accéder au bâtiment afin de pouvoir travailler dans de bonnes conditions.
-        \item En tant qu’\textbf{Invité}, je souhaite accéder au bâtiment pendant la durée autorisée de mon intervention.
+        \item En tant qu’\textbf{Invité}, je souhaite accéder au bâtiment afin d'y intervenir pendant la durée autorisée.
         \item En tant qu’\textbf{Administrateur}, je souhaite accéder au bâtiment, consulter l’historique des entrées/sorties et gérer les rôles et badges des utilisateurs.
     \end{itemize}
 
@@ -229,13 +229,14 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 \begin{for_you}{Système d’authentification :}
 
     \begin{itemize}
-        \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de jetons JWT.
+        \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de jetons depuis une socket LiveView.
         \item \textbf{Sécurité :} Politique de mots de passe forts et verification des informations envoyer
         \item \textbf{Récupération de compte :} Procédure de réinitialisation du mot de passe par email sécurisé.
     \end{itemize}
 
     \textit{\newline
-    Le choix du mécanisme JWT permet une gestion sécurisée, temporaire et stateless des sessions, adaptée à une architecture web moderne.
+    Les attributions de socket sont des valeurs avec état conservées côté serveur dans Phoenix.LiveView.Socket.
+    Cela diffère du modèle HTTP sans état courant qui consiste à envoyer l'état de la connexion au client sous la forme d'un jeton ou d'un cookie et à reconstruire l'état sur le serveur pour traiter chaque requête.
     }
 \end{for_you}
 
