@@ -7,6 +7,12 @@
 # General application configuration
 import Config
 
+config :badge_reader, BadgeReader.Repo,
+  database: "badge_reader_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
 config :badge_reader,
   ecto_repos: [BadgeReader.Repo],
   generators: [timestamp_type: :utc_datetime]
