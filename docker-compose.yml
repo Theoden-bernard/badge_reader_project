@@ -1,0 +1,30 @@
+services:
+  web:
+    depends_on:
+      - db
+    tty: true
+    build:
+      context: ./badge_reader
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./badge_reader:/app
+    environment:
+      DATABASE_URL: "postgresql://theoden:postgres@db:5432/badge_reader_dev"
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  db:
+    image: postgres:14
+    restart: always
+    shm_size: 128mb
+    
+    environment:
+      POSTGRES_USER: "theoden"
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: "badge_reader_dev"
+      
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
