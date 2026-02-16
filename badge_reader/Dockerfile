@@ -1,0 +1,27 @@
+# Image of elixir
+FROM elixir:1.18
+
+RUN apt-get update && apt-get install -y nodejs npm \
+    && rm -rf /var/lib/apt/list/*
+
+# Working directory 
+WORKDIR /app
+
+# Copy my file -> conteneur
+COPY mix.exs mix.lock ./
+
+ENV MIX_ENV=prod
+
+# Bash command
+RUN set -xe \
+    && mix local.hex --force \
+    && mix archive.install hex phx_new --force \
+    && mix deps.get \
+    && mix deps.compile
+
+COPY . .
+
+RUN mix assets.deploy \
+    && mix phx.digest
+
+CMD ["mix", "phx.server"]
