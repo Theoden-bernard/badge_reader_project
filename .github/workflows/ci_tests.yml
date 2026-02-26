@@ -25,6 +25,6 @@ jobs:
               working-directory: ./badge_reader
               run: mix deps.get
 
-            - name: Test elixir
+            - name: Compilation elixir
               working-directory: ./badge_reader  
               run: mix compile
