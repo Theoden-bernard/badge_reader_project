@@ -24,3 +24,7 @@ jobs:
             - name: Installation des dépendances Mix
               working-directory: ./badge_reader
               run: mix deps.get
+
+            - name: Compilation elixir
+              working-directory: ./badge_reader  
+              run: mix compile
