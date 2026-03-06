@@ -13,7 +13,7 @@ jobs:
     
         steps:
             - name: Clonage du repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Instalation d'Elixir et Erlan
               uses: erlef/setup-beam@v1
@@ -28,3 +28,30 @@ jobs:
             - name: Compilation elixir
               working-directory: ./badge_reader  
               run: mix compile
+    
+    build_and_push_image:
+        runs-on: ubuntu_latest
+
+        needs: elixir_ci
+        steps:
+          - name: Clonage du repo
+            uses: actions/checkout@v4
+          
+          - name: Installation docker
+            uses: docker/setup-qemu-action@v3
+
+          - name: Set up Docker Buildx
+            uses: docker/setup-buildx-action@v3
+
+          - name: Login to Docker Hub
+            uses: docker/login-action@v3
+            with:
+              username: ${{ secrets.LOGIN }}
+              password: ${{ secrets.PASSWORD }}
+
+          - name: Build & Push
+            uses: docker/build-action@v5
+            with:
+              contect: ./badge_reader
+              push: true
+              tags: ${{ secrets.LOGIN}}/badge_reader:latest

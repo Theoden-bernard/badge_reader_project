@@ -27,5 +27,13 @@ config :swoosh, local: false
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :badge_reader, BadgeReader.Repo,
+  adapter: Ecto.Adapter.Postgres,
+  hostname: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  database: System.get_env("POSTGRES_DB"),
+  # url: System.get_env("DATABASE_URL"),
+  pool_size: 10
+
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
