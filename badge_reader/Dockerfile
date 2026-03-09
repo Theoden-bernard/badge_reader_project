@@ -9,7 +9,7 @@ RUN apt-get update \
 # Working directory 
 WORKDIR /app
 
-RUN pwd
+RUN ls -a app/
 
 # Copy my file -> conteneur
 COPY . .
