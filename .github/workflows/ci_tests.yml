@@ -55,4 +55,4 @@ jobs:
               with:
                 context: ./badge_reader
                 push: true
-                tags: ${{ secrets.LOGIN}}/badge_reader:latest
+                tags: ${{ secrets.LOGIN }}/badge_reader:latest
