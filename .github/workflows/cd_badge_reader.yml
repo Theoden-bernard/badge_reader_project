@@ -2,30 +2,32 @@ name: cd_badge_reader
 
 on:
     push:
-        branches: ["main"]
+        branches: ["develop"]
 
 jobs:
     production:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Ecriture shh key
+
+            - name: pwd_commande
               run:
+                pwd
+
+            - name: Ecriture shh key
+              run: |
                 echo "${{ secrets.SSH_KEY_AWS }}" > key.pem
                 chmod 400 key.pem
 
             - name: ajoute Ec2 aux known_hosts
-              run:
+              run: |
                 mkdir -p ~/.ssh
                 touch ~/.ssh/known_hosts
                 chmod 644 ~/.ssh/known_hosts
                 ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
                 
             - name: Conection Ec2
-              run: ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }}
-
-            - name: Sortir de l'Ec2
-              run: exit
+              run: ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} "echo connection ok"
 
             - name: Supression de la clef
               run: rm -f key.pem
