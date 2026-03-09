@@ -10,10 +10,6 @@ jobs:
 
         steps:
 
-            - name: pwd_commande
-              run:
-                pwd
-
             - name: Ecriture shh key
               run: |
                 echo "${{ secrets.SSH_KEY_AWS }}" > key.pem
@@ -28,6 +24,15 @@ jobs:
                 
             - name: Conection Ec2
               run: ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} "echo connection ok"
+
+            - name: pull image docker
+              run: docker pull theoden714/badge_reader
+
+            - name: docker-compose
+              run: docker compose up
+
+            - name: sortir d'Ec2
+              run: exit
 
             - name: Supression de la clef
               run: rm -f key.pem
