@@ -35,7 +35,7 @@ if config_env() == :prod do
 
   config :badge_reader, BadgeReader.Repo,
     # ssl: true,
-    url: database_url,
+    url: System.get_env("postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"),
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     # For machines with several cores, consider starting multiple pools of `pool_size`
     # pool_count: 4,
