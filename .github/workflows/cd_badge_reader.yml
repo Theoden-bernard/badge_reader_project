@@ -25,11 +25,9 @@ jobs:
             - name: Conection Ec2
               run: |
                 ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} "echo connection ok"
-                cd badge_reader
-
 
             - name: pull image docker
-              run: docker pull theoden714/badge_reader
+              run: docker pull theoden714/badge_reader:latest
 
             - name: docker-compose
               run: docker compose up

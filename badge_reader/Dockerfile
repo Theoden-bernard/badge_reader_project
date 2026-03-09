@@ -11,9 +11,6 @@ WORKDIR /app
 
 # Copy my file -> conteneur
 COPY . .
-# COPY assets config deps lib priv test .formatter.exs AGENTS.md mix.exs mix.lock ./
-
-RUN ls -a 
 
 # Bash command
 RUN set -xe \
