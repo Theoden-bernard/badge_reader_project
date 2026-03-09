@@ -9,8 +9,10 @@ RUN apt-get update \
 # Working directory 
 WORKDIR /app
 
+RUN pwd
+
 # Copy my file -> conteneur
-COPY badge_reader .
+COPY . .
 # COPY assets config deps lib priv test .formatter.exs AGENTS.md mix.exs mix.lock ./
 
 # Bash command
