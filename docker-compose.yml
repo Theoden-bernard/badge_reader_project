@@ -29,6 +29,11 @@ services:
       
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+  nginx:
+    image: nginx:1.29
+    ports:
+      - "80:80"
+    depends_on:
+      - web
 volumes:
   postgres_data:
