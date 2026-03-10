@@ -12,6 +12,8 @@ WORKDIR /app
 # Copy my file -> conteneur
 COPY . .
 
+ENV MIX_ENV="prod"
+
 # Bash command
 RUN set -xe \
 && mix local.hex --force \
@@ -19,7 +21,7 @@ RUN set -xe \
 && mix deps.get \
 && mix deps.compile
 
-RUN MIX_ENV=prod mix compile
+RUN mix compile
 
 RUN mix assets.deploy \
     && mix phx.digest
