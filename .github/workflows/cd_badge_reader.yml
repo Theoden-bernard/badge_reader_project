@@ -2,7 +2,7 @@ name: cd_badge_reader
 
 on:
     push:
-        branches: ["main"]
+        branches: ["develop"]
 
 jobs:
     production:
