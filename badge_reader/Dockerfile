@@ -11,7 +11,8 @@ WORKDIR /app
 
 # Copy my file -> conteneur
 COPY . .
-# COPY assets config deps lib priv test .formatter.exs AGENTS.md mix.exs mix.lock ./
+
+ENV MIX_ENV="prod"
 
 # Bash command
 RUN set -xe \
@@ -20,7 +21,7 @@ RUN set -xe \
 && mix deps.get \
 && mix deps.compile
 
-RUN MIX_ENV=prod mix compile
+RUN mix compile
 
 RUN mix assets.deploy \
     && mix phx.digest

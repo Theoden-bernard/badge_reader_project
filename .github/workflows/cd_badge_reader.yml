@@ -23,12 +23,19 @@ jobs:
                 ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
                 
             - name: Conection Ec2
-              run: ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} "echo connection ok"
+              run: |
+                ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} "echo connection ok"
+
+            - name: arret docker
+              run: docker compose down
+
+            - name: Suppression des volumes
+              run: docker system prune -a --volumes
 
             - name: pull image docker
-              run: docker pull theoden714/badge_reader
+              run: docker pull theoden714/badge_reader:latest
 
-            - name: docker-compose
+            - name: mise en route
               run: docker compose up
 
             - name: sortir d'Ec2
