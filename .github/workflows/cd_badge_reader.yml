@@ -26,6 +26,9 @@ jobs:
               run: |
                 ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} "echo connection ok"
 
+            - name: Suppression des volumes
+              run: docker system prune -a --volumes
+
             - name: pull image docker
               run: docker pull theoden714/badge_reader:latest
 
