@@ -24,11 +24,13 @@ jobs:
                 
             - name: Conection Ec2
               run: |
-                ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} 
+                ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
+                echo "Connexion OK"
                 docker-compose down
-                docker system prune -a --volumes
+                docker system prune -a --volumes -f
                 docker pull theoden714/badge_reader:latest
-                docker-compose up
+                docker-compose up -d
+                EOF
 
             - name: Supression de la clef
               run: rm -f key.pem
