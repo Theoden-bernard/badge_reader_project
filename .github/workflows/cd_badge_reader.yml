@@ -27,7 +27,7 @@ jobs:
                 ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} "echo connection ok"
 
             - name: arret docker
-              run: docker compose down
+              run: docker-compose down
 
             - name: Suppression des volumes
               run: docker system prune -a --volumes
@@ -36,7 +36,7 @@ jobs:
               run: docker pull theoden714/badge_reader:latest
 
             - name: mise en route
-              run: docker compose up
+              run: docker-compose up
 
             - name: sortir d'Ec2
               run: exit
