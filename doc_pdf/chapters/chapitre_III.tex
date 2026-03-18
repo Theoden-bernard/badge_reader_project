@@ -5,45 +5,61 @@
 Cette section présente l’approche de gestion de projet adoptée, entièrement centralisée autour de l’écosystème GitHub.  
 L’objectif est d’assurer une planification claire, un suivi précis de l’avancement et une traçabilité complète des développements, de la conception jusqu’à la livraison.
 \newline
-
 Les outils GitHub sont utilisés à la fois comme support de collaboration, de gestion des tâches et de contrôle qualité, garantissant une organisation structurée et évolutive du projet.
 \newline
 
-\begin{for_you}{Mon approche GitHub :}
-    \textit{
-    GitHub est utilisé comme dépôt central du code source et de la documentation.  
-    GitHub Projects permet de piloter l’organisation du travail via un tableau Kanban, tandis que GitHub Actions est exploité pour automatiser certaines tâches, telles que les vérifications ou les processus liés à l’intégration continue.
-    }
+\begin{for_you}{Mon utilisation de GitHub :}
+    \begin{itemize}
+        \item \textbf{Dépôt central} : Code source et documentation versionnés.
+        \item \textbf{GitHub Projects} : Tableau Kanban pour organiser les tâches.
+        \item \textbf{GitHub Actions} : Automatisation des tests et de l’intégration continue.
+    \end{itemize}
+
+    \textit{Exemple} :
+    J’utilise les \textbf{issues} pour suivre les feature et les \textbf{milestones} pour marquer les étapes clés (ex. : « Livraison MVP »).
 \end{for_you}
 
 \subsection{User Stories et estimation de temps}
 
-Cette sous-section détaille les User Stories du projet ainsi que leurs estimations de temps.  
-Chaque User Story est associée à des commits, des issues et des jalons (milestones) GitHub, assurant un suivi précis de l’avancement et une traçabilité complète des fonctionnalités développées.
-\newline
+Chaque \textbf{User Story} est liée à des \textbf{commits}, des \textbf{issues} et des \textbf{milestones} GitHub.
+Cela me permet de :
+\begin{itemize}
+    \item Suivre l’avancement des fonctionnalités.
+    \item Garantir la traçabilité des développements.
+    \newline
+\end{itemize}
 
-\begin{for_you}{Kanban :}
+\begin{for_you}{Mon tableau Kanban :}
+    \textbf{Lien vers le projet} :
     \begin{verbatim}
     https://github.com/users/Theoden-bernard/projects/2/views/2
     \end{verbatim}
 
-    \textbf{Colonnes du tableau Kanban :}
+    \textbf{Colonnes et règles} :
     \begin{itemize}
-        \item \textbf{Backlog :} Ensemble des fonctionnalités et tâches identifiées, non encore planifiées.
-        \item \textbf{Ready :} Tâches prêtes à être intégrées dans le sprint suivant.
-        \item \textbf{In Progress :} Tâches en cours de développement (limite de travail en cours — WIP — fixée à 3).
-        \item \textbf{In Review :} Code développé en attente de relecture et de validation.
-        \item \textbf{Done :} Fonctionnalités finalisées, testées et livrées.
+        \item \textbf{Backlog} : Idées et fonctionnalités non planifiées.
+        \item \textbf{Ready} : Tâches prêtes pour le sprint suivant.
+        \item \textbf{In Progress} : Développement en cours (\textbf{max 3 tâches simultanées}).
+        \item \textbf{In Review} : Code en attente de validation.
+        \item \textbf{Done} : Fonctionnalités livrées et testées.
+        \newline
     \end{itemize}
+
+    \textit{Exemple} :
+    Une User Story comme *« Créer le système d’authentification »* passe de \textbf{Backlog} à \textbf{Done} en 1 semaine, avec des commits liés (ex. : \texttt{FEAT: add login system}).
 \end{for_you}
+
+\newpage
 
 \section{Versioning GitHub et conventions}
 
-Le versioning du projet repose sur le modèle Git Flow, qui permet de structurer le développement à l’aide de branches dédiées à chaque type de travail.  
-Cette organisation garantit une séparation claire entre le code stable, le code en cours de développement et les correctifs urgents.
+J’ai adopté le modèle \textbf{Git Flow} pour structurer le développement :
+\begin{itemize}
+    \item Séparation claire entre le code stable (\texttt{main}), le développement (\texttt{develop}), les features (\texttt{feature}) et les correctifs (\texttt{hotfix}).
+    \item Utilisation systématique des \textbf{Pull Requests} pour les revues de code.
+    \newline
+\end{itemize}
 
-Les conventions mises en place concernent le nommage des branches, le format des messages de commit et l’utilisation systématique des Pull Requests.  
-Elles facilitent la traçabilité des évolutions, la relecture du code et l’intégration des fonctionnalités avant leur déploiement.
 \begin{for_you}{Normes GitHub}
     \textbf{Schéma Git Flow :}
     \begin{verbatim}
@@ -58,71 +74,87 @@ Elles facilitent la traçabilité des évolutions, la relecture du code et l’i
 
     \textbf{Conventions de commit :}
     \begin{lstlisting}
-    FEAT: add user authentication system (#issue)
-    FIX: resolve login validation issue (#issue)
-    DOCS: update documentation (#issue)
-    TEST: add unit tests for user service (#issue)
-    REFACTOR: improve code structure (#issue)
+    FEAT: add user authentication system (#20)
+    FIX: resolve login validation issue (#20)
+    DOCS: update documentation (#4)
+    TEST: add unit tests for user service (#10)
+    REFACTOR: improve code structure (#12)
     \end{lstlisting}
 
     \textbf{Pull Requests :}
     \begin{itemize}
-        \item Toute nouvelle fonctionnalité ou correction est intégrée via une Pull Request.
-        \item Une revue de code est effectuée avant toute fusion dans la branche \texttt{develop}.
-        \item Les Pull Requests doivent respecter les conventions de commit et décrire clairement les changements apportés.
+        \item Toute modification passe par une PR.
+        \item Revue obligatoire avant fusion dans \texttt{develop}.
+        \item Description claire des changements (ex. : *« Ajout de la validation des mots de passe »*).
+        \newline
     \end{itemize}
+
+    \textbf{Pourquoi ? \newline}
+    Même seul sur le projet, ces conventions m’aident à garder un historique propre et a isoler les fonctionnalités en développement.
 \end{for_you}
 
 \section{Planification et outils de suivi}
-La planification du projet s’appuie sur une combinaison complémentaire d’outils GitHub, permettant d’aligner vision stratégique et exécution opérationnelle. La roadmap GitHub offre une vue macro du projet en mettant en évidence les grandes phases, les jalons clés et les dépendances majeures, tandis que GitHub Projects est utilisé comme outil de pilotage quotidien via une approche Kanban.
-Cette organisation à deux niveaux permet de conserver une vision claire des objectifs à long terme tout en assurant un suivi précis de l’avancement des tâches. La roadmap facilite la communication des priorités produit et la gestion des risques de planning, tandis que GitHub Projects optimise la répartition du travail, la collaboration entre les développeurs et la réactivité face aux imprévus.
-\newline
+J’ai combiné deux outils GitHub pour organiser le projet :
+\begin{itemize}
+    \item \textbf{Roadmap} : Vue macro des phases clés (ex. : « Conception », « Développement MVP »).
+    \item \textbf{Projects} : Pilotage quotidien via un tableau Kanban.
+    \newline
+\end{itemize}
 
-\begin{for_you}{Roadmap GitHub}
+
+\begin{for_you}{Ma planification :}
+    \textbf{Roadmap} (exemple) :
     \begin{verbatim}
     Phase 1: Conception (4 semaines)
     +-- Analyse des besoins (1 semaine)
     +-- Conception technique (2 semaines)
-    +-- Validation de l’architecture (1 semaine)
+    +-- Validation architecture (1 semaine)
 
-    Phase 2: Développement MVP (8 semaines)
+    Phase 2: MVP (8 semaines)
     +-- Base de données (L)
     +-- Authentification (S)
-    +-- Frontend Phoenix (S)
-    +-- Système de badge (L)
+    +-- Frontend Phoenix (M)
     \end{verbatim}
 
-    \textbf{\newline Configuration de GitHub Projects :}
+    \textbf{Configuration de GitHub Projects :} 
     \begin{itemize}
-        \item \textbf{Colonnes :} Backlog, To Do, In Progress, Review, Done
-        \item \textbf{Limites WIP :} maximum 3 tâches simultanées par développeur
-        \item \textbf{Règles :} Pull Request obligatoire avant toute fusion dans la branche \textit{develop}
-        \item \textbf{Automatisation :} mise à jour automatique des statuts en fonction de l’avancement
+        \item \textbf{Colonnes} : Backlog \myarrow To Do \myarrow In Progress \myarrow Review \myarrow Done.
+        \item \textbf{Limites WIP} : 3 tâches max par développeur (pour éviter la surcharge).
+        \item \textbf{Automatisation} : Mise à jour des statuts en fonction des commits (ex. : un \texttt{FIX} passe automatiquement en \textbf{In Review}).
+        \newline
+    \end{itemize}
+
+    \textbf{Bilan :\newline}
+    Cette organisation me permet de :
+    \begin{itemize}
+        \item Conserver une vision globale (roadmap).
+        \item Réagir rapidement aux imprévus (Kanban).
     \end{itemize}
 \end{for_you}
 
-\newpage
 \section{Estimation de charge et planification}
 
-Cette section présente l’estimation de charge associée à chaque fonctionnalité du projet ainsi que la méthodologie de planification adoptée.
-L’objectif est de démontrer une approche structurée, réaliste et maîtrisée de la gestion du temps tout au long du cycle de développement.
-L’analyse des charges permet de valider la faisabilité globale du projet au regard des contraintes temporelles et organisationnelles.
-Elle constitue également un levier d’optimisation de la planification, en priorisant les fonctionnalités critiques et en sécurisant les phases à forte valeur ajoutée.
-Cette démarche pragmatique illustre la capacité à intégrer les contraintes de temps dans les décisions techniques et organisationnelles.
+J’ai estimé la charge de travail pour chaque fonctionnalité afin de valider la faisabilité du projet et de prioriser les tâches critiques (ex. : authentification avant les tests). 
 \newline
 
-\begin{for_you}{Estimation de charge par fonctionnalité}
+\begin{for_you}{Exemple d'estimation détaillée :}
     \begin{longtable}{p{3cm}p{3.2cm}p{0.9cm}p{0.6cm}p{1.6cm}p{1.7cm}}
     \toprule
     \textbf{Fonctionnalité} & \textbf{Description} & \textbf{Unité} & \textbf{Qté} & \textbf{Charge unitaire} & \textbf{Charge totale} \\
-        \midrule
-        Authentification & Login / Register & jours & 3 & 2 & 6 \\
-        Gestion des projets & CRUD projets & jours & 5 & 3 & 15 \\
-        Tableaux de bord & Dashboard & jours & 2 & 4 & 8 \\
-        Tests & Tests unitaires & jours & 10 & 1 & 10 \\
-        Déploiement & CI/CD & jours & 3 & 2 & 6 \\
-        \midrule
-    \multicolumn{5}{r}{\textbf{Charge totale estimée}} & \textbf{45 jours} \\
+    \midrule
+    Authentification & Login / Register & jours & 3 & 2 & 6 \\
+    Gestion des projets & CRUD projets & jours & 5 & 3 & 15 \\
+    Tableaux de bord & Dashboard & jours & 2 & 4 & 8 \\
+    Tests & Tests unitaires & jours & 10 & 1 & 10 \\
+    Déploiement & CI/CD & jours & 3 & 2 & 6 \\
+    \midrule
+    \multicolumn{5}{r}{\textbf{Charge totale}} & \textbf{45 jours} \\
     \bottomrule
     \end{longtable}
+
+    \textbf{\newline Lien vers la roadmap} :
+    \begin{verbatim}
+    https://github.com/users/Theoden-bernard/projects/2/views/4
+    \end{verbatim}
+    
 \end{for_you}
