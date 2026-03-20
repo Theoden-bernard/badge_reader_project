@@ -1,83 +1,71 @@
 \chapter{Présentation du projet}
 
 \section{Introduction}
+Ce dossier présente le projet \textit{Badge reader}, un système de gestion de badges que j’ai conçu pour sécuriser et fluidifier les accès au bâtiment de Colint. En tant qu’étudiant en formation \textbf{Concepteur Développeur d’Applications (CDA)}, j’ai pu constater les limites du contrôle d’accès actuel, ce qui m’a motivé à développer cette solution.
 
-Cette section a pour objectif de décrire mon rôle dans le cadre du développement d’un site web de gestion des badges d’accès aux entrées et sorties du bâtiment de l’école, l’organisation du projet, ainsi que mes responsabilités et l’environnement de travail, conformément aux exigences du titre RNCP 37873 Concepteur Développeur d’Applications (CDA).\newline
-
-
-\begin{for_you}{Badge reader :}
-    
-\textit{
-    Dans le cadre de mon projet de fin d’études (PFE), je mène la conception et le développement d’un site web dédié à la gestion des badges, depuis l’analyse des besoins jusqu’à la réalisation de la solution finale.
-}
-
-\textit{
-    \newline
-    Le projet sera organisé à l’aide de GitHub Projects, intégrant un système Kanban permettant de structurer les tâches et de suivre leur progression.
-}
+Dans ce chapitre, je détaille mon rôle dans le développement d’un site web dédié à la gestion des badges, ainsi que l’organisation du projet et mes responsabilités. L’objectif est de répondre aux exigences du titre RNCP 37873, tout en proposant une solution adaptée aux besoins de l’école.
 \newline
 
-\textit{
-    Le système proposé est un système de gestion de badges dédié aux membres de Colint et par extention d'autres types d'interlocuteurs. Il repose sur l’attribution d’un badge individuel à chaque membre, permettant l’accès et la sortie de l’établissement.
+\begin{for_you}{Contexte et organisation du projet :}
+    Dans le cadre de mon \textbf{projet de fin d’études (PFE)}, je mène la conception et le développement du système \textit{Badge reader}, de l’analyse des besoins à la réalisation finale. Ce projet s’adresse aux membres de Colint et, à terme, à d’autres interlocuteurs.
     \newline
-    L’ensemble est combiné à un système de \underline{rôles} définissant différents niveaux d’accès.
-    Par exemple, à partir de 18h, les étudiants ne pourront plus entrer dans l’école ; toute sortie sera alors définitive. Ils devront faire appel à un membre du staff pour accéder de nouveau à l’établissement, ce dernier disposant d’un droit d’entrée jusqu’à 20h.
-    Le déploiement de ce système devra être operationel le 1 septembre 2026.
-    \newline
-    \newline
-    L’ensemble du système de contrôle d’accès — incluant la gestion des entrées et sorties du bâtiment ainsi que l’administration des badges — sera développé en \underline{Elixir}, en s’appuyant sur son framework \underline{Phoenix}.
-Ce choix technologique s’explique par le fait que le système de badges sera interconnecté avec l’intranet de l’école, afin de garantir une cohérence avec l’environnement existant.
-}
+
+    Le système repose sur l’attribution d’un \textbf{badge individuel} à chaque utilisateur, permettant de contrôler les entrées et sorties du bâtiment. Les accès sont définis par des \textbf{rôles} :
+    \begin{itemize}
+        \item Après 18h, les étudiants ne peuvent plus entrer (toute sortie est définitive).
+        \item Le staff dispose d’un droit d’entrée jusqu’à 20h.
+        \newline
+    \end{itemize}
+    
+    Le déploiement est prévu pour le \textbf{1\textsuperscript{er} septembre 2026}.
+
+    L’application sera développée en \textbf{Elixir} avec le framework \textbf{Phoenix}, pour une intégration cohérente avec l’intranet existant de l’école. L’organisation du projet s’appuie sur \textbf{GitHub Projects} et un \textbf{système Kanban} pour structurer les tâches et suivre leur progression.
 \end{for_you}
-\newpage
-\section{Problématique et objectifs SMART}
 
-Cette section vise à définir précisément la problématique à laquelle répond le projet, puis à fixer des objectifs SMART, concrets et mesurables, afin d’en assurer le pilotage et l’évaluation.
+\newpage
+
+\section{Problématique et objectifs SMART}
+\textbf{Problématique identifiée :}
+Comment rendre l’accès au bâtiment de Colint \textbf{plus fluide pour les étudiants et le staff}, tout en garantissant sa \textbf{sécurité} et son \textbf{contrôle} ?
 \newline
 
-    \textbf{Problématique identifiée :} 
-    \textit{
-        Comment peut-on fluidifier, contrôler et sécuriser l’accès aux bâtiments de Colint pour permettre aux étudiants et membres du staff de pénétrer dans l’école ?
-        \newline
-    }
-    
-    \textbf{Bénéfices attendus :} 
-    \textit{
-        Fluidifier et sécuriser le trafic au sein du bâtiment.
-        S’assurer de la légitimité des personnes qui rentrent dans le bâtiment.
-        \newline 
-    }
+\textbf{Bénéfices attendus :}
+\begin{itemize}
+    \item Fluidifier le trafic dans le bâtiment.
+    \item Vérifier la légitimité des personnes entrant dans l’école.
+    \item Sécuriser les accès en fonction des rôles et des horaires.
+    \newline
+\end{itemize}
 
-\begin{for_you}{Objectifs SMART et diagramme de contexte :}
-    
-    \textit{
+\begin{for_you}{Objectifs SMART et planning :}
+    \textbf{\underline{Phase 1 – Application principale}} :
+    \begin{itemize}
+        \item Développer une application pour \textbf{collecter et exploiter 100\% des données} liées aux entrées/sorties.
+        \item Gérer les utilisateurs, les rôles et les badges (physiques ou numériques).
+        \item Livrer une \textbf{version 1.0 minimaliste et efficace} d’ici \textbf{mai 2026} (5 mois).
+    \end{itemize}
+
+    \textbf{\underline{Phase 2 – Badge dématérialisé}} :
+    \begin{itemize}
+        \item Remplacer les badges physiques par une \textbf{solution mobile} (iOS/Android).
+        \item Intégrer cette fonctionnalité dans une \textbf{version 1.1} en \textbf{2 mois}.
         \newline
-        \textbf{\underline{Phase 1 – Application principale :}}  
-        Concevoir et développer une application permettant de collecter et d’exploiter 100\% des données liées aux entrées et sorties des utilisateurs au sein de l’école.  
-        Cette application devra également assurer la gestion des utilisateurs, des rôles et des badges, ainsi que leur création physiques ou numériques.  
-        Une première version fonctionnelle (V1), simple, minimaliste et orientée efficacité, devra être livrée dans un délai de cinq mois à compter de janvier 2026.
-        \newline
-        \newline
-        \textbf{\underline{Phase 2 – Badge dématérialisé :}}  
-        Mettre en place un système de badge dématérialisé directement utilisable sur smartphone, compatible iOS et Android, afin de remplacer tous les badges physiques.
-        Cette évolution sera intégrée dans une version 1.1 et réalisée en deux mois.
-        \newline
-    }
+    \end{itemize}
 
     \textbf{\underline{Diagramme de contexte :}}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/uml/diagramme_de_context.png}
     \end{center}
-
 \end{for_you}
 
-
 \section{Liens utiles}
+Les ressources ci-dessous m’ont servi de référence pour la méthodologie \textbf{SMART}, la gestion de projet et l’organisation du travail :
+\newline
 
 \begin{itemize}
-    \item GitHub About: \url{https://docs.github.com/}
-    \item SMART Goals: \url{https://bit.ly/smart-goals-atlassian}
-    \item Project Management Institute: \url{https://www.pmi.org/}
-    \item Agile Manifesto: \url{https://agilemanifesto.org/}
-    \item Business Model Canvas: \url{https://bit.ly/business-model-canvas}
+    \item Documentation GitHub : \url{https://docs.github.com/}
+    \item Objectifs SMART (Atlassian) : \url{https://bit.ly/smart-goals-atlassian}
+    \item Project Management Institute : \url{https://www.pmi.org/}
+    \item Manifeste Agile : \url{https://agilemanifesto.org/}
+    \item Business Model Canvas : \url{https://bit.ly/business-model-canvas}
 \end{itemize}

@@ -2,415 +2,209 @@
 
 \section{Containerisation avec Docker}
 
-La containerisation Docker standardise l'environnement de développement et de production, garantissant la reproductibilité des déploiements. Le Dockerfile multi-stage optimise la taille des images en séparant les phases de build et de runtime. Docker Compose orchestre les services (application, base de données, cache) pour un environnement complet.
+Pour standardiser les environnements de développement et de production, j’ai choisi dans le cadre de mon pfe \textbf{Docker}.
+Cette solution permet :
+\begin{itemize}
+    \item Une \textbf{reproductibilité} totale des déploiements.
+    \item Une \textbf{isolation} des dépendances (Elixir, PostgreSQL, etc.).
+    \newline
+\end{itemize}
 
-Les images Docker sont optimisées pour la sécurité avec des utilisateurs non-root et des images de base minimales. Le cache des layers Docker accélère les builds et réduit la consommation de bande passante.
-
-\begin{exemple}
-\textbf{Dockerfile multi-stage :}
+\begin{for_you}{Dockerfile :}
 \begin{lstlisting}[language=dockerfile]
-\# Stage 1: Build
-FROM node:18-alpine AS builder
+# Image d'elixir
+FROM elixir:1.18
 
+# Instalation des outils
+RUN apt-get update \
+    && apt-get install -y nodejs npm \
+    && rm -rf /var/lib/apt/list/* \
+    && apt-get update && apt-get install -y inotify-tools
+
+# Dossier de travaille 
 WORKDIR /app
 
-\# Copier les fichiers de dépendances
-COPY package*.json ./
-RUN npm ci --only=production
-
-\# Copier le code source
+# Copie des fichier du project dans le dossier actuel 
 COPY . .
 
-\# Build de l'application
-RUN npm run build
+# Mise en mode production
+ENV MIX_ENV="prod"
 
-\# Stage 2: Production
-FROM node:18-alpine AS production
+# Instalation des dependence et Instalation de Phoenix
+RUN set -xe \
+&& mix local.hex --force \
+&& mix archive.install hex phx_new --force \
+&& mix deps.get \
+&& mix deps.compile
 
-\# Créer un utilisateur non-root
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+# compilation
+RUN mix compile
 
-WORKDIR /app
+RUN mix assets.deploy \
+    && mix phx.digest
 
-\# Copier les dépendances de production
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
+# lancement d'un localhost
+CMD ["mix", "phx.server"]
 
-\# Changer le propriétaire des fichiers
-RUN chown -R nextjs:nodejs /app
-USER nextjs
-
-\# Exposer le port
-EXPOSE 3000
-
-\# Variables d'environnement
-ENV NODE_ENV=production
-ENV PORT=3000
-
-\# Commande de démarrage
-CMD ["node", "dist/index.js"]
 \end{lstlisting}
+\end{for_you}
 
-\textbf{Docker Compose pour l'environnement complet (1/2) :}
+\newpage
+
+Nous utiliserons ensuite un Docker-compose qui orchestra les services (application, base de données) pour un environnement complet.
+\newline
+
+\begin{for_you}{Docker Compose pour l'environnement complet :}
 \begin{lstlisting}[language=yaml]
-version: '3.8'
-
 services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://user:pass@postgres:5432/projectdb
-      - MONGODB_URI=mongodb://mongo:27017/projectlogs
+  web:
     depends_on:
-      - postgres
-      - mongo
-      - redis
-    restart: unless-stopped
-
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_DB=projectdb
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
+      - db
+    tty: true
+    image: theoden714/badge_reader:latest
+    
+    ports:
+      - "4000:4000"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./badge_reader:/app
+    environment:
+      MIX_ENV: "prod"
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      PHX_HOST: ${PHX_HOST}
+  db:
+    image: postgres:14
     ports:
       - "5432:5432"
-    restart: unless-stopped
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Docker Compose pour l'environnement complet (2/2) :}
-\begin{lstlisting}[language=yaml]
-  mongo:
-    image: mongo:6
+    restart: always
+    shm_size: 128mb
+    
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      
     volumes:
-      - mongo_data:/data/db
-    ports:
-      - "27017:27017"
-    restart: unless-stopped
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
-
+      - postgres_data:/var/lib/postgresql/data
 volumes:
   postgres_data:
-  mongo_data:
+
 \end{lstlisting}
-\end{exemple}
 
-\begin{conseil}
-\begin{itemize}
-    \item Utiliser des Dockerfiles multi-stage pour optimiser les images
-    \item Créer des utilisateurs non-root pour la sécurité
-    \item Organiser les services avec Docker Compose
-    \item Optimiser le cache des layers Docker
-    \item Surveiller la taille et la sécurité des images
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Pourquoi utiliser Docker pour votre application ?
-    \item Comment optimisez-vous vos images Docker ?
-    \item Votre Dockerfile est-il sécurisé ?
-    \item Comment gérez-vous les secrets dans Docker ?
-    \item Avez-vous testé vos conteneurs en production ?
-\end{itemize}
-\end{jury}
+Dans mon Docker-compose j'ai utilise des "Secrets-keys". Ce sont des outil mie a disposition pour eviter de partager des donnée sensible.
+Ces donées sont directement stocker et gerer par Github
+\end{for_you}
 
 \section{Pipeline CI/CD avec GitHub Actions}
 
 Le pipeline CI/CD automatise les étapes de linting, build, test, scan de sécurité et déploiement. GitHub Actions exécute ces étapes à chaque push et Pull Request, garantissant la qualité du code avant intégration. Les secrets et variables d'environnement sécurisent les informations sensibles.
 
-Le déploiement automatique vers les environnements de staging et production suit une approche blue-green pour minimiser les risques. Les rollbacks automatiques sont déclenchés en cas de détection d'anomalies.
-
-\begin{exemple}
-\textbf{Workflow GitHub Actions complet (1/3) :}
+\begin{for_you}{Workflow GitHub Actions partie CI}
 \begin{lstlisting}[language=yaml]
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
-
-env:
-  NODE_VERSION: '18'
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+    push:
+        branches: ["develop"]
+    
+    pull_request:
+        branches: ["main", "develop"] 
 
 jobs:
-  # Job 1: Lint et tests
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    elixir_ci:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clonage du repo
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+            - name: Instalation d Elixir et Erlan
+              uses: erlef/setup-beam@v1
+              with:
+                elixir-version: '1.18' 
+                otp-version: '27'
+            
+            - name: Installation des dépendances Mix
+              working-directory: ./badge_reader
+              run: mix deps.get
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Compilation elixir
+              working-directory: ./badge_reader  
+              run: mix compile
+    
+    build_and_push_image:
+        runs-on: ubuntu-latest
+        needs: elixir_ci
+        steps:
+            - name: Clonage du repo
+              uses: actions/checkout@v4
+          
+            - name: Installation docker
+              uses: docker/setup-qemu-action@v3
 
-      - name: Run linter
-        run: npm run lint
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
 
-      - name: Run type checking
-        run: npm run type-check
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                username: ${{ secrets.LOGIN }}
+                password: ${{ secrets.PASSWORD }}
 
-      - name: Run tests
-        run: npm test -- --coverage
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+            - name: Build & Push
+              uses: docker/build-push-action@v5
+              with:
+                context: ./badge_reader
+                push: true
+                tags: ${{ secrets.LOGIN }}/badge_reader:latest
 \end{lstlisting}
-\end{exemple}
+\end{for_you}
 
-\begin{exemple}
-\textbf{Workflow GitHub Actions complet (2/3) :}
+\begin{for_you}{Workflow GitHub Actions partie CD :}
 \begin{lstlisting}[language=yaml]
-  # Job 2: Build et scan de sécurité
-  build-and-scan:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+name: cd_badge_reader
 
-      - name: Build Docker image
-        run: docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} .
+on:
+    push:
+        branches: ["main"]
 
-      - name: Run Trivy security scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+jobs:
+    production:
+        runs-on: ubuntu-latest
 
-      - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
+        steps:
+
+            - name: Ecriture shh key
+              run: |
+                echo "${{ secrets.SSH_KEY_AWS }}" > key.pem
+                chmod 400 key.pem
+
+            - name: ajoute Ec2 aux known_hosts
+              run: |
+                mkdir -p ~/.ssh
+                touch ~/.ssh/known_hosts
+                chmod 644 ~/.ssh/known_hosts
+                ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
+                
+            - name: Conection Ec2
+              run: |
+                ssh -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_IP }} << 'EOF'
+                echo "Connexion OK"
+                docker-compose down
+                docker system prune -a --volumes -f
+                docker pull theoden714/badge_reader:latest
+                docker-compose up -d
+                EOF
+
+            - name: Supression de la clef
+              run: rm -f key.pem
 \end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Workflow GitHub Actions complet (3/3) :}
-\begin{lstlisting}[language=yaml]
-  # Job 3: Déploiement staging
-  deploy-staging:
-    runs-on: ubuntu-latest
-    needs: build-and-scan
-    if: github.ref == 'refs/heads/develop'
-    environment: staging
-    steps:
-      - name: Deploy to staging
-        run: |
-          echo "Deploying to staging environment"
-          # Script de déploiement staging
-          ./scripts/deploy.sh staging
-
-  # Job 4: Déploiement production
-  deploy-production:
-    runs-on: ubuntu-latest
-    needs: build-and-scan
-    if: github.ref == 'refs/heads/main'
-    environment: production
-    steps:
-      - name: Deploy to production
-        run: |
-          echo "Deploying to production environment"
-          # Script de déploiement production
-          ./scripts/deploy.sh production
-
-      - name: Run smoke tests
-        run: |
-          echo "Running smoke tests"
-          npm run test:smoke
-
-      - name: Notify team
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          channel: '\#deployments'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Script de déploiement (1/2) :}
-\begin{lstlisting}[language=bash]
-#!/bin/bash
-# scripts/deploy.sh
-
-set -e
-
-ENVIRONMENT=$1
-IMAGE_TAG=${2:-latest}
-
-echo "Deploying to $ENVIRONMENT environment with tag $IMAGE_TAG"
-
-# Mise à jour des images Docker
-docker-compose -f docker-compose.$ENVIRONMENT.yml pull
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Script de déploiement (2/2) :}
-\begin{lstlisting}[language=bash]
-# Déploiement blue-green
-if [ "$ENVIRONMENT" = "production" ]; then
-    # Déploiement en blue-green
-    docker-compose -f docker-compose.prod.yml up -d --scale app=2
-    sleep 30
-    docker-compose -f docker-compose.prod.yml up -d --scale app=1
-else
-    # Déploiement simple pour staging
-    docker-compose -f docker-compose.staging.yml up -d
-fi
-
-# Vérification de santé
-echo "Checking application health..."
-curl -f http://localhost:3000/health || exit 1
-
-echo "Deployment to $ENVIRONMENT completed successfully"
-\end{lstlisting}
-\end{exemple}
-
-\begin{focusgithub}
-\textbf{Pipeline CI/CD GitHub Actions :}
-\begin{itemize}
-    \item \textbf{Lint :} ESLint, Prettier, TypeScript
-    \item \textbf{Tests :} Unit, Integration, E2E
-    \item \textbf{Sécurité :} Trivy, CodeQL, Snyk
-    \item \textbf{Build :} Docker multi-stage
-    \item \textbf{Deploy :} Blue-green, rollback auto
-\end{itemize}
-
-\textbf{Environnements et secrets :}
-\begin{itemize}
-    \item \textbf{Staging :} Auto-deploy depuis develop
-    \item \textbf{Production :} Auto-deploy depuis main
-    \item \textbf{Secrets :} DATABASE\_URL, JWT\_SECRET, API\_KEYS
-    \item \textbf{Variables :} NODE\_ENV, PORT, LOG\_LEVEL
-\end{itemize}
-
-\textbf{Métriques de pipeline :}
-\begin{itemize}
-    \item \textbf{Durée moyenne :} 8 minutes
-    \item \textbf{Taux de succès :} 95\%
-    \item \textbf{Temps de déploiement :} 3 minutes
-    \item \textbf{Rollbacks :} 2\% des déploiements
-\end{itemize}
-\end{focusgithub}
-
-\begin{conseil}
-\begin{itemize}
-    \item Automatiser tous les aspects du pipeline CI/CD
-    \item Séparer les environnements de staging et production
-    \item Implémenter des tests de non-régression automatisés
-    \item Configurer des alertes en cas d'échec de déploiement
-    \item Documenter les procédures de rollback
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Votre pipeline CI/CD est-il complet ?
-    \item Comment gérez-vous les secrets et variables ?
-    \item Avez-vous prévu les rollbacks automatiques ?
-    \item Comment testez-vous vos déploiements ?
-    \item Votre pipeline respecte-t-il les bonnes pratiques ?
-\end{itemize}
-\end{jury}
+\end{for_you}
 
 \section{Documentation et monitoring}
 
 La documentation technique couvre l'API avec Swagger/OpenAPI, les procédures opérationnelles dans un runbook, et le monitoring avec des dashboards temps réel. Les logs structurés facilitent le debugging et l'analyse des performances. Les alertes automatiques notifient l'équipe en cas d'anomalie.
 
 Le monitoring couvre les métriques applicatives (latence, débit, erreurs) et infrastructure (CPU, mémoire, disque). Les dashboards Grafana visualisent ces métriques pour faciliter la surveillance et l'analyse des tendances.
-
-\begin{exemple}
-\textbf{Documentation API Swagger :}
-\begin{lstlisting}[language=yaml]
-openapi: 3.0.0
-info:
-  title: Project Management API
-  version: 1.0.0
-
-paths:
-  /projects:
-    get:
-      summary: Liste des projets
-      parameters:
-        - name: page
-          in: query
-          schema:
-            type: integer
-            default: 1
-      responses:
-        '200':
-          description: Liste des projets
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '\#/components/schemas/Project'
-    post:
-      summary: Créer un projet
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '\#/components/schemas/ProjectInput'
-      responses:
-        '201':
-          description: Projet créé
-
-components:
-  schemas:
-    Project:
-      type: object
-      properties:
-        id: { type: string, format: uuid }
-        name: { type: string }
-        description: { type: string }
-        createdAt: { type: string, format: date-time }
-    ProjectInput:
-      type: object
-      required: [name]
-      properties:
-        name: { type: string, minLength: 1 }
-        description: { type: string }
-\end{lstlisting}
-\end{exemple}
 
 \begin{exemple}
 \textbf{Runbook opérationnel (1/3) :}
