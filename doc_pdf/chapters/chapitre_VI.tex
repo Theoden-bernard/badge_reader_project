@@ -1,92 +1,77 @@
 \chapter{Sécurité applicative et RGPD}
 
 \section{Protection contre les vulnérabilités OWASP}
+Pour sécuriser \textbf{Badge Reader}, j’ai appliqué les recommandations \textbf{OWASP Top 10} en utilisant les outils natifs d’Elixir/Phoenix et des bonnes pratiques spécifiques.
+\newline
 
-La sécurité applicative s'appuie sur les recommandations OWASP Top 10 pour protéger contre les vulnérabilités courantes. La protection XSS utilise l'échappement automatique de React et la validation côté serveur. La prévention SQL injection repose sur les requêtes paramétrées de l'ORM Prisma. La protection CSRF implémente des tokens synchronisés et la validation des origines.
+\begin{for_you}{Mes protections contre les vulnérabilités courantes}
+    \textbf{Sécurité intégrée à Phoenix} :
+    \begin{itemize}
+        \item \textbf{XSS} : Échappement automatique des templates HEEx (équivalent à React).
+        \item \textbf{CSRF} : Tokens intégrés dans les formulaires et requêtes.
+        \item \textbf{SQL Injection} : Requêtes paramétrées avec Ecto (ORM d’Elixir).
+        \item \textbf{Headers de sécurité} : Configuration via \texttt{Plug.Headers}.
+    \end{itemize}
+\end{for_you}
 
-Les headers de sécurité (CSP, HSTS, X-Frame-Options) renforcent la protection au niveau HTTP. La validation stricte des entrées utilisateur et la sanitisation des données réduisent les risques d'injection et de manipulation.
+\begin{for_you}{Exemple d'éléments mie en place}
+\textit{Protection XSS} :
+    \begin{lstlisting}
+    # Dans un template HEEx (lib/badge_reader_web/live/user_live.ex)
+    def render(assigns) do
+      ~H"""
+      <div>
+        <!-- Les données sont automatiquement échappées -->
+        <h1><%= @user.name %></h1>
+        <p><%= @user.bio %></p>
 
-\begin{exemple}
-\textbf{Middleware de sécurité Express :}
-\begin{lstlisting}[language=JavaScript]
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+        <!-- Danger : utiliser raw/1 uniquement pour du HTML sûr -->
+        <%= raw(@trusted_html) %>
+      </div>
+      """
+    end
+    \end{lstlisting}
 
-// Configuration Helmet
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"]
-    }
-  }
-}));
+    \textit{Protection CSRF} :
+    \begin{lstlisting}
+    # Dans le router.ex
+    pipeline :browser do
+      plug :accepts, ["html"]
+      plug :fetch_session
+      plug :fetch_flash
+      plug :protect_from_forgery  # Protection CSRF intégrée
+      plug :put_secure_browser_headers  # Headers de sécurité
+    end
+    \end{lstlisting}
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
-  max: 100, // 100 req/IP
-  message: 'Trop de requêtes'
-});
-app.use('/api/', limiter);
+    \textit{Requête Ecto (anti-SQL Injection)} :
+    \begin{lstlisting}
+    # Dans un repository (lib/badge_reader/repos/users.ex)
+    def get_user_by_email(email) do
+      BadgeReader.Repo.one(
+        from u in BadgeReader.Accounts.User,
+        where: u.email == ^email,  # ^ force le binding sécurisé
+        select: u
+      )
+    end
+    \end{lstlisting}
 
-// Validation des entrées
-const validateInput = (schema) => {
-  return (req, res, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.status(400).json({
-        error: 'Données invalides',
-        details: error.details.map(d => d.message)
-      });
-    }
-    next();
-  };
-};
-\end{lstlisting}
-
-\textbf{Protection XSS côté frontend :}
-\begin{lstlisting}[language=JavaScript]
-// React échappe automatiquement les données
-const UserProfile = ({ user }) => {
-  return (
-    <div>
-      <h1>{user.name}</h1> {/* Échappé automatiquement */}
-      <p>{user.bio}</p>
-      {/* Danger : éviter dangerouslySetInnerHTML */}
-    </div>
-  );
-};
-
-// Validation côté client avec Zod
-const userSchema = z.object({
-  name: z.string().min(1).max(100),
-  email: z.string().email(),
-  bio: z.string().max(500).optional()
-});
-\end{lstlisting}
-\end{exemple}
-
-\begin{conseil}
-\begin{itemize}
-    \item Implémenter les protections OWASP Top 10
-    \item Configurer les headers de sécurité avec Helmet
-    \item Utiliser le rate limiting pour prévenir les attaques DoS
-    \item Valider et sanitiser toutes les entrées utilisateur
-    \item Tester la sécurité avec des outils automatisés
-\end{itemize}
-\end{conseil}
-
-\begin{jury}
-\begin{itemize}
-    \item Quelles vulnérabilités OWASP avez-vous adressées ?
-    \item Comment protégez-vous contre les attaques XSS ?
-    \item Votre protection SQL injection est-elle efficace ?
-    \item Avez-vous configuré les headers de sécurité ?
-    \item Comment testez-vous la sécurité de votre application ?
-\end{itemize}
-\end{jury}
+    \textbf{Headers de sécurité} (dans \texttt{config/config.exs}) :
+    \begin{lstlisting}
+    config :badge_reader, BadgeReaderWeb.Endpoint,
+      url: [host: "localhost"],
+      http: [
+        port: 4000,
+        # Headers de sécurité
+        :secure_browser_headers => %{
+          "x-frame-options" => "DENY",
+          "x-content-type-options" => "nosniff",
+          "x-xss-protection" => "1; mode=block",
+          "content-security-policy" => "default-src 'self'"
+        }
+      ]
+    \end{lstlisting}
+\end{for_you}
 
 \section{Authentification et autorisation}
 
@@ -226,134 +211,109 @@ const requirePermission = (permission) => {
 
 \section{Conformité RGPD}
 
-La conformité RGPD implique la mise en place d'un registre des traitements, la minimisation des données collectées, et la sécurisation des données personnelles. Le consentement explicite est recueilli pour chaque traitement, avec la possibilité de retrait. Les droits des personnes (accès, rectification, effacement, portabilité) sont implémentés via des APIs dédiées.
-
-La protection des données utilise le chiffrement au repos et en transit, avec des sauvegardes sécurisées. La notification des violations de données est automatisée pour respecter le délai de 72h.
-
-\begin{exemple}
-\textbf{Registre des traitements :}
-\begin{lstlisting}[language=JavaScript]
-// Modèle de registre des traitements
-const dataProcessingRegistry = {
-  'user-authentication': {
-    purpose: 'Authentification et gestion des comptes utilisateurs',
-    legalBasis: 'Consentement',
-    dataCategories: ['identité', 'connexion'],
-    retentionPeriod: '3 ans après fermeture du compte',
-    recipients: ['équipe technique', 'hébergeur'],
-    transfers: ['UE', 'États-Unis (clauses contractuelles)']
-  },
-  'project-management': {
-    purpose: 'Gestion des projets et collaboration',
-    legalBasis: 'Exécution du contrat',
-    dataCategories: ['travail', 'communication'],
-    retentionPeriod: '5 ans après fin du projet',
-    recipients: ['équipe projet', 'clients'],
-    transfers: ['UE uniquement']
-  }
-};
-
-// API pour les droits RGPD
-const gdprController = {
-  // Droit d'accès
-  async getPersonalData(req, res) {
-    const userId = req.user.userId;
-    const userData = await userService.getCompleteUserData(userId);
-    res.json({
-      personalData: userData,
-      processingPurposes: Object.keys(dataProcessingRegistry),
-      retentionPeriods: dataProcessingRegistry
-    });
-  },
-
-  // Droit à l'effacement
-  async deletePersonalData(req, res) {
-    const userId = req.user.userId;
-    await userService.anonymizeUserData(userId);
-    await auditService.logAction('gdpr_deletion', userId);
-    res.json({ message: 'Données personnelles supprimées' });
-  },
-
-  // Droit à la portabilité
-  async exportPersonalData(req, res) {
-    const userId = req.user.userId;
-    const exportData = await userService.exportUserData(userId);
-    res.attachment('mes-donnees.json');
-    res.json(exportData);
-  }
-};
-\end{lstlisting}
-
-\textbf{Chiffrement des données sensibles (1/3) :}
-\begin{lstlisting}[language=JavaScript]
-const crypto = require('crypto');
-
-// Configuration du chiffrement
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
-const ALGORITHM = 'aes-256-gcm';
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Chiffrement des données sensibles (2/3) :}
-\begin{lstlisting}[language=JavaScript]
-// Fonction de chiffrement
-const encrypt = (text) => {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipher(ALGORITHM, ENCRYPTION_KEY);
-  cipher.setAAD(Buffer.from('user-data'));
-
-  let encrypted = cipher.update(text, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-
-  const authTag = cipher.getAuthTag();
-
-  return {
-    encrypted,
-    iv: iv.toString('hex'),
-    authTag: authTag.toString('hex')
-  };
-};
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Chiffrement des données sensibles (3/3) :}
-\begin{lstlisting}[language=JavaScript]
-// Fonction de déchiffrement
-const decrypt = (encryptedData) => {
-  const decipher = crypto.createDecipher(ALGORITHM, ENCRYPTION_KEY);
-  decipher.setAAD(Buffer.from('user-data'));
-  decipher.setAuthTag(Buffer.from(encryptedData.authTag, 'hex'));
-
-  let decrypted = decipher.update(encryptedData.encrypted, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-
-  return decrypted;
-};
-\end{lstlisting}
-\end{exemple}
-
-\begin{conseil}
+Pour respecter le \textbf{RGPD}, j’ai implémenté :
 \begin{itemize}
-    \item Créer un registre des traitements complet
-    \item Implémenter les droits RGPD (accès, rectification, effacement)
-    \item Chiffrer les données sensibles au repos et en transit
-    \item Mettre en place la notification des violations
-    \item Documenter les mesures de sécurité et de conformité
+    \item Un \textbf{registre des traitements}.
+    \item La \textbf{minimisation des données}.
+    \item Les \textbf{droits des utilisateurs} (accès, rectification, effacement).
+    \item Le \textbf{chiffrement} des données sensibles.
+    \newline
 \end{itemize}
-\end{conseil}
 
-\begin{jury}
-\begin{itemize}
-    \item Avez-vous établi un registre des traitements ?
-    \item Comment implémentez-vous les droits RGPD ?
-    \item Vos données sont-elles chiffrées ?
-    \item Avez-vous prévu la notification des violations ?
-    \item Comment gérez-vous le consentement des utilisateurs ?
-\end{itemize}
-\end{jury}
+\begin{for_you}{1. Registre des traitements :}
+    \begin{lstlisting}
+    # Dans lib/badge_reader/privacy.ex
+    defmodule BadgeReader.Privacy do
+      @processing_activities %{
+        "user_management" => %{
+          purpose: "Gestion des comptes utilisateurs",
+          legal_basis: "Consentement",
+          data_categories: ["identité", "authentification"],
+          retention: "3 ans après désactivation",
+          recipients: ["administrateurs", "hébergeur"]
+        },
+        "access_logs" => %{
+          purpose: "Traçabilité des accès",
+          legal_basis: "Obligation légale",
+          data_categories: ["logs", "horodatage"],
+          retention: "1 an",
+          recipients: ["administrateurs"]
+        }
+      }
 
+      def get_processing_activity(activity_name) do
+        @processing_activities[activity_name]
+      end
+    end
+    \end{lstlisting}
+\end{for_you}
+
+\begin{for_you}{2. Implémentation des droits RGPD :}
+    \begin{lstlisting}
+    # Dans lib/badge_reader/accounts.ex
+    defmodule BadgeReader.Accounts do
+      def get_personal_data(user_id) do
+        Repo.one(
+          from u in User,
+          where: u.id == ^user_id,
+          select: %{email: u.email, role: u.role, created_at: u.inserted_at}
+        )
+      end
+
+      def delete_personal_data(user_id) do
+        Repo.transaction(fn ->
+          Repo.delete_all(from b in Badge, where: b.user_id == ^user_id)
+          Repo.delete!(User, id: user_id)
+        end)
+      end
+
+      def export_personal_data(user_id) do
+        user = Repo.get!(User, user_id)
+        badges = Repo.all(from b in Badge, where: b.user_id == ^user_id)
+        %{user: user, badges: badges}
+      end
+    end
+    \end{lstlisting}
+\end{for_you}
+
+\textbf{\newline}
+
+\begin{for_you}{3. Chiffrement des données sensibles :}
+    \begin{lstlisting}
+    # Dans lib/badge_reader/security.ex
+    defmodule BadgeReader.Security do
+      @aes_key Application.compile_env(:badge_reader, :aes_key)
+
+      def encrypt(data) do
+        {:ok, iv, ciphertext} = :crypto.block_encrypt(:aes_256_cbc, @aes_key, data)
+        Base.encode64(iv <> ciphertext)
+      end
+
+      def decrypt(encoded) do
+        decoded = Base.decode64!(encoded)
+        <<iv::binary-16, ciphertext::binary>> = decoded
+        :crypto.block_decrypt(:aes_256_cbc, @aes_key, iv, ciphertext)
+      end
+    end
+    \end{lstlisting}
+\end{for_you}
+
+\begin{for_you}{4. Notification des violations :}
+    \begin{lstlisting}
+    # Dans lib/badge_reader/alerts.ex
+    defmodule BadgeReader.Alerts do
+      def notify_breach(breach_details) do
+        # Envoi d'alerte par email (exemple simplifié)
+        email = %{
+          to: "dpo@colint.school",
+          subject: "Violation de données - Badge Reader",
+          body: "Une violation a été détectée : #{inspect(breach_details)}"
+        }
+        Mailer.deliver(email)
+      end
+    end
+    \end{lstlisting}
+\end{for_you}
 \section{Liens utiles}
 
 \begin{itemize}
