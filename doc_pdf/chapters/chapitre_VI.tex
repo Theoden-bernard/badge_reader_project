@@ -73,141 +73,165 @@ Pour sécuriser \textbf{Badge Reader}, j’ai appliqué les recommandations \tex
     \end{lstlisting}
 \end{for_you}
 
+\newpage
+
 \section{Authentification et autorisation}
+Pour sécuriser \textbf{Badge Reader}, j’ai mis en place un système d’\textbf{authentification robuste} et une \textbf{gestion fine des autorisations},
+en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modernes.
 
-L'authentification utilise JWT avec des tokens d'accès courts (15 minutes) et des refresh tokens sécurisés. Le hachage des mots de passe utilise Argon2, plus sécurisé que bcrypt. L'autorisation implémente un système de rôles et permissions granulaire avec des middlewares de vérification.
-
-La gestion des sessions sécurise les tokens avec des cookies HttpOnly et SameSite. La déconnexion invalide les tokens côté serveur et côté client pour garantir la sécurité.
-
-\begin{exemple}
-\textbf{Configuration JWT et Argon2 (1/3) :}
-\begin{lstlisting}[language=JavaScript]
-const jwt = require('jsonwebtoken');
-const argon2 = require('argon2');
-
-// Configuration JWT
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = '15m';
-const REFRESH_EXPIRES_IN = '7d';
-
-// Hachage des mots de passe avec Argon2
-const hashPassword = async (password) => {
-  return await argon2.hash(password, {
-    type: argon2.argon2id,
-    memoryCost: 2 ** 16, // 64 MB
-    timeCost: 3,
-    parallelism: 1
-  });
-};
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Configuration JWT et Argon2 (2/3) :}
-\begin{lstlisting}[language=JavaScript]
-// Génération des tokens
-const generateTokens = (userId, role) => {
-  const accessToken = jwt.sign(
-    { userId, role, type: 'access' },
-    JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
-  );
-
-  const refreshToken = jwt.sign(
-    { userId, type: 'refresh' },
-    JWT_SECRET,
-    { expiresIn: REFRESH_EXPIRES_IN }
-  );
-
-  return { accessToken, refreshToken };
-};
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Configuration JWT et Argon2 (3/3) :}
-\begin{lstlisting}[language=JavaScript]
-// Middleware d'authentification
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({
-      error: 'Token d\'accès requis'
-    });
-  }
-
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({
-        error: 'Token invalide'
-      });
-    }
-    req.user = user;
-    next();
-  });
-};
-\end{lstlisting}
-
-\textbf{Système de permissions (1/2) :}
-\begin{lstlisting}[language=JavaScript]
-// Définition des permissions
-const PERMISSIONS = {
-  PROJECT_CREATE: 'project:create',
-  PROJECT_READ: 'project:read',
-  PROJECT_UPDATE: 'project:update',
-  PROJECT_DELETE: 'project:delete',
-  USER_MANAGE: 'user:manage'
-};
-
-// Rôles et leurs permissions
-const ROLES = {
-  ADMIN: [PERMISSIONS.PROJECT_CREATE, PERMISSIONS.PROJECT_READ,
-          PERMISSIONS.PROJECT_UPDATE, PERMISSIONS.PROJECT_DELETE,
-          PERMISSIONS.USER_MANAGE],
-  MANAGER: [PERMISSIONS.PROJECT_CREATE, PERMISSIONS.PROJECT_READ,
-            PERMISSIONS.PROJECT_UPDATE],
-  DEVELOPER: [PERMISSIONS.PROJECT_READ, PERMISSIONS.PROJECT_UPDATE]
-};
-\end{lstlisting}
-
-\textbf{Système de permissions (2/2) :}
-\begin{lstlisting}[language=JavaScript]
-// Middleware d'autorisation
-const requirePermission = (permission) => {
-  return (req, res, next) => {
-    const userPermissions = ROLES[req.user.role] || [];
-    if (!userPermissions.includes(permission)) {
-      return res.status(403).json({
-        error: 'Permissions insuffisantes'
-      });
-    }
-    next();
-  };
-};
-\end{lstlisting}
-\end{exemple}
-
-\begin{conseil}
 \begin{itemize}
-    \item Utiliser JWT avec des tokens courts et refresh tokens
-    \item Implémenter Argon2 pour le hachage des mots de passe
-    \item Créer un système de rôles et permissions granulaire
-    \item Sécuriser les cookies avec HttpOnly et SameSite
-    \item Implémenter la déconnexion sécurisée
+    \item Les \textbf{sessions Phoenix} (stockées côté serveur).
+    \item Le \textbf{hachage Bcrypt} pour les mots de passe.
+    \item Un \textbf{système de rôles} pour les autorisations.
+    \newline
 \end{itemize}
-\end{conseil}
 
-\begin{jury}
-\begin{itemize}
-    \item Pourquoi utiliser JWT plutôt que des sessions ?
-    \item Comment gérez-vous la sécurité des mots de passe ?
-    \item Votre système d'autorisation est-il granulaire ?
-    \item Comment gérez-vous l'expiration des tokens ?
-    \item Avez-vous prévu la révocation des tokens ?
-\end{itemize}
-\end{jury}
+\begin{for_you}{Mon système d’authentification}
+    \textbf{Authentification par email/mot de passe} :
+    Phoenix 1.8.3 fournit une base solide pour l’authentification, que j’ai adaptée pour répondre aux besoins spécifiques du projet.
+    \newline
+
+    \textit{Exemple de contrôleur d’authentification} :
+    \begin{lstlisting}
+  # lib/badge_reader_web/controllers/user_auth_controller.ex
+  defmodule BadgeReaderWeb.UserAuthController do
+    use BadgeReaderWeb, :controller
+    use Phoenix.Controller, :auth
+
+    # Connexion utilisateur
+    defp create(conn, %{"user" => user_params}, info) do
+      %{"email" => email, "password" => password} = user_params
+
+      if user = Accounts.get_user_by_email_and_password(email, password) do
+        conn
+        |> put_flash(:info, info)
+        |> UserAuth.log_in_user(user, user_params)
+      else
+        # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
+        conn
+        |> put_flash(:error, "Invalid email or password")
+        |> put_flash(:email, String.slice(email, 0, 160))
+        |> redirect(to: ~p"/users/log-in")
+      end
+    end
+
+    # Déconnexion
+    def delete(conn, _params) do
+      conn
+      |> put_flash(:info, "Logged out successfully.")
+      |> UserAuth.log_out_user()
+    end
+  end
+    \end{lstlisting}
+
+    \textit{Points clés} :
+    \begin{itemize}
+        \item Utilisation des \textbf{sessions Phoenix} (sécurisées par défaut).
+        \item Gestion des \textbf{flash messages} pour les retours utilisateur.
+        \item Redirections après succès/échec.
+    \end{itemize}
+\end{for_you}
+
+\begin{for_you}{Gestion des mots de passe avec Bcrypt}
+    \textbf{Hachage sécurisé des mots de passe} :
+    Phoenix 1.8.3 utilise \textbf{Bcrypt} par défaut pour le hachage.
+    \newline
+
+    \textit{Exemple de schéma utilisateur} :
+    \begin{lstlisting}
+    # lib/badge_reader/accounts/user.ex
+    defmodule BadgeReader.Accounts.User do
+      use Ecto.Schema
+      import Ecto.Changeset
+
+      schema "users" do
+        field :email, :string
+        field :password, :string, virtual: true, redact: true
+        field :hashed_password, :string, redact: true
+        field :confirmed_at, :utc_datetime
+        field :authenticated_at, :utc_datetime, virtual: true
+
+        timestamps(type: :utc_datetime)
+      end
+
+      # Changeset pour l'inscription
+      def registration_changeset(user, attrs) do
+        user
+        |> cast(attrs, [:email, :password])
+        |> validate_required([:email, :password])
+        |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/)
+        |> validate_length(:password, min: 12)
+        |> put_password_hash()  # Hachage Bcrypt
+      end
+
+      # Fonction de hachage (générée par phx.gen.auth)
+      defp put_password_hash(changeset) do
+        case changeset do
+          %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
+            put_change(changeset, :hashed_password, Bcrypt.hash_pwd_salt(pass))
+          _ ->
+            changeset
+        end
+      end
+    end
+    \end{lstlisting}
+
+    \textit{Pourquoi Bcrypt ?} :
+    \begin{itemize}
+        \item \textbf{Sécurité prouvée} : Résistant aux attaques par force brute.
+        \item \textbf{Paramètres par défaut} : Cost factor à 12 (recommandé).
+        \item \textbf{Intégré à Phoenix} : Pas besoin de dépendance externe.
+    \end{itemize}
+\end{for_you}
+
+\begin{for_you}{Gestion des sessions et sécurité}
+    \textbf{Sécurité des sessions} :
+    Phoenix utilise un système de \textbf{sessions signées et chiffrées} pour garantir la sécurité.
+    \newline
+
+    \textit{Configuration des sessions} :
+    \begin{lstlisting}
+    # config/config.exs
+    config :badge_reader, BadgeReaderWeb.Endpoint,
+      session_store: :cookie,
+      secret_key_base: System.get_env("SECRET_KEY_BASE"),
+      signing_salt: "session",
+      encryption_salt: "session_encrypt",
+      key: "_badge_reader_key",
+      store: :cookie,
+      max_age: 604_800  # 7 jours
+    \end{lstlisting}
+
+    \textit{Exemple de plug pour fetch l’utilisateur courant} :
+    \begin{lstlisting}
+    # lib/badge_reader_web/plugs/fetch_current_user.ex
+    defmodule BadgeReaderWeb.Plugs.FetchCurrentUser do
+      import Plug.Conn
+
+      def init(opts), do: opts
+
+      def call(conn, _opts) do
+        user_id = get_session(conn, :user_id)
+
+        if user_id do
+          user = Accounts.get_user!(user_id)
+          assign(conn, :current_user, user)
+        else
+          conn
+        end
+      end
+    end
+    \end{lstlisting}
+
+    \textit{Pourquoi ce système de sessions ?} :
+    \begin{itemize}
+        \item \textbf{Sécurité} : Les cookies sont signés et chiffrés.
+        \item \textbf{Simplicité} : Pas besoin de gérer des tokens côté client.
+        \item \textbf{Intégré à Phoenix} : Fonctionne directement avec les contrôleurs et plugs.
+    \end{itemize}
+\end{for_you}
+
+\newpage
 
 \section{Conformité RGPD}
 
@@ -220,39 +244,55 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     \newline
 \end{itemize}
 
-\begin{for_you}{1. Registre des traitements :}
+\begin{for_you}{1. Gestion des données utilisateurs :}
     \begin{lstlisting}
-    # Dans lib/badge_reader/privacy.ex
-    defmodule BadgeReader.Privacy do
-      @processing_activities %{
-        "user_management" => %{
-          purpose: "Gestion des comptes utilisateurs",
-          legal_basis: "Consentement",
-          data_categories: ["identité", "authentification"],
-          retention: "3 ans après désactivation",
-          recipients: ["administrateurs", "hébergeur"]
-        },
-        "access_logs" => %{
-          purpose: "Traçabilité des accès",
-          legal_basis: "Obligation légale",
-          data_categories: ["logs", "horodatage"],
-          retention: "1 an",
-          recipients: ["administrateurs"]
-        }
-      }
+    # lib/badge_reader/accounts/user.ex
+     
+    def password_changeset(user, attrs, opts \\ []) do
+      user
+      |> cast(attrs, [:password])
+      |> validate_confirmation(:password, message: "does not match password")
+      |> validate_password(opts)
+      end
 
-      def get_processing_activity(activity_name) do
-        @processing_activities[activity_name]
+    defp validate_password(changeset, opts) do
+      changeset
+      |> validate_required([:password])
+      |> validate_length(:password, min: 12, max: 72)
+      |> maybe_hash_password(opts)
+    end
+
+    defp maybe_hash_password(changeset, opts) do
+      hash_password? = Keyword.get(opts, :hash_password, true)
+      password = get_change(changeset, :password)
+
+      if hash_password? && password && changeset.valid? do
+        changeset
+        |> validate_length(:password, max: 72, count: :bytes)
+        |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
+        |> delete_change(:password)
+      else
+        changeset
       end
     end
     \end{lstlisting}
+
+    \textit{Points clés} :
+    \begin{itemize}
+        \item \textbf{Hachage des mots de passe} : Utilisation de \textbf{Bcrypt} (intégré à Phoenix).
+        \item \textbf{Validation des emails} : Format strict et unicité en base.
+        \item \textbf{Champs RGPD} : \texttt{confirmed\_at} pour le consentement explicite.
+    \end{itemize}
 \end{for_you}
 
-\begin{for_you}{2. Implémentation des droits RGPD :}
+\begin{for_you}{2. Gestion des droits utilisateurs (RGPD) :}
     \begin{lstlisting}
-    # Dans lib/badge_reader/accounts.ex
+    # lib/badge_reader/accounts.ex
     defmodule BadgeReader.Accounts do
-      def get_personal_data(user_id) do
+      import Ecto.Query
+
+      # Droit d'accès (Article 15 RGPD)
+      def get_user_data(user_id) do
         Repo.one(
           from u in User,
           where: u.id == ^user_id,
@@ -260,66 +300,97 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
         )
       end
 
-      def delete_personal_data(user_id) do
+      # Droit à l'effacement (Article 17 RGPD)
+      def delete_user(user_id) do
         Repo.transaction(fn ->
+          # Suppression des badges associés
           Repo.delete_all(from b in Badge, where: b.user_id == ^user_id)
-          Repo.delete!(User, id: user_id)
+          # Anonymisation de l'utilisateur (plutôt que suppression)
+          Repo.update!(User, set: [email: "deleted-#{user_id}@example.com"], id: user_id)
         end)
       end
 
-      def export_personal_data(user_id) do
+      # Droit à la portabilité (Article 20 RGPD)
+      def export_user_data(user_id) do
         user = Repo.get!(User, user_id)
         badges = Repo.all(from b in Badge, where: b.user_id == ^user_id)
         %{user: user, badges: badges}
       end
     end
     \end{lstlisting}
+
+    \textit{Conformité RGPD} :
+    \begin{itemize}
+        \item \textbf{Droit d’accès} : \texttt{get\_user\_data/1} retourne uniquement les données personnelles.
+        \item \textbf{Droit à l’oubli} : \texttt{delete\_user/1} anonymise (ne supprime pas pour garder la traçabilité).
+        \item \textbf{Portabilité} : \texttt{export\_user\_data/1} retourne un JSON structuré.
+    \end{itemize}
 \end{for_you}
+
 
 \textbf{\newline}
+\begin{for_you}{3. Chiffrement des données sensibles (sécurité RGPD)}
+    Phoenix 1.8.3 utilise \textbf{Bcrypt} pour les mots de passe et permet d’ajouter du chiffrement supplémentaire pour les données critiques.
 
-\begin{for_you}{3. Chiffrement des données sensibles :}
     \begin{lstlisting}
-    # Dans lib/badge_reader/security.ex
+    # lib/badge_reader/security.ex
     defmodule BadgeReader.Security do
-      @aes_key Application.compile_env(:badge_reader, :aes_key)
+      @aes_key Application.compile_env(:badge_reader, :aes_key) || raise "AES_KEY missing"
 
-      def encrypt(data) do
-        {:ok, iv, ciphertext} = :crypto.block_encrypt(:aes_256_cbc, @aes_key, data)
-        Base.encode64(iv <> ciphertext)
+      def encrypt(data) when is_binary(data) do
+        iv = :crypto.strong_rand_bytes(16)  # Vecteur d'initialisation
+        encrypted = :crypto.block_encrypt(:aes_256_cbc, @aes_key, iv, data)
+        Base.encode64(iv <> encrypted)  # Format stockage
       end
 
-      def decrypt(encoded) do
-        decoded = Base.decode64!(encoded)
-        <<iv::binary-16, ciphertext::binary>> = decoded
-        :crypto.block_decrypt(:aes_256_cbc, @aes_key, iv, ciphertext)
+      def decrypt(encoded_data) do
+        decoded = Base.decode64!(encoded_data)
+        <<iv::binary-16, encrypted::binary>> = decoded
+        :crypto.block_decrypt(:aes_256_cbc, @aes_key, iv, encrypted)
       end
     end
     \end{lstlisting}
-\end{for_you}
 
-\begin{for_you}{4. Notification des violations :}
+    \textit{Exemple d’utilisation} :
     \begin{lstlisting}
-    # Dans lib/badge_reader/alerts.ex
-    defmodule BadgeReader.Alerts do
-      def notify_breach(breach_details) do
-        # Envoi d'alerte par email (exemple simplifié)
-        email = %{
-          to: "dpo@colint.school",
-          subject: "Violation de données - Badge Reader",
-          body: "Une violation a été détectée : #{inspect(breach_details)}"
-        }
-        Mailer.deliver(email)
+    # Dans un schéma Ecto pour chiffrer un champ sensible
+    defmodule BadgeReader.Badge do
+      use Ecto.Schema
+
+      schema "badges" do
+        field :user_id, :integer
+        field :badge_number, :string, encrypted: true  # Champ chiffré
+        field :expiry_date, :date
+      end
+
+      def changeset(badge, attrs) do
+        badge
+        |> cast(attrs, [:badge_number, :expiry_date])
+        |> validate_required([:badge_number])
+        |> encrypt_sensitive_fields()
+      end
+
+      defp encrypt_sensitive_fields(changeset) do
+        case changeset do
+          %Ecto.Changeset{changes: %{badge_number: number}} ->
+            encrypted = Security.encrypt(number)
+            put_change(changeset, :badge_number, encrypted)
+          _ ->
+            changeset
+        end
       end
     end
     \end{lstlisting}
-\end{for_you}
+  \end{for_you}
+
+\newpage
+
 \section{Liens utiles}
 
 \begin{itemize}
-    \item OWASP Top 10: \url{https://owasp.org/www-project-top-ten/}
-    \item OWASP Cheat Sheets: \url{https://cheatsheetseries.owasp.org/}
-    \item CNIL RGPD: \url{https://www.cnil.fr/fr/rgpd-de-quoi-parle-t-on}
-    \item Argon2: \url{https://github.com/P-H-C/phc-winner-argon2}
-    \item JWT Best Practices: \url{https://tools.ietf.org/html/rfc8725}
+    \item OWASP Top 10 : \url{https://owasp.org/www-project-top-ten/}
+    \item Phoenix Security : \url{https://hexdocs.pm/phoenix/security.html}
+    \item Ecto Security : \url{https://hexdocs.pm/ecto/Ecto.Query.html#module-sql-injection}
+    \item Bcrypt Elixir : \url{https://hex.pm/packages/bcrypt_elixir}
+    \item CNIL RGPD : \url{https://www.cnil.fr/fr/rgpd-par-ou-commencer}
 \end{itemize}
