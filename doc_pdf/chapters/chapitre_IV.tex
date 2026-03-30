@@ -239,24 +239,6 @@ Cette approche garantit \textbf{l’intégrité des données} et \textbf{l’opt
 
 \textit{\newline}
 
-\begin{for_you}{Exemple de contraintes PostgreSQL :}
-    \begin{lstlisting}[language=SQL]
-    -- Contraintes d'intégrité
-    ALTER TABLE taches ADD CONSTRAINT fk_tache_projet
-        FOREIGN KEY (projet_id) REFERENCES projets(id)
-        ON DELETE CASCADE;
-
-    -- Index pour optimiser les performances
-    CREATE INDEX idx_taches_statut ON taches(statut);
-    CREATE INDEX idx_taches_projet_statut ON taches(projet_id, statut);
-
-    -- Contrainte de validation
-    ALTER TABLE projets ADD CONSTRAINT chk_dates
-        CHECK (date_fin > date_debut);
-    \end{lstlisting}
-\end{for_you}
-
-\newpage
 \section{Architecture 3 tiers}
 L’architecture retenue repose sur un modèle 3 tiers, séparant clairement la couche présentation (Phoenix LiveView), la logique métier (Elixir) et la couche données (PostgreSQL).
 Cette séparation favorise la maintenabilité, la scalabilité et la testabilité du système. Chaque couche peut évoluer indépendamment sans impacter l’ensemble de l’architecture.
@@ -267,6 +249,8 @@ Cette séparation favorise la maintenabilité, la scalabilité et la testabilit�
         \includegraphics[width=10cm,height=80mm]{./assets/schema/architecture_3_tier.png}
     \end{center}
 \end{for_you}
+
+\newpage
 
 \section{Liens utiles}
 
