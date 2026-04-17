@@ -7,6 +7,19 @@
 # General application configuration
 import Config
 
+config :badge_reader, :scopes,
+  user: [
+    default: true,
+    module: BadgeReader.Accounts.Scope,
+    assign_key: :current_scope,
+    access_path: [:user, :id],
+    schema_key: :user_id,
+    schema_type: :id,
+    schema_table: :users,
+    test_data_fixture: BadgeReader.AccountsFixtures,
+    test_setup_helper: :register_and_log_in_user
+  ]
+
 config :badge_reader, BadgeReader.Repo,
   database: "badge_reader_repo",
   username: "user",
