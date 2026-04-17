@@ -18,6 +18,7 @@ defmodule BadgeReaderWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/login", BadgeReaderController, :home_page
   end
 
   # Other scopes may use custom stacks.

@@ -1,117 +1,115 @@
 \chapter{Cadrage et cahier des charges}
 
 \section{Objectifs métier, techniques et pédagogiques}
-
-Cette section a pour objectif de définir de manière claire et structurée les objectifs du projet selon trois axes complémentaires : métier, technique et pédagogique.
-
-\textbf{Objectifs métier :}
-\textit{
-    \newline
-    1. Assurer le contrôle de 100\% des accès au bâtiment, incluant le suivi précis des heures d’entrée et de sortie des utilisateurs.
-    \newline
-    2. Seul les personnes autoriser peuve rentrée dans le batiment.
-}
-
-\textbf{Objectifs techniques :} 
-\textit{
-    \newline
-    1. Concevoir et développer une application web de contrôle d’accès intégrant un système de badge.
-    \newline
-    2. Mettre en œuvre des mécanismes de sécurité robustes incluant le chiffrement des données et un système d’authentification par identifiant et mot de passe.
-}
-
-\textbf{Objectifs pédagogiques :} 
-\textit{
-    \newline
-    1. Concevoir et implémenter une architecture logicielle en trois tiers.
-    \newline
-    2. Approfondir la maîtrise des outils et bonnes pratiques liés à GitHub (gestion de versions, collaboration, workflow).
-    \newline
-    3. Renforcer les compétences en sécurité informatique, notamment en matière d’authentification et de protection des données.
-}
-    
-\section{Définition du MVP}
-
-Le Minimum Viable Product (MVP) regroupe les fonctionnalités strictement nécessaires à la validation de l’hypothèse produit.  
-Il permet de vérifier la pertinence du système de contrôle d’accès, d’obtenir rapidement des retours utilisateurs et d’ajuster la feuille de route en conséquence.  
-Les fonctionnalités retenues couvrent les cas d’usage les plus fréquents et les plus critiques pour le métier.
+Cette section définit les objectifs du projet selon trois axes : \textbf{métier}, \textbf{technique} et \textbf{pédagogique}.
+Ces objectifs guident le développement et garantissent la cohérence du système \textit{Badge reader}.
 \newline
 
-\begin{for_you}{Tableau MoSCoW et Minimum Viable Product (MVP) :}
+\begin{for_you}{3 grand objectifs :}
+
+    \textbf{\underline{Objectifs métier :}}
+    \begin{itemize}
+        \item Contrôler \textbf{100\% des accès} au bâtiment, avec un suivi précis des heures d’entrée et de sortie.
+        \item \textbf{Restreindre l’accès} aux seules personnes autorisées.
+        \newline
+    \end{itemize}
+
+    \textbf{\underline{Objectifs techniques :}}
+    \begin{itemize}
+        \item Concevoir et développer une \textbf{application web} intégrant un système de badge et de contrôle d’accès.
+        \item Mettre en œuvre des \textbf{mécanismes de sécurité robuste} : chiffrement des données, authentification par identifiant/mot de passe.
+        \newline
+    \end{itemize}
+
+    \textbf{\underline{Objectifs pédagogiques :}}
+    \begin{itemize}
+        \item Concevoir et implémenter une \textbf{architecture logicielle en trois tiers}.
+        \item Maîtriser les \textbf{bonnes pratiques GitHub} (gestion de versions, workflow, collaboration).
+        \item Approfondir les \textbf{compétences en sécurité informatique} (authentification, protection des données).
+    \end{itemize}
+\end{for_you}
+
+\newpage
+
+\section{Définition du MVP}
+
+Le \textbf{Minimum Viable Product (MVP)} regroupe les fonctionnalités essentielles pour valider l’hypothèse du projet.
+Il permet de :
+\begin{itemize}
+    \item Vérifier la pertinence du système de contrôle d’accès.
+    \item Recueillir des retours utilisateurs pour ajuster la feuille de route.
+    \newline
+\end{itemize}
+
+\begin{for_you}{Tableau MoSCoW et fonctionnalités prioritaires :}
     \begin{center}
         \begin{tabular}{|p{3cm}|p{5cm}|p{6cm}|}
             \hline
             \textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Justification} \\
             \hline
-            Must Have & Application web &
-            Sans application centrale, le système de contrôle d’accès ne peut pas fonctionner. \\
+            Must Have & Application web & \textbf{Indispensable} : sans elle, le système ne peut pas fonctionner. \\
             \hline
-            Must Have & Authentification et chiffrement &
-            Garantir la sécurité des accès et la protection des données sensibles. \\
+            Must Have & Authentification et chiffrement & \textbf{Critique} : sécuriser les accès et les données. \\
             \hline
-            Should Have & Génération et gestion sécurisée des badges &
-            Assurer un contrôle d’accès fiable et cohérent au bâtiment. \\
+            Should Have & Génération et gestion des badges & \textbf{Nécessaire} pour un contrôle d’accès fiable. \\
             \hline
-            Could Have & Connexion de l’API de l’intranet au lecteur de badge &
-            Faciliter l’accès aux données et améliorer l’interopérabilité. \\
+            Could Have & Connexion de l’API intranet au lecteur & \textbf{Utile} pour améliorer l’interopérabilité. \\
             \hline
-            Won’t Have & Intégration directe du lecteur de badge dans l’intranet &
-            Fonctionnalité complexe, non prioritaire pour la validation du MVP. \\
+            Won’t Have & Intégration directe du lecteur dans l’intranet & \textbf{Non prioritaire} pour le MVP. \\
             \hline
         \end{tabular}
     \end{center}
 
     \textbf{\newline Scénarios essentiels du MVP :}
-    \textit{
-        Le MVP devra, au minimum, proposer un site web permettant de gérer les badges des utilisateurs, d’authentifier les accès et d’enregistrer les entrées et sorties des personnes au sein du bâtiment.
-        Ces fonctionnalités constituent le socle indispensable pour valider le besoin métier et la faisabilité technique du projet.
-    }
+    Le MVP devra permettre de :
+    \begin{itemize}
+        \item Gérer les badges des utilisateurs.
+        \item Authentifier les accès et enregistrer les entrées/sorties.
+    \end{itemize}
+    Ces fonctionnalités valident le besoin métier et la faisabilité technique.
 \end{for_you}
 
 \newpage
 \section{Cibles et parties prenantes}
 
-Cette section vise à identifier et analyser les utilisateurs cibles et de les categoriser.  
-Elle permet de comprendre précisément leurs besoins, leurs usages et leur niveau d’influence afin d’orienter les choix fonctionnels et techniques de la solution.
+Nous allons identifier et analyser les utilisateurs cibles et de les categoriser.  
+Chacun a des besoins spécifiques, détaillés ci-dessous :
 \newline
 
-\begin{for_you}{Personae utilisateurs :}
-    
-    \textit{
-    \newline
-    1. \underline{Étudiants} : Accèdent au bâtiment du lundi au vendredi, de 8h00 à 17h00, afin de suivre leurs cours et travailler sur leurs projets.
-    \newline
-    2. \underline{Invités} : Disposent d’un badge temporaire, avec des droits d’accès limités dans le temps, en fonction de la nature de leur intervention.
-    \newline
-    3. \underline{Staff} : Accède au bâtiment du lundi au samedi, de 8h00 à 19h00, dans le cadre de ses missions pédagogiques ou administratives.
-    \newline
-    4. \underline{Administrateur} : Dispose de droits complets, sans restriction horaire, sur le bâtiment et sur l’application de gestion.
-    }
+\begin{for_you}{Utilisateurs clés et leurs besoins :}
+    \begin{itemize}
+        \item \textbf{Étudiants} :
+              Accès du \textbf{lundi au vendredi (8h–17h)} pour les cours et projets.
+              \newline
+              \textit{Exemple} : Un étudiant en retard doit pouvoir entrer rapidement.
+
+        \item \textbf{Invités} :
+              Badge \textbf{temporaire} (ex. : intervenant pour une journée).
+              Droits limités à la durée de leur visite.
+
+        \item \textbf{Staff} :
+              Accès élargi (\textbf{lundi–samedi, 8h–19h}) pour les missions pédagogiques.
+              \newline
+              \textit{Exemple} : Un formateur qui prépare une salle le samedi matin.
+
+        \item \textbf{Administrateurs} :
+              \textbf{Droits complets} : gestion des badges, rôles, et historiques.
+              \newline
+              \textit{Exemple} : Désactiver un badge perdu ou volé.
+    \end{itemize}
 \end{for_you}
 
 \textit{\newline}
 
 \begin{for_you}{Parties prenantes :}
+    \begin{itemize}
+        \item \textbf{Étudiants/Staff} : Utilisateurs quotidiens -> besoin de \textbf{fluidité}.
+        \item \textbf{Invités} : Accès ponctuel -> besoin de \textbf{simplicité}.
+        \item \textbf{Administrateurs} : Décideurs -> priorité à la \textbf{sécurité}.
+    \end{itemize}
 
-\textit{
-\newline
-1. \underline{Étudiants de Colint} : Utilisateurs quotidiens du système, nécessitant un accès fluide et fiable au bâtiment durant l’année scolaire.
-\newline
-2. \underline{Invités de Colint} : Accès ponctuel au bâtiment via des badges temporaires adaptés à la durée et de leur présence (exp: parents, intervenants externes, prestataires).
-\newline
-3. \underline{Staff} : Accès régulier au bâtiment durant leurs jours et horaires de travail.
-\newline
-4. \underline{Administrateurs} : Responsables de la gestion des badges, des rôles, des accès et de la supervision globale du système.
-}
-\end{for_you}
-
-\textit{\newline}
-
-\begin{for_you}{Matrice d’influence :}
-    \textit{
-    L’ensemble des parties prenantes partage un objectif commun : fluidifier les flux de circulation au sein de l’établissement tout en garantissant un niveau élevé de sécurité du bâtiment.
-    Leur niveau d’influence varie en fonction de leur rôle, les administrateurs disposant du plus fort pouvoir décisionnel sur le système.
-    }
+    \textit{Enjeu commun} :
+    \textbf{Équilibrer}, \textbf{accessibilité} (pour les utilisateurs) et \textbf{contrôle} (pour l’école).
 \end{for_you}
 
 \textit{\newline}
@@ -143,62 +141,39 @@ La sécurité et la confidentialité des données représentent des exigences cr
 Une authentification robuste et une gestion fine des autorisations sont indispensables pour garantir la protection des données sensibles.
 
 \subsection{Fonctionnalités « Front Office »}
-Cette sous-section décrit les fonctionnalités accessibles aux utilisateurs finaux ainsi que leurs interactions avec le système.
+Voici les fonctionnalités \textbf{Front office} autrement dit les
 \newline
 
-\begin{for_you}{Fonctionnalités Front Office :}
+\begin{for_you}{Fonctionnalités utilisateurs :}
 
     \textit{
     Les étudiants, membres du staff et invités accèdent uniquement à leur badge, qu’il soit physique ou dématérialisé via un smartphone.  
-    Les administrateurs disposent, en complément, d’un accès à une interface web dédiée à la gestion des badges et à la consultation des entrées et sorties du bâtiment.
     }
-    \newline
 
     \begin{itemize}
-        \item \textbf{Création des informations personnelles :} Saisie des données nécessaires à la génération d’un badge (nom, prénom, email, identifiant).
         \item \textbf{Badge d’accès :} Présentation du badge permettant l’accès au bâtiment selon les droits attribués.
     \end{itemize}
 
 \end{for_you}
 
 \subsection{Fonctionnalités « Back Office »}
-Cette sous-section présente les fonctionnalités réservées à l’administration et à la supervision du système.
+Voici les fonctionnalités \textbf{Back office} autrement dit les
 \newline
 
-\begin{for_you}{Fonctionnalités Back Office :}
+\begin{for_you}{Fonctionnalités administrateur :}
     \begin{itemize}
-        \item \textbf{Gestion des badges :} Création, modification, activation et désactivation des badges.
-        \item \textbf{Gestion des rôles et permissions :} Attribution et modification des droits d’accès selon le profil utilisateur.
-        \item \textbf{Gestion des emails :} Envoi des badges numériques et ajout au wallet des utilisateurs.
-        \item \textbf{Rapports système :} Consultation des journaux d’événements, métriques et statistiques d’utilisation.
-        \item \textbf{Contrôle des accès :} Enregistrement et consultation des traces d’entrées et de sorties.
+        \item Gérer les badges (création, suspension, réactivation).
+        \item Attribuer des \textbf{rôles} (étudiant, staff, invité).
+        \item Exporter les \textbf{rapports d’activité} (ex. : fréquentation par jour).
     \end{itemize}
 \end{for_you}
 
-\subsection{Types d’utilisateurs}
-Cette sous-section définit les profils d’utilisateurs et leurs droits d’accès au système.
-\newline
-
-\begin{for_you}{Types d’utilisateurs :}
+\subsection{Confidentialité et RGPD}
+\begin{for_you}{Protection des données :}
     \begin{itemize}
-        \item \textbf{Étudiants et membres du staff :} Accès à leur badge personnel pour entrer dans le bâtiment.
-        \item \textbf{Invités :} Accès via un badge temporaire limité dans le temps.
-        \item \textbf{Administrateurs :} Accès complet à l’application de gestion des badges et aux historiques d’accès.
-    \end{itemize}
-\end{for_you}
-
-
-\subsection{Confidentialité}
-Cette sous-section décrit les mesures mises en œuvre afin de garantir la protection des données personnelles et le respect de la réglementation en vigueur.
-\newline
-
-\begin{for_you}{Mesures de confidentialité :}
-    \begin{itemize}
-        \item \textbf{Chiffrement des données :} Les données sensibles sont chiffrées en base de données.
-        \item \textbf{Sécurisation des badges :} Désactivation automatique des badges expirés ou révoqués.
-        \item \textbf{Accès contrôlé :} Journalisation des accès et des actions sensibles.
-        \item \textbf{Conformité RGPD :} Gestion du consentement, droit à l’oubli et portabilité des données.
-        \item \textbf{Anonymisation :} Utilisation de données anonymisées pour les rapports et statistiques.
+        \item \textbf{Chiffrement} : Données personnelles protégées en base.
+        \item \textbf{Conformité RGPD} : Droit d’accès, suppression, et portabilité des données.
+        \item \textbf{Journalisation} : Traçabilité des actions sensibles (ex. : modification d’un badge).
     \end{itemize}
 \end{for_you}
 
@@ -206,18 +181,19 @@ Cette sous-section décrit les mesures mises en œuvre afin de garantir la prote
 Cette sous-section définit la matrice des permissions selon les rôles utilisateurs.
 \newline
 
-\begin{for_you}{Matrice de droits :}
+\begin{for_you}{Permissions par rôle :}
     \begin{center}
-    \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|}
-        \hline
-        \textbf{Rôle} & \textbf{Accès à l’application} & \textbf{Accès au badge} \\
-        \hline
-        Administrateur & \mycheckmark & \mycheckmark \\
-        Coach & \mycross & \mycheckmark \\
-        Étudiant & \mycross & \mycheckmark \\
-        Invité & \mycross & \mycheckmark \\
-        \hline
-    \end{tabular}
+        \begin{tabular}{|l|c|c|}
+            \hline
+            \textbf{Rôle}         & \textbf{Accès admin} & \textbf{Accès badge} \\
+            \hline
+            Administrateur        & \mycheckmark         & \mycheckmark         \\
+            Coach/Staff            & \mycross             & \mycheckmark         \\
+            Étudiant               & \mycross             & \mycheckmark         \\
+            Invité                 & \mycross             & \mycheckmark*        \\
+            \hline
+            \multicolumn{3}{l}{*Badges temporaires (durée limitée)}
+        \end{tabular}
     \end{center}
 \end{for_you}
 
@@ -241,15 +217,10 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 \end{for_you}
 
 \section{Exigences et choix techniques}
-L’architecture en trois tiers (présentation, logique métier, données) permet une séparation claire des responsabilités et favorise la maintenabilité, l’évolutivité et la testabilité du système.  
+L’architecture en \textbf{trois tiers} (présentation, logique métier, données) permet une séparation claire des responsabilités et favorise la maintenabilité, l’évolutivité et la testabilité du système.  
 PostgreSQL est utilisé pour garantir la cohérence transactionnelle et l’intégrité des données métier critiques.
 
-Les choix techniques sont guidés par des exigences fortes en matière de performance, de sécurité, de scalabilité et de maintenabilité.  
-Le recours à des technologies éprouvées limite les risques techniques tout en assurant une évolution progressive et maîtrisée de la solution.
-
-\newpage
-\subsection{Exigences}
-Cette sous-section présente les contraintes techniques et les exigences non fonctionnelles du système.  
+\subsection{Exigences non fonctionnelles}
 Elle couvre notamment les aspects de performance, de sécurité, de compatibilité multiplateforme et de maintenabilité.
 \newline
 
@@ -262,20 +233,24 @@ Elle couvre notamment les aspects de performance, de sécurité, de compatibilit
     \end{itemize}
 \end{for_you}
 
-\subsection{Choix}
-Cette sous-section présente les choix technologiques effectués en réponse aux exigences identifiées.
-\newline
+\subsection{Choix technologiques}
 
-\textbf{\underline{Choix techniques :}}
-\textit{
-Le langage Elixir a été retenu car le système de contrôle d’accès est destiné à être intégré à l’intranet de l’école, également développé en Elixir.  
-Ce choix garantit une cohérence logicielle, facilite la maintenance et favorise la réutilisation des compétences et des composants existants.
-\newline
-\newline
-Le framework Phoenix est utilisé pour le développement de l’application web. Comparable à des frameworks frontend modernes dans son approche, il offre une excellente performance et une architecture robuste.  
-Phoenix LiveView permet de gérer des interfaces interactives sans recourir à un framework JavaScript lourd, tout en conservant une logique serveur centralisée.
-\newline
-}
+\begin{for_you}{Pourquoi Elixir et Phoenix ?}
+    \begin{itemize}
+        \item \textbf{Elixir} :
+              Intégration native avec l’intranet existant de Colint (déjà en Elixir).
+              \textit{-> Cohérence logicielle et maintenance simplifiée.}
+
+        \item \textbf{Phoenix/LiveView} :
+              \begin{itemize}
+                  \item Interfaces réactives \textbf{sans JavaScript lourd}.
+                  \item Logique centralisée côté serveur (moins de vulnérabilités).
+              \end{itemize}
+
+        \item \textbf{PostgreSQL} :
+              Base relationnelle pour les \textbf{transactions critiques} (ex. : historique des accès).
+    \end{itemize}
+\end{for_you}
 
 \begin{for_you}{Architecture logique simplifiée :}
 
@@ -300,7 +275,8 @@ Phoenix LiveView permet de gérer des interfaces interactives sans recourir à u
     \end{lstlisting}
 \end{for_you}
 
-\newpage
+\textbf{\newline}
+
 \begin{for_you}{Diagramme de périmètre V1 :}
     \begin{center}
         \includegraphics[width=15cm,height=80mm]{./assets/diagramme_de_perimetre.png}
@@ -308,9 +284,7 @@ Phoenix LiveView permet de gérer des interfaces interactives sans recourir à u
 \end{for_you}
 
 \section{Roadmap}
-La roadmap décrit l’évolution progressive du produit depuis la version initiale (V1) vers une version plus complète (V2).  
-Les fonctionnalités sont ajoutées de manière itérative, en s’appuyant sur les retours utilisateurs et les besoins métier émergents.  
-Cette approche permet de limiter les risques et d’optimiser l’allocation des ressources.
+La roadmap décrit l’évolution du projet, avec des ajouts \textbf{itératifs} basés sur les retours utilisateurs.
 \newline
 
 \begin{for_you}{Ma roadmap :}
@@ -329,6 +303,5 @@ Cette approche permet de limiter les risques et d’optimiser l’allocation des
     \item User Stories : \url{https://www.mountaingoatsoftware.com/agile/user-stories}
     \item Priorisation MoSCoW : \url{https://www.productplan.com/glossary/moscow-prioritization/}
     \item Documentation PostgreSQL : \url{https://www.postgresql.org/docs/}
-    \item Modélisation MongoDB : \url{https://bit.ly/mongodb-modeling}
     \item Architecture 3-tiers : \url{https://en.wikipedia.org/wiki/Multitier_architecture}
 \end{itemize}
