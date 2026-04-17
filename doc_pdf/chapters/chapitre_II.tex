@@ -23,7 +23,7 @@ Ces objectifs guident le développement et garantissent la cohérence du systèm
 
     \textbf{\underline{Objectifs pédagogiques :}}
     \begin{itemize}
-        \item Concevoir et implémenter une \textbf{architecture logicielle en trois tiers}.
+        \item Concevoir et implémenter une \textbf{architecture MVC (Modèle-Vue-Contrôleur) monolithique}.
         \item Maîtriser les \textbf{bonnes pratiques GitHub} (gestion de versions, workflow, collaboration).
         \item Approfondir les \textbf{compétences en sécurité informatique} (authentification, protection des données).
     \end{itemize}
@@ -217,7 +217,7 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 \end{for_you}
 
 \section{Exigences et choix techniques}
-L’architecture en \textbf{trois tiers} (présentation, logique métier, données) permet une séparation claire des responsabilités et favorise la maintenabilité, l’évolutivité et la testabilité du système.  
+L’architecture \textbf{MVC Monolithique} permet une séparation claire des responsabilités et favorise la maintenabilité, l’évolutivité et la testabilité du système.  
 PostgreSQL est utilisé pour garantir la cohérence transactionnelle et l’intégrité des données métier critiques.
 
 \subsection{Exigences non fonctionnelles}
@@ -252,13 +252,13 @@ Elle couvre notamment les aspects de performance, de sécurité, de compatibilit
     \end{itemize}
 \end{for_you}
 
-\begin{for_you}{Architecture logique simplifiée :}
+\begin{for_you}{Architecture logique simplifiée (Monolithe) :}
 
     \begin{verbatim}
     +-------------------+    +-------------------+    +-------------------+
-    |   Frontend        |    |   Backend         |    |   Bases de données|
-    | (Phoenix,         |<-->| (Elixir)          |<-->| PostgreSQL        |
-    |  LiveView)        |    |                   |    |                   |
+    |   Interface       |    |   Logique Métier  |    |   Bases de données|
+    | (HEEX,            |<-->|   (contexts,      |<-->|      PostgreSQL   |
+    |  LiveView)        |    |     Elixir)       |    |                   |
     +-------------------+    +-------------------+    +-------------------+
     \end{verbatim}
 
@@ -303,5 +303,5 @@ La roadmap décrit l’évolution du projet, avec des ajouts \textbf{itératifs}
     \item User Stories : \url{https://www.mountaingoatsoftware.com/agile/user-stories}
     \item Priorisation MoSCoW : \url{https://www.productplan.com/glossary/moscow-prioritization/}
     \item Documentation PostgreSQL : \url{https://www.postgresql.org/docs/}
-    \item Architecture 3-tiers : \url{https://en.wikipedia.org/wiki/Multitier_architecture}
+    \item Architecture MVC : \url{https://fr.wikipedia.org/wiki/Mod\%C3\%A8le-vue-contr\%C3\%B4leur}
 \end{itemize}
