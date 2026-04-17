@@ -11,6 +11,11 @@ defmodule BadgeReaderWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_scope_for_user
+    plug :put_current_path
+  end
+
+  defp put_current_path(conn, _opts) do
+    assign(conn, :current_path, conn.request_path)
   end
 
   pipeline :api do
@@ -21,7 +26,10 @@ defmodule BadgeReaderWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    get "/login", BadgeReaderController, :home_page
+    get "/login", BadgeReaderController, :login_page
+    live "/dashboard", DashboardLive
+    live "/utilisateur", UserLive
+    live "/badge", BadgeLive
   end
 
   # Other scopes may use custom stacks.
