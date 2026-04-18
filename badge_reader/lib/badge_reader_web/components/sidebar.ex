@@ -30,7 +30,7 @@ defmodule BadgeReaderWeb.Sidebar do
     {:noreply, assign(socket, :open_groups, updated)}
   end
 
-  defp group_open?(open_groups, group), do: Map.get(open_groups, group, false)
+  # defp group_open?(open_groups, group), do: Map.get(open_groups, group, false)
 
   defp sidebar_translate(true), do: "translate-x-0"
   defp sidebar_translate(false), do: "-translate-x-64"

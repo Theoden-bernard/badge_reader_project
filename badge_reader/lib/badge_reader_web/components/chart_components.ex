@@ -10,7 +10,7 @@ defmodule BadgeReaderWeb.ChartComponents do
 
     dataset = Dataset.new(indexed_data, ["x", "y"])
 
-    line_plot = LinePlot.new(dataset)
+    _line_plot = LinePlot.new(dataset)
 
     plot =
     Plot.new(dataset, LinePlot, 550, 150)

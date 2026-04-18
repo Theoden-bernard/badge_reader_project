@@ -241,6 +241,8 @@ defmodule BadgeReaderWeb.DashboardCard do
   end
 
   attr :customers, :list, default: []
+  attr :is_open, :boolean, default: false
+  attr :on_toggle, :any, default: nil
 
   def dashboard_card_07(assigns) do
     ~H"""

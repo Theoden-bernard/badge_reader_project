@@ -24,6 +24,7 @@ defmodule BadgeReaderWeb.DashboardLive do
     {:noreply, assign(socket, :current_path, path)}
   end
 
+  @impl true
   def handle_event("toggle_menu", %{"id" => id}, socket) do
     IO.inspect(socket.assigns.is_open)
     new_active_id = if socket.assigns.active_menu_id == id, do: nil, else: id
