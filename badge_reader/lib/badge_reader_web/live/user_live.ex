@@ -8,7 +8,6 @@ defmodule BadgeReaderWeb.UserLive do
 
   @impl true
   def handle_params(_params, url, socket) do
-    # On extrait le chemin (path) de l'URL complète
     path = URI.parse(url).path
     {:noreply, assign(socket, :current_path, path)}
   end
@@ -45,7 +44,7 @@ defmodule BadgeReaderWeb.UserLive do
 
                       <%!--  Left: Title --%>
                       <div class="mb-4 sm:mb-0">
-                          <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Dashboard</h1>
+                          <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Utilisateur</h1>
                       </div>
 
                       <%!--  Right: Actions --%>
@@ -67,9 +66,9 @@ defmodule BadgeReaderWeb.UserLive do
                   </div>
 
                   <%!--  Cards --%>
-                  <div class="grid grid-cols-12 gap-6">
+                <div class="grid grid-cols-12 gap-6">
 
-                  </div>
+                </div>
 
               </div>
           </main>

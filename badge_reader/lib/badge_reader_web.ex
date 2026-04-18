@@ -88,6 +88,8 @@ defmodule BadgeReaderWeb do
       import BadgeReaderWeb.CoreComponents
       import BadgeReaderWeb.Sidebar
       import BadgeReaderWeb.Header
+      import BadgeReaderWeb.DashboardCard
+      import BadgeReaderWeb.ChartComponents
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

@@ -1,4 +1,4 @@
-defmodule BadgeReaderWeb.BadgeLive do
+defmodule BadgeReaderWeb.ParametreLive do
   use BadgeReaderWeb, :live_view
 
   @impl true
@@ -44,7 +44,7 @@ defmodule BadgeReaderWeb.BadgeLive do
 
                       <%!--  Left: Title --%>
                       <div class="mb-4 sm:mb-0">
-                          <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Badge</h1>
+                          <h1 class="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">Paramètres</h1>
                       </div>
 
                       <%!--  Right: Actions --%>
@@ -66,11 +66,9 @@ defmodule BadgeReaderWeb.BadgeLive do
                   </div>
 
                   <%!--  Cards --%>
-                  <div class="grid grid-cols-12 gap-6">
-                    <div class="col-span-6 ">
-                            <.dashboard_card_08/>
-                    </div>
-                  </div>
+                <div class="grid grid-cols-12 gap-6">
+
+                </div>
 
               </div>
           </main>
