@@ -30,6 +30,10 @@ defmodule BadgeReaderWeb.Router do
     live "/dashboard", DashboardLive
     live "/utilisateur", UserLive
     live "/badge", BadgeLive
+    live "/parametre", ParametreLive
+    live "/authentification", AuthentificationLive
+    live "/evenement", EvenementLive
+    live "/composants", ComposantsLive
   end
 
   # Other scopes may use custom stacks.
