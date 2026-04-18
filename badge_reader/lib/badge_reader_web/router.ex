@@ -34,6 +34,7 @@ defmodule BadgeReaderWeb.Router do
     live "/authentification", AuthentificationLive
     live "/evenement", EvenementLive
     live "/composants", ComposantsLive
+    live "/profile", ProfileLive
   end
 
   # Other scopes may use custom stacks.
