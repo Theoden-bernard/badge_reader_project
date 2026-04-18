@@ -1,74 +1,74 @@
-\chapter{Architecture 3 tiers}
+\chapter{Architecture MVC Monolithique}
 
-\section{Architecture 3 tiers}
+\section{Architecture MVC Monolithique}
 
-\textbf{Mon architecture 3 tiers :} 
-s'appuie sur la pile \textbf{Elixir/Phoenix} pour :
+\textbf{Mon architecture monolithique :} 
+s'appuie sur la pile \textbf{Elixir/Phoenix} pour centraliser l'interface et la logique métier. Ce choix permet de bénéficier de :
 \begin{itemize}
-    \item Des applications web \textbf{modernes et performantes}.
-    \item Une gestion optimisée du \textbf{temps réel} et de la \textbf{concurence}.
+    \item Une application web \textbf{modulaire, moderne et performante}.
+    \item Une gestion native du \textbf{temps réel} et de la \textbf{concurrence} sans multiplier les serveurs.
 \end{itemize}
 
-\subsection{Couche Présentation (Frontend)}
+\subsection{L'interface utilisateur (Vue et Contrôleur)}
 
-\begin{for_you}{Technologies de présentation et Structure des composants :}
-    \textbf{Technologies de présentation :}
+\begin{for_you}{Technologies de présentation et Structure du projet :}
+    \textbf{Technologies de l'interface :}
     \begin{itemize}
-        \item \textbf{Framework} : Phoenix 1.8.0 + \textbf{LiveView} 1.1
-        \item \textbf{Gestion d'état} : GenServer, Agents, ETS (Erlang Term Storage)
-        \item \textbf{Base de données} : Ecto (ORM pour PostgreSQL)
-        \item \textbf{Routing} : Pipeline Plug (middleware HTTP)
+        \item \textbf{Framework} : Phoenix 1.8.0 + \textbf{LiveView} 1.1 (Gestion de l'interface côté serveur).
+        \item \textbf{Gestion d'état} : Socket LiveView, GenServer et ETS (Erlang Term Storage).
+        \item \textbf{Moteur de rendu} : HEEx (HTML + Elixir Expressions).
+        \item \textbf{Routing} : Pipeline Plug (gestion native des requêtes HTTP).
         \newline
     \end{itemize}
 
-    \textbf{Structure des composants :}
+    \textbf{Structure des répertoires :}
     \begin{verbatim}
     badge_reader/
-    +-- _build/                            #Compile directory
-    +-- assets/
-    +-- config/
-    +-- deps/
-    +-- lib/                               #Code directory
-    |   +-- badge_reader/                  #Backend directory
-    |   +-- badge_reader_web/              #Frontend directory
-    |   +-- badge_reader_web.ex
-    |   +-- badge_reader.ex
-    +-- priv/
-    +-- test/                              #Test directory
-    +-- .formatter.exs
-    +-- AGENTS.md
-    +-- mix.exs
-    +-- mix.lock                     
+    +-- _build/                            # Compilation du projet
+    +-- assets/                            # CSS et JavaScript statique
+    +-- config/                            # Configuration par environnement
+    +-- deps/                              # Dépendances (Mix)
+    +-- lib/                               # Code source global
+    |   +-- badge_reader/                  # Partie "Modèle" et Logique métier
+    |   +-- badge_reader_web/              # Partie "Vue" et "Contrôleur"
+    |   +-- badge_reader_web.ex            # Point d'accès Web
+    |   +-- badge_reader.ex                # Point d'accès Métier
+    +-- priv/                              # Migrations SQL et assets privés
+    +-- test/                              # Tests automatisés
     \end{verbatim}
 \end{for_you}
 
-\subsection{Couche Logique Métier (Backend)}
+\subsection{La Logique Métier (Modèle et Contextes)}
 
-\textbf{Couche logique métier :\newline} 
-\begin{for_you}{Environnement Mix et organisation du code}
-    \textbf{Mix} (outil de build intégré à Elixir) gère :
+\textbf{Organisation de la logique métier :\newline} 
+\begin{for_you}{Environnement Mix et modularité}
+    \textbf{Mix} gère l'ensemble du cycle de vie du monolithe :
     \begin{itemize}
-        \item La \textbf{compilation} du code.
-        \item Les \textbf{dépendances} (comme `npm` pour Node.js ou `Maven` pour Java).
-        \item L'\textbf{organisation} du projet :
+        \item La \textbf{compilation} unique de toutes les couches.
+        \item La gestion des \textbf{dépendances} via Hex.pm.
+        \item L'\textbf{isolement des domaines} via les Contextes :
               \begin{itemize}
-                  \item \texttt{lib/} : Code source (backend + frontend).
-                  \item \texttt{test/} : Tests unitaires et d'intégration.
+                  \item \texttt{lib/badge\_reader/} : Contient les règles métier pures.
+                  \item \texttt{lib/badge\_reader\_web/} : Contient la logique de présentation.
               \end{itemize}
     \end{itemize}
 \end{for_you}
 
-\subsubsection{Controller}
+\subsubsection{Le Contrôleur (ou LiveView)}
 
 \begin{for_you}{Exemple de contrôleur Phoenix}
     \begin{lstlisting}
-    # Dans le dossier lib/badge_reader_web/controllers/badge_reader_controller.ex
+    # lib/badge_reader_web/controllers/badge_reader_controller.ex
 
     defmodule BadgeReaderWeb.BadgeReaderController do
         use BadgeReaderWeb, :controller
 
-        def home_page(conn, _params) do
-            render(conn, :home_page)
+        def login_page(conn, _params) do
+            render(conn, :login_page)
+        end
+
+        def dashboard(conn, _params) do
+            render(conn, :dashboard)
         end
     end
 
@@ -76,82 +76,67 @@ s'appuie sur la pile \textbf{Elixir/Phoenix} pour :
     
     \textit{Rôle} :
     \begin{itemize}
-        \item \textbf{LiveView} : Gère l'état côté serveur (pas de JS lourd).
-        \item \textbf{HEEx} : Templates HTML intégrés à Elixir.
-        \item \textbf{Router} : Définit les routes (ex: \texttt{get "/", BadgeReaderController, :home\_page}).
+        \item \textbf{LiveView} : Remplace souvent les contrôleurs classiques pour un état persistant.
+        \item \textbf{HEEx} : Permet de construire l'interface dynamiquement.
+        \item \textbf{Router} : Centralise l'aiguillage des requêtes utilisateur.
     \end{itemize}
 \end{for_you}
 
-\subsubsection{Service}
+\subsubsection{Le Contexte (Logique Métier)}
 
-\textbf{Vos services :} \textit{[Décrivez vos services et la logique métier]}
+\textbf{Mes Contextes :} Au lieu de "Services" externes, Phoenix utilise des contextes pour encapsuler la logique.
+\newline
 
-\begin{exemple}
-\textbf{Exemple de service :}
-\begin{lstlisting}[language=JavaScript]
-// ProjectService.js
-class ProjectService {
-  async create(projectData) {
-    // Validation des données
-    this.validateProjectData(projectData);
+\begin{for_you}{Exemple de contexte métier :}
+    \begin{lstlisting}
+    # lib/badge_reader/access_control.ex
+    defmodule BadgeReader.AccessControl do
+    alias BadgeReader.Repo
+    alias BadgeReader.AccessControl.Badge
 
-    // Logique métier
-    const project = await this.projectRepository.create(projectData);
-
-    // Notifications
-    await this.notificationService.notifyTeam(project);
-
-    return project;
-  }
-}
-\end{lstlisting}
-\end{exemple}
-
-\subsubsection{Repository (DAO)}
-
-\textbf{Vos repositories :} \textit{[Décrivez vos repositories et l'accès aux données]}
-
-\begin{exemple}
-\textbf{Exemple de repository :}
-\begin{lstlisting}[language=JavaScript]
-// ProjectRepository.js
-class ProjectRepository {
-  async create(projectData) {
-    const query = 'INSERT INTO projects (name, description) VALUES ($1, $2) RETURNING *';
-    const values = [projectData.name, projectData.description];
-    const result = await this.db.query(query, values);
-    return result.rows[0];
-  }
-}
-\end{lstlisting}
-\end{exemple}
+    def create_badge(attrs \\ %{}) do
+        # Logique métier : validation puis insertion
+        %Badge{}
+        |> Badge.changeset(attrs)
+        |> Repo.insert()
+    end
+    end
+    \end{lstlisting}
+\end{for_you}
 
 \subsection{Couche Données (Database)}
 
-\begin{for_you}{Architecture des données}
+\begin{for_you}{Architecture des données au sein du monolithe}
     \textbf{Technologies utilisées} :
     \begin{itemize}
-        \item \textbf{PostgreSQL} : Données transactionnelles (utilisateurs, badges).
-        \item \textbf{Ecto} : ORM pour Elixir (requêtes typées, migrations).
+        \item \textbf{PostgreSQL} : Base de données robuste pour la persistance.
+        \item \textbf{Ecto} : ORM pour Elixir (requêtes typées, migration).
         \newline
     \end{itemize}
 
-    \textit{Exemple de schéma Ecto (user)} :
+    \textit{Exemple de schéma Ecto (User)} :
     \begin{lstlisting}
     # lib/badge_reader/user.ex
-    defmodule BadgeReader.User do
-        use Ecto.Schema
 
-        schema "user" do
-            field :first_name, :string
-            field :last_name, :string
+    defmodule BadgeReader.Accounts.User do
+        use Ecto.Schema
+        import Ecto.Changeset
+
+        schema "users" do
             field :email, :string
-            field :password, :string
+            field :password, :string, virtual: true, redact: true
+            field :hashed_password, :string, redact: true
+            field :confirmed_at, :utc_datetime
+            field :authenticated_at, :utc_datetime, virtual: true
+
+            timestamps(type: :utc_datetime)
         end
-    ...
+        ...
+    end
     \end{lstlisting}
 
-    \textit{Exemple de migration} :
+    \textit{\newline Exemple de migration} :
+    Ils servent d'historique de version pour la base de données, permettant de créer ou modifier les tables de manière reproductible et sécurisée sur n'importe quel environnement.
     \begin{lstlisting}
     # priv/repo/migrations/20260128141856_create_users.exs
 
@@ -160,197 +145,81 @@ class ProjectRepository {
 
         def change do
             create table(:users) do
-                add :first_name, :string
-                add :last_name, :string
-                add :email, :string
-                add :password, :string
+            add :first_name, :string
+            add :last_name, :string
+            add :email, :string
+            add :password, :string
             end
         end
     end
+
     \end{lstlisting}
 \end{for_you}
 
 \newpage
 
-\subsection{Communication entre les tiers}
+\subsection{Communication entre les composants du Monolithe}
 
-Dans cette sous-section, je vais vous expliquez comment les différents tiers communiquent entre eux. Nous verrons une compréhension claire des flux de données et des protocoles utilisés.
+Dans cette sous-section, nous détaillons comment les couches communiquent de manière fluide au sein de la machine virtuelle Erlang (BEAM).
 \newline
 
-\begin{for_you}{Flux de communication 3 tiers :}
+\begin{for_you}{Flux de communication interne :}
 
-\textbf{L'architecture 3-Tier avec Elixir/Phoenix est particulièrement puissante car :\newline}
+\textbf{L'architecture Monolithique avec Phoenix est particulièrement efficace car :\newline}
     \begin{itemize}
-        \item \textbf{Séparation stricte} :
-              Le Tier 2 (backend) est le seul point d'accès au Tier 3 (base de données).
-        \item \textbf{Scalabilité} :
-              Elixir/Phoenix (Tier 2) permet un \textbf{scaling horizontal} grâce à BEAM.
-        \item \textbf{LiveView} :
-              Brouille légèrement la frontière Tier 1/Tier 2, mais maintient la séparation logique :
-              \begin{itemize}
-                  \item \textbf{Tier 1} : Affichage (templates LiveView).
-                  \item \textbf{Tier 2} : État et logique (processus LiveView + Contexts).
-                  \newline
-              \end{itemize}
+        \item \textbf{Pas de latence réseau} : Contrairement à une architecture éclatée, les appels entre l'interface et la base de données se font en mémoire.
+        \item \textbf{Cohérence forte} : Le backend et le frontend partagent les mêmes types de données et le même langage.
+        \item \textbf{LiveView} : Réduit drastiquement la complexité en éliminant le besoin d'une API JSON intermédiaire.
+        \newline
     \end{itemize}
 
   \begin{center}
-        \begin{tikzpicture}[node distance=2cm]
-            \node (tier1) [draw, rectangle, align=center] {TIER 1\\Présentation\\(LiveView)};
-            \node (tier2) [draw, rectangle, right of=tier1, xshift=5cm, align=center] {TIER 2\\Logique Métier\\(Elixir/Phoenix)};
-            \node (tier3) [draw, rectangle, right of=tier2, xshift=3cm, align=center] {TIER 3\\Données\\(PostgreSQL)};
+        \begin{tikzpicture}[node distance=2.5cm]
+            \node (view) [draw, rectangle, align=center, fill=gray!10] {VUE / INTERFACE\\(Phoenix LiveView)};
+            \node (logic) [draw, rectangle, right of=view, xshift=4cm, align=center, fill=blue!10] {MODÈLE / MÉTIER\\(Contextes Elixir)};
+            \node (db) [draw, rectangle, right of=logic, xshift=3cm, align=center, fill=green!10] {DONNÉES\\(PostgreSQL)};
 
-            \draw[->, thick] (tier1) -- node[above] {HTTP/WebSocket} (tier2);
-            \draw[->, thick] (tier2) -- node[above] {Ecto} (tier3);
+            \draw[<->, thick] (view) -- node[above, font=\small] {Appels fonctions} (logic);
+            \draw[<->, thick] (logic) -- node[above, font=\small] {Ecto / SQL} (db);
         \end{tikzpicture}
     \end{center}
 \end{for_you}
 
-\subsection{Avantages de l'architecture 3 tiers}
-
-\textbf{Avantages de mon architecture :} \textit{Elixir et Phoenix sont conçu pour fonctionner en archetucture 3 tiere avec des outils a disposition.\newline}
+\subsection{Avantages de l'architecture MVC Monolithique}
 
 \begin{for_you}{Pourquoi ce choix ?}
     \begin{itemize}
-        \item \textbf{Séparation des responsabilités} :
-              Chaque tier a un rôle clair (ex. : le frontend ne gère pas la logique métier).
-        \item \textbf{Scalabilité} :
-              Possibilité de scaler chaque tier indépendamment (ex. : ajouter des nœuds Phoenix).
-        \item \textbf{Maintenabilité} :
-              Modifications isolées (ex. : changer l’UI sans toucher au backend).
-        \item \textbf{Tests} :
-              Tests unitaires par tier (ex. : tester les contrôleurs sans base de données).
-        \item \textbf{Sécurité} :
-              Contrôle d’accès par tier (ex. : le frontend n’accède pas directement à la base).
-        \item \textbf{Performance} :
-              Optimisation ciblée (ex. : index PostgreSQL pour les requêtes lentes).
+        \item \textbf{Simplicité de déploiement} : Un seul artefact à déployer sur une instance EC2.
+        \item \textbf{Maintenance centralisée} : Tout le projet est contenu dans un seul dépôt GitHub.
+        \item \textbf{Temps de réponse} : L'absence de requêtes HTTP entre le front et le back garantit une fluidité maximale.
+        \item \textbf{Sécurité} : Moins de surface d'attaque car il n'y a pas d'API publique exposée inutilement.
     \end{itemize}
 \end{for_you}
 
-\section{Développement Frontend}
+\section{Développement de l'Interface (Front Office)}
 
-\begin{for_you}{Mon approche frontend avec LiveView}
+\begin{for_you}{Mon approche avec LiveView}
     \textbf{Pourquoi LiveView ?}
     \begin{itemize}
-        \item \textbf{Interactions en temps réel} :
-              Mises à jour instantanées sans JavaScript côté client.
-        \item \textbf{Sécurité renforcée} :
-              Le traitement des données reste sur le serveur (pas de code sensible côté client).
-        \item \textbf{Optimisé pour Elixir} :
-              Intégration native avec Phoenix (pas besoin de framework JS externe).
+        \item \textbf{Interactions temps réel} : Idéal pour voir instantanément un badge scanné sur le dashboard.
+        \item \textbf{Zéro JS lourd} : Toute la logique d'interface est écrite en Elixir, simplifiant le débogage.
     \end{itemize}
 
-    \textbf{Structure du frontend} :
+    \textbf{Structure de la couche Web} :
     \begin{verbatim}
     lib/badge_reader_web/
-    +-- components/      # Composants réutilisables (ex: badge_card.ex)
-    +-- controllers/      # Contrôleurs LiveView
-    +-- views/            # Templates HTML/HEEx
-    +-- router.ex         # Routes
-    +-- endpoint.ex       # Configuration du endpoint HTTP
+    +-- components/      # Composants UI (boutons, cartes)
+    +-- live/            # Pages LiveView interactives
+    +-- controllers/      # Gestionnaires HTTP classiques
+    +-- router.ex         # Définition des accès
     \end{verbatim}
-
-    \textit{Exemple de composant accessible} :
-    \begin{lstlisting}
-    # lib/badge_reader_web/components/core_components.ex
-    def button(%{rest: rest} = assigns) do
-        variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
-
-        assigns =
-        assign_new(assigns, :class, fn ->
-            ["btn", Map.fetch!(variants, assigns[:variant])]
-        end)
-
-        if rest[:href] || rest[:navigate] || rest[:patch] do
-        ~H"""
-        <.link class={@class} {@rest}>
-            {render_slot(@inner_block)}
-        </.link>
-        """
-        else
-        ~H"""
-        <button class={@class} {@rest}>
-            {render_slot(@inner_block)}
-        </button>
-        """
-        end
-    end
-    \end{lstlisting}
-\end{for_you}
-
-\begin{for_you}{Accessibilité et UX}
-    \textbf{Accessibilité et UX} :
-    \begin{itemize}
-        \item Respect des standards \textbf{RGAA/WCAG} (ex. : balises \texttt{aria-*}).
-        \item Audit avec \textbf{Lighthouse} pour mesurer :
-              \begin{itemize}
-                  \item Performance (FCP, LCP).
-                  \item Accessibilité (contraste, labels).
-              \end{itemize}
-    \end{itemize}
-
-    \textit{Exemple de rapport Lighthouse} :
-    \begin{lstlisting}[language=json]
-    {
-      "categories": {
-        "performance": {"score": 0.92},
-        "accessibility": {"score": 0.98},
-        "best-practices": {"score": 0.95}
-      },
-      "audits": {
-        "first-contentful-paint": {"score": 0.95},
-        "color-contrast": {"score": 1.0}
-      }
-    }
-    \end{lstlisting}
-\end{for_you}
-
-\section{Développement Backend}
-
-\begin{for_you}{Structure backend :}
-    \begin{verbatim}
-    lib/badge_reader/
-    +-- application.ex    # Superviseur d'application
-    +-- mailer.ex         # Emails transactionnels
-    +-- repo.ex            # Configuration Ecto
-    +-- contexts/          # Logique métier par domaine
-    |   +-- projects/      # Gestion des projets
-    |   +-- users/         # Gestion des utilisateurs
-    \end{verbatim}
-
-    \textbf{Exemple de contrôleur avec validation} :
-    \begin{lstlisting}
-    # lib/badge_reader/user.ex
-        
-        ...
-        def creat_user(new_user, params) do
-            changeset(new_user, params)
-            new_user = params
-            BadgeReader.Repo.insert(new_user)
-        end
-
-        def changeset(user, params \\ %{}) do
-            user
-            |> Ecto.Changeset.cast(params, [:id, :first_name, :last_name, :email, :password])
-            |> Ecto.Changeset.validate_required([:first_name, :last_name, :email, :password])
-        end
-    end
-    \end{lstlisting}
-
-    \textit{Bonnes pratiques} :
-    \begin{itemize}
-        \item \textbf{Validation des données} :
-              Utilisation de \textbf{Ecto.Changeset} pour valider les entrées.
-    \end{itemize}
 \end{for_you}
 
 \section{Liens utiles}
 
 \begin{itemize}
     \item Phoenix Framework : \url{https://www.phoenixframework.org/}
-    \item LiveView : \url{https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html}
-    \item Ecto : \url{https://hexdocs.pm/ecto/Ecto.html}
-    \item PostgreSQL : \url{https://www.postgresql.org/docs/}
-    \item RGAA : \url{https://accessibilite.numerique.gouv.fr/}
-    \item Lighthouse : \url{https://developers.google.com/web/tools/lighthouse}
+    \item LiveView : \url{https://hexdocs.pm/phoenix_live_view/}
+    \item Ecto : \url{https://hexdocs.pm/ecto/}
+    \item RGAA (Accessibilité) : \url{https://accessibilite.numerique.gouv.fr/}
 \end{itemize}

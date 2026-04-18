@@ -5,8 +5,6 @@ services:
     tty: true
     image: theoden714/badge_reader:latest
     
-    # network_mode: "host"
-    
     ports:
       - "4000:4000"
     volumes:
@@ -30,11 +28,5 @@ services:
       
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  nginx:
-    image: nginx:1.29
-    ports:
-      - "80:80"
-    depends_on:
-      - web
 volumes:
   postgres_data:
