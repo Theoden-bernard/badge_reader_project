@@ -3,13 +3,25 @@ defmodule BadgeReaderWeb.BadgeLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok,
+    socket
+    |> assign(:active_menu_id, nil)
+    |> assign(:is_open, true)}
   end
 
   @impl true
   def handle_params(_params, url, socket) do
     path = URI.parse(url).path
     {:noreply, assign(socket, :current_path, path)}
+  end
+
+  def handle_event("toggle_menu", %{"id" => id}, socket) do
+    new_active_id = if socket.assigns.active_menu_id == id, do: nil, else: id
+
+    {:noreply,
+    socket
+    |> assign(:is_open, !socket.assigns.is_open)
+    |> assign(:active_menu_id, new_active_id)}
   end
 
   @impl true
@@ -67,9 +79,12 @@ defmodule BadgeReaderWeb.BadgeLive do
 
                   <%!--  Cards --%>
                   <div class="grid grid-cols-12 gap-6">
-                    <div class="col-span-6 ">
-                            <.dashboard_card_08/>
-                    </div>
+                    <div class="col-span-8 ">
+                            <.dashboard_card_08
+                                is_open={@active_menu_id == "1"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
+                            />
+                        </div>
                   </div>
 
               </div>

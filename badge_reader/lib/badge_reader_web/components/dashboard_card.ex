@@ -1,6 +1,7 @@
 defmodule BadgeReaderWeb.DashboardCard do
   use Phoenix.Component
   import BadgeReaderWeb.ChartComponents
+  import BadgeReaderWeb.EditMenu
 
   def dashboard_card_01(assigns) do
     ~H"""
@@ -11,23 +12,26 @@ defmodule BadgeReaderWeb.DashboardCard do
             Staff
           </h2>
           <%!-- Menu button --%>
-          <%!-- <EditMenu align="right" class="relative inline-flex">
-            <li>
-              <Link class="font-medium text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 flex py-1 px-3" to="#0">
-                Option 1
-              </Link>
-            </li>
-            <li>
-              <Link class="font-medium text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 flex py-1 px-3" to="#0">
-                Option 2
-              </Link>
-            </li>
-            <li>
-              <Link class="font-medium text-sm text-red-500 hover:text-red-600 flex py-1 px-3" to="#0">
-                Remove
-              </Link>
-            </li>
-          </EditMenu> --%>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
+
         </header>
         <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
           Personne
@@ -40,8 +44,8 @@ defmodule BadgeReaderWeb.DashboardCard do
             +2%
           </div>
         </div>
-        <div class="grow max-sm:max-h-[128px] xl:max-h-[128px]">
-        <.native_sparkline data={[10, 15, 8, 22, 18, 20, 12, 14, 18]} />
+        <div class="grow max-h-[128px] -mx-2 -mb-2">
+        <.native_sparkline data={[2, 15, 8, 22, 18, 20, 12, 14, 18]} />
         </div>
       </div>
     </div>
@@ -53,36 +57,40 @@ defmodule BadgeReaderWeb.DashboardCard do
     <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
       <div class="px-5 pt-5">
         <header class="flex justify-between items-start mb-2">
-          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Étudiants</h2>
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+            Étudiants
+          </h2>
           <%!-- Menu button --%>
-          <%!-- <EditMenu align="right" class="relative inline-flex">
-            <li>
-              <Link class="font-medium text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 flex py-1 px-3" to="#0">
-                Option 1
-              </Link>
-            </li>
-            <li>
-              <Link class="font-medium text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 flex py-1 px-3" to="#0">
-                Option 2
-              </Link>
-            </li>
-            <li>
-              <Link class="font-medium text-sm text-red-500 hover:text-red-600 flex py-1 px-3" to="#0">
-                Remove
-              </Link>
-            </li>
-          </EditMenu> --%>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
         </header>
         <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
           Personne
         </div>
         <div class="flex items-start">
           <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">17</div>
-          <div class="text-sm font-medium text-red-700 px-1.5 bg-red-500/20 rounded-full">-5%</div>
+          <div class="text-sm font-medium text-red-500 px-1.5 bg-red-500/20 rounded-full">-5%</div>
         </div>
       </div>
       <div class="grow max-sm:max-h-[128px] max-h-[128px]">
-        <.native_sparkline data={[10, 15, 8, 22, 18, 20, 12, 14, 18]} />
+        <.native_sparkline data={[2, 6, 8, 18, 8, 20, 12, 14, 10]} />
       </div>
     </div>
     """
@@ -94,24 +102,27 @@ defmodule BadgeReaderWeb.DashboardCard do
       <div class="px-5 pt-5">
         <header class="flex justify-between items-start mb-2">
           <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Total</h2>
+
           <%!-- Menu button --%>
-          <%!-- <EditMenu align="right" class="relative inline-flex">
-            <li>
-              <Link class="font-medium text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 flex py-1 px-3" to="#0">
-                Option 1
-              </Link>
-            </li>
-            <li>
-              <Link class="font-medium text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 flex py-1 px-3" to="#0">
-                Option 2
-              </Link>
-            </li>
-            <li>
-              <Link class="font-medium text-sm text-red-500 hover:text-red-600 flex py-1 px-3" to="#0">
-                Remove
-              </Link>
-            </li>
-          </EditMenu> --%>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
         </header>
         <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">Personne</div>
         <div class="flex items-start">
@@ -128,10 +139,32 @@ defmodule BadgeReaderWeb.DashboardCard do
 
   def dashboard_card_04(assigns) do
     ~H"""
-    <div class="flex flex-col col-span-full sm:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
-      <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
-        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Prog VS Market</h2>
+    <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
+      <header class="border-b border-gray-100 dark:border-gray-700/60 flex items-center">
+        <div class="w-full px-5 pt-4 flex justify-between">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Prog VS Market</h2>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
+        </div>
       </header>
+
       <%!-- <BarChart data={chartData} width={595} height={248} /> --%>
     </div>
     """
@@ -139,12 +172,30 @@ defmodule BadgeReaderWeb.DashboardCard do
 
   def dashboard_card_05(assigns) do
     ~H"""
-    <div class="flex flex-col col-span-full sm:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
-      <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex items-center">
-        <h2 class="font-semibold text-gray-800 dark:text-gray-100">En direct</h2>
-        <%!-- <Tooltip class="ml-2">
-          <div class="text-xs text-center whitespace-nowrap">Built with <a class="underline" href="https://www.chartjs.org/" target="_blank" rel="noreferrer">Chart.js</a></div>
-        </Tooltip> --%>
+    <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
+      <header class="border-b border-gray-100 dark:border-gray-700/60 flex items-center">
+        <div class="w-full px-5 pt-4 flex justify-between">
+          <h2 class="font-semibold text-gray-800 dark:text-gray-100">En direct</h2>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
+        </div>
       </header>
       <.native_sparkline data={[10, 10, 24, 2, 5, 20, 10, 24, 18]}/>
     </div>
@@ -154,8 +205,29 @@ defmodule BadgeReaderWeb.DashboardCard do
   def dashboard_card_06(assigns) do
     ~H"""
     <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
-      <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
-        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Présence</h2>
+      <header class="border-b border-gray-100 dark:border-gray-700/60">
+        <div class="w-full px-5 pt-4 flex justify-between">
+          <h2 class="font-semibold text-gray-800 dark:text-gray-100">Présence</h2>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
+        </div>
       </header>
       <.native_pie_chart
         data={[
@@ -173,8 +245,29 @@ defmodule BadgeReaderWeb.DashboardCard do
   def dashboard_card_07(assigns) do
     ~H"""
     <div class="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
-      <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
-        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Activité des utilisateurs</h2>
+      <header class="border-b border-gray-100 dark:border-gray-700/60">
+        <div class="w-full px-5 pt-4 flex justify-between">
+          <h2 class="font-semibold text-gray-800 dark:text-gray-100">Activité des utilisateurs</h2>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
+        </div>
       </header>
       <div class="p-3">
         <%!-- Table --%>
@@ -231,8 +324,29 @@ defmodule BadgeReaderWeb.DashboardCard do
   def dashboard_card_08(assigns) do
     ~H"""
     <div class="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
-      <header class="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
-        <h2 class="font-semibold text-gray-800 dark:text-gray-100">Activités récentes</h2>
+      <header class="border-b border-gray-100 dark:border-gray-700/60">
+        <div class="w-full px-5 pt-4 flex justify-between">
+          <h2 class="font-semibold text-gray-800 dark:text-gray-100">Activités récentes</h2>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
+        </div>
       </header>
       <div class="p-3">
 
