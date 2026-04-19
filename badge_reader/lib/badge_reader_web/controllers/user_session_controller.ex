@@ -20,6 +20,7 @@ defmodule BadgeReaderWeb.UserSessionController do
 
         conn
         |> put_flash(:info, info)
+        |> put_session(:user_return_to, ~p"/users/dashboard")
         |> UserAuth.log_in_user(user, user_params)
 
       _ ->
@@ -36,6 +37,7 @@ defmodule BadgeReaderWeb.UserSessionController do
     if user = Accounts.get_user_by_email_and_password(email, password) do
       conn
       |> put_flash(:info, info)
+      |> put_session(:user_return_to, ~p"/users/dashboard")
       |> UserAuth.log_in_user(user, user_params)
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.

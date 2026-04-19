@@ -2,8 +2,15 @@ defmodule BadgeReaderWeb.EvenementLive do
   use BadgeReaderWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(_params, session, socket) do
+    current_user = socket.assigns.current_scope.user
+
+    {:ok,
+    socket
+    |> assign(:current_user, current_user)
+    |> assign(:customers, @customers)
+    |> assign(:is_open, true)
+    |> assign(:active_menu_id, nil)}
   end
 
   @impl true
@@ -22,10 +29,10 @@ defmodule BadgeReaderWeb.EvenementLive do
           id="main-sidebar"
           current_path={@current_path}
           variant="v2"
-      />
+          />
 
-      <%!-- Content area --%>
-      <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          <%!-- Content area --%>
+          <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
 
           <%!--  Site header --%>
@@ -34,6 +41,7 @@ defmodule BadgeReaderWeb.EvenementLive do
           id="main-header"
           current_path={@current_path}
           variant="v2"
+          current_user={@current_user}
           />
 
           <main class="grow">

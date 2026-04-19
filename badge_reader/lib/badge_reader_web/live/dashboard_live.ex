@@ -1,24 +1,42 @@
 defmodule BadgeReaderWeb.DashboardLive do
-  use BadgeReaderWeb, :live_view
+    use BadgeReaderWeb, :live_view
 
-  @customers [
-    %{id: "0", image: "../images/img_users/user-36-05.jpg", name: "Alex Shatov", email: "alexshatov@gmail.com", status: "Administrateur", present: "🟢"},
-    %{id: "1", image: "/images/img_users/user-36-06.jpg", name: "Philip Harbach", email: "philip.h@gmail.com", status: "Staff", present: "🔴"},
-    %{id: "2", image: "/images/img_users/user-36-07.jpg", name: "Mirko Fisuk", email: "mirkofisuk@gmail.com", status: "Etudiant", present: "🔴"},
-    %{id: "3", image: "/images/img_users/user-36-08.jpg", name: "Olga Semklo", email: "olga.s@cool.design", status: "Etudiant", present: "🟢"},
-    %{id: "4", image: "/images/img_users/user-36-09.jpg", name: "Burak Long", email: "longburak@gmail.com", status: "Etudiant", present: "🟢"},
-  ]
+    @customers [
+      %{id: "0", image: "../images/img_users/user-36-05.jpg", name: "Alex Shatov", email: "alexshatov@gmail.com", status: "Administrateur", present: "🟢"},
+      %{id: "1", image: "/images/img_users/user-36-06.jpg", name: "Philip Harbach", email: "philip.h@gmail.com", status: "Staff", present: "🔴"},
+      %{id: "2", image: "/images/img_users/user-36-07.jpg", name: "Mirko Fisuk", email: "mirkofisuk@gmail.com", status: "Etudiant", present: "🔴"},
+      %{id: "3", image: "/images/img_users/user-36-08.jpg", name: "Olga Semklo", email: "olga.s@cool.design", status: "Etudiant", present: "🟢"},
+      %{id: "4", image: "/images/img_users/user-36-09.jpg", name: "Burak Long", email: "longburak@gmail.com", status: "Etudiant", present: "🟢"},
+    ]
 
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, customers: @customers)}
-  end
+    @impl true
+    def mount(_params, session, socket) do
+        current_user = socket.assigns.current_scope.user
 
-  @impl true
-  def handle_params(_params, url, socket) do
-    path = URI.parse(url).path
-    {:noreply, assign(socket, :current_path, path)}
-  end
+        {:ok,
+        socket
+        |> assign(:current_user, current_user)
+        |> assign(:customers, @customers)
+        |> assign(:is_open, true)
+        |> assign(:active_menu_id, nil)}
+    end
+
+    @impl true
+    def handle_params(_params, url, socket) do
+        path = URI.parse(url).path
+        {:noreply, assign(socket, :current_path, path)}
+    end
+
+    @impl true
+    def handle_event("toggle_menu", %{"id" => id}, socket) do
+        IO.inspect(socket.assigns.is_open)
+        new_active_id = if socket.assigns.active_menu_id == id, do: nil, else: id
+
+        {:noreply,
+        socket
+        |> assign(:is_open, !socket.assigns.is_open)
+        |> assign(:active_menu_id, new_active_id)}
+    end
 
   @impl true
   def render(assigns) do
@@ -42,6 +60,7 @@ defmodule BadgeReaderWeb.DashboardLive do
             id="main-header"
             current_path={@current_path}
             variant="v2"
+            current_user={@current_user}
             />
 
             <main class="grow">
@@ -76,35 +95,60 @@ defmodule BadgeReaderWeb.DashboardLive do
                     <%!--  Cards --%>
                     <div class="grid grid-cols-12 gap-6">
                         <div class="col-span-4 ">
-                            <.dashboard_card_01/>
+                            <.dashboard_card_01
+                                is_open={@active_menu_id == "1"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
+                            />
                         </div>
 
                         <div class="col-span-4 ">
-                            <.dashboard_card_02/>
+                            <.dashboard_card_02
+                                is_open={@active_menu_id == "2"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "2"})}
+                            />
                         </div>
 
                         <div class="col-span-4 ">
-                            <.dashboard_card_03/>
+                            <.dashboard_card_03
+                                is_open={@active_menu_id == "3"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
+                            />
                         </div>
 
                         <div class="col-span-6 ">
-                            <.dashboard_card_04/>
+                            <.dashboard_card_04
+                                is_open={@active_menu_id == "4"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "4"})}
+                            />
                         </div>
 
                         <div class="col-span-6 ">
-                            <.dashboard_card_05/>
+                            <.dashboard_card_05
+                                is_open={@active_menu_id == "5"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "5"})}
+                            />
                         </div>
 
                         <div class="col-span-5 ">
-                            <.dashboard_card_06/>
+                            <.dashboard_card_06
+                                is_open={@active_menu_id == "6"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "6"})}
+                            />
                         </div>
 
                         <div class="col-span-7 ">
-                            <.dashboard_card_07 customers={@customers}/>
+                            <.dashboard_card_07
+                                customers={@customers}
+                                is_open={@active_menu_id == "7"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "7"})}
+                            />
                         </div>
 
                         <div class="col-span-7 ">
-                            <.dashboard_card_08/>
+                            <.dashboard_card_08
+                                is_open={@active_menu_id == "8"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "8"})}
+                            />
                         </div>
 
                     </div>

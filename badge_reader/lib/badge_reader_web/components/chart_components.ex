@@ -10,20 +10,24 @@ defmodule BadgeReaderWeb.ChartComponents do
 
     dataset = Dataset.new(indexed_data, ["x", "y"])
 
+    _line_plot = LinePlot.new(dataset)
+
     plot =
-      Plot.new(dataset, LinePlot, 450, 150)
-      |> Plot.titles("", "")
-      |> Plot.plot_options(%{
-        smoothed: true,
-        fill_opacity: 0.2,
-        stroke_width: 2,
-        colour_scheme: ["#fed401"]
-      })
+    Plot.new(dataset, LinePlot, 550, 150)
+    |> Plot.titles("", "")
+    |> Plot.plot_options(%{
+      smoothed: true,
+      fill_opacity: 0.2,
+      stroke_width: 3,
+      colour_palette: ["#fed401"],
+      show_x_axis: false,
+      show_y_axis: false
+    })
 
     assigns = assign(assigns, :svg_render, Plot.to_svg(plot))
 
     ~H"""
-    <div class="w-full h-full flex items-center justify-center sparkline-container">
+    <div class="w-full h-full overflow-hidden flex items-end">
       <%= Phoenix.HTML.raw(@svg_render) %>
     </div>
     """

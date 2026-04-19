@@ -9,6 +9,7 @@ defmodule BadgeReaderWeb.Header do
      |> assign(:search_modal_open, false)
      |> assign(:notifications_open, false)
      |> assign(:help_open, false)
+     |> assign(:light_switch, false)
      |> assign(:user_menu_open, false)}
   end
 
@@ -88,8 +89,8 @@ defmodule BadgeReaderWeb.Header do
   @impl true
   def render(assigns) do
     ~H"""
-    <header class={header_classes(@variant)} phx-click-away="close_all_dropdowns" phx-target={@myself}>
-      <div class="px-4 sm:px-6 lg:px-8">
+    <header class={header_classes(@variant) <> "bg-base-100"} phx-target={@myself}>
+      <div class="px-4 sm:px-6 lg:px-8 bg-base-100">
         <div class={["flex items-center justify-between h-16", border_class(@variant)]}>
 
           <%!-- Header: Left side --%>
@@ -116,22 +117,16 @@ defmodule BadgeReaderWeb.Header do
             <%!-- Search button --%>
             <div>
               <button
+                type="button"
+                phx-click={JS.push("toggle_search_modal", target: @myself)}
                 class={[
                   "w-8 h-8 flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full ml-3",
                   @search_modal_open && "bg-gray-200 dark:bg-gray-800"
                 ]}
-                phx-click="toggle_search_modal"
-                phx-target={@myself}
                 aria-controls="search-modal"
               >
                 <span class="sr-only">Search</span>
-                <svg
-                  class="fill-current text-gray-500/80 dark:text-gray-400/80"
-                  width={16}
-                  height={16}
-                  viewBox="0 0 16 16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg class="fill-current text-gray-500/80 dark:text-gray-400/80" width={16} height={16} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7ZM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5Z" />
                   <path d="m13.314 11.9 2.393 2.393a.999.999 0 1 1-1.414 1.414L11.9 13.314a8.019 8.019 0 0 0 1.414-1.414Z" />
                 </svg>
@@ -208,8 +203,8 @@ defmodule BadgeReaderWeb.Header do
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M6.5 0C2.91 0 0 2.462 0 5.5c0 1.075.37 2.074 1 2.922V12l2.699-1.542A7.454 7.454 0 0 0 6.5 11c3.59 0 6.5-2.462 6.5-5.5S10.09 0 6.5 0Z" />
-                  <path d="M16 9.5c0-.987-.429-1.897-1.147-2.639C14.124 10.348 10.66 13 6.5 13c-.103 0-.202-.018-.305-.021C7.231 13.617 8.556 14 10 14c.449 0 .886-.04 1.307-.11L15 16v-4h-.012C15.627 11.285 16 10.425 16 9.5Z" />
+                  <path d="M7 0a7 7 0 0 0-7 7c0 1.202.308 2.33.84 3.316l-.789 2.368a1 1 0 0 0 1.265 1.265l2.595-.865a1 1 0 0 0-.632-1.898l-.698.233.3-.9a1 1 0 0 0-.104-.85A4.97 4.97 0 0 1 2 7a5 5 0 0 1 5-5 4.99 4.99 0 0 1 4.093 2.135 1 1 0 1 0 1.638-1.148A6.99 6.99 0 0 0 7 0Z" />
+                  <path d="M11 6a5 5 0 0 0 0 10c.807 0 1.567-.194 2.24-.533l1.444.482a1 1 0 0 0 1.265-1.265l-.482-1.444A4.962 4.962 0 0 0 16 11a5 5 0 0 0-5-5Zm-3 5a3 3 0 0 1 6 0c0 .588-.171 1.134-.466 1.6a1 1 0 0 0-.115.82 1 1 0 0 0-.82.114A2.973 2.973 0 0 1 11 14a3 3 0 0 1-3-3Z" />
                 </svg>
                 <div class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-gray-800 rounded-full"></div>
               </button>
@@ -260,7 +255,11 @@ defmodule BadgeReaderWeb.Header do
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8Zm0 12c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1Zm1-3H7V4h2v5Z" />
+                  <path d="M9 7.5a1 1 0 1 0-2 0v4a1 1 0 1 0 2 0v-4ZM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm6-8A6 6 0 1 1 2 8a6 6 0 0 1 12 0Z"
+                  />
                 </svg>
               </button>
 
@@ -272,13 +271,13 @@ defmodule BadgeReaderWeb.Header do
                   <ul>
                     <li>
                       <a
-                        class="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
+                        class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
                         href="#0"
                         phx-click="close_all_dropdowns"
                         phx-target={@myself}
                       >
                         <svg
-                          class="fill-current text-violet-500 shrink-0 mr-2"
+                          class="fill-current text-yellow-500 shrink-0 mr-2"
                           width="12"
                           height="12"
                           viewBox="0 0 12 12"
@@ -291,13 +290,13 @@ defmodule BadgeReaderWeb.Header do
                     </li>
                     <li>
                       <a
-                        class="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
+                        class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
                         href="#0"
                         phx-click="close_all_dropdowns"
                         phx-target={@myself}
                       >
                         <svg
-                          class="fill-current text-violet-500 shrink-0 mr-2"
+                          class="fill-current text-yellow-500 shrink-0 mr-2"
                           width="12"
                           height="12"
                           viewBox="0 0 12 12"
@@ -313,41 +312,28 @@ defmodule BadgeReaderWeb.Header do
             </div>
 
             <%!-- Theme Toggle --%>
-            <div>
-              <input
-                type="checkbox"
-                name="light-switch"
-                id="light-switch"
-                class="light-switch sr-only"
+            <div class="relative inline-flex">
+              <button
+                type="button"
+                id="theme-toggle"
                 phx-hook="ThemeToggle"
-              />
-              <label
-                class="flex items-center justify-center cursor-pointer w-8 h-8 hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full"
-                for="light-switch"
+                class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full"
               >
-                <svg
-                  class="dark:hidden fill-current text-gray-500/80 dark:text-gray-400/80"
-                  width={16}
-                  height={16}
-                  viewBox="0 0 16 16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <span class="sr-only">Switch to light / dark version</span>
+
+                <%!-- Icône Soleil (Visible en mode clair) --%>
+                <svg class="dark:hidden fill-current text-gray-500/80 dark:text-gray-400/80" width="16" height="16" viewBox="0 0 16 16">
                   <path d="M8 0a1 1 0 0 1 1 1v.5a1 1 0 1 1-2 0V1a1 1 0 0 1 1-1Z" />
                   <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-4 2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
                   <path d="M13.657 3.757a1 1 0 0 0-1.414-1.414l-.354.354a1 1 0 0 0 1.414 1.414l.354-.354ZM13.5 8a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2h-.5a1 1 0 0 1-1-1ZM13.303 11.889a1 1 0 0 0-1.414 1.414l.354.354a1 1 0 0 0 1.414-1.414l-.354-.354ZM8 13.5a1 1 0 0 1 1 1v.5a1 1 0 1 1-2 0v-.5a1 1 0 0 1 1-1ZM4.111 13.303a1 1 0 1 0-1.414-1.414l-.354.354a1 1 0 1 0 1.414 1.414l.354-.354ZM0 8a1 1 0 0 1 1-1h.5a1 1 0 0 1 0 2H1a1 1 0 0 1-1-1ZM3.757 2.343a1 1 0 1 0-1.414 1.414l.354.354A1 1 0 1 0 4.11 2.697l-.354-.354Z" />
                 </svg>
-                <svg
-                  class="hidden dark:block fill-current text-gray-500/80 dark:text-gray-400/80"
-                  width={16}
-                  height={16}
-                  viewBox="0 0 16 16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+
+                <%!-- Icône Lune (Visible en mode sombre) --%>
+                <svg class="hidden dark:block fill-current text-gray-500/80 dark:text-gray-400/80" width="16" height="16" viewBox="0 0 16 16">
                   <path d="M11.875 4.375a.625.625 0 1 0 1.25 0c.001-.69.56-1.249 1.25-1.25a.625.625 0 1 0 0-1.25 1.252 1.252 0 0 1-1.25-1.25.625.625 0 1 0-1.25 0 1.252 1.252 0 0 1-1.25 1.25.625.625 0 1 0 0 1.25c.69.001 1.249.56 1.25 1.25Z" />
                   <path d="M7.019 1.985a1.55 1.55 0 0 0-.483-1.36 1.44 1.44 0 0 0-1.53-.277C2.056 1.553 0 4.5 0 7.9 0 12.352 3.648 16 8.1 16c3.407 0 6.246-2.058 7.51-4.963a1.446 1.446 0 0 0-.25-1.55 1.554 1.554 0 0 0-1.372-.502c-4.01.552-7.539-2.987-6.97-7ZM2 7.9C2 5.64 3.193 3.664 4.961 2.6 4.82 7.245 8.72 11.158 13.36 11.04 12.265 12.822 10.341 14 8.1 14 4.752 14 2 11.248 2 7.9Z" />
                 </svg>
-                <span class="sr-only">Switch to light / dark version</span>
-              </label>
+              </button>
             </div>
 
             <%!-- Divider --%>
@@ -367,14 +353,14 @@ defmodule BadgeReaderWeb.Header do
               >
                 <img
                   class="w-8 h-8 rounded-full"
-                  src="https://ui-avatars.com/api/?name=User&background=8b5cf6&color=fff"
+                  src="../images/img_users/user-avatar-32.png"
                   width="32"
                   height="32"
                   alt="User"
                 />
                 <div class="flex items-center truncate">
                   <span class="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
-                    Utilisateur
+                    <%= if @current_user, do: @current_user.email, else: "Non connecté" %>
                   </span>
                   <svg
                     class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500"
@@ -388,37 +374,36 @@ defmodule BadgeReaderWeb.Header do
               <%= if @user_menu_open do %>
                 <div class="origin-top-right z-10 absolute top-full right-0 min-w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 py-1.5 rounded-lg shadow-lg overflow-hidden mt-1">
                   <div class="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
-                    <div class="font-medium text-gray-800 dark:text-gray-100">Utilisateur</div>
+                    <div class="font-medium text-gray-800 dark:text-gray-100">Théoden</div>
                     <div class="text-xs text-gray-500 dark:text-gray-400 italic">Administrateur</div>
                   </div>
                   <ul>
                     <li>
                       <.link
-                        navigate="/profile"
-                        class="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
+                        navigate="/users/profile"
+                        class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
                         phx-click="close_all_dropdowns"
                         phx-target={@myself}
                       >
-                        Paramètres
+                        Votre Profile
                       </.link>
                     </li>
                     <li>
-                      <a
-                        class="font-medium text-sm text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 flex items-center py-1 px-3"
-                        href="/logout"
-                        phx-click="close_all_dropdowns"
-                        phx-target={@myself}
-                      >
-                        Se déconnecter
-                      </a>
+                      <.link
+                      href="/users/log-out"
+                      method="delete"
+                      class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
+                      phx-click="close_all_dropdowns"
+                      phx-target={@myself}
+                    >
+                      Se déconnecter
+                    </.link>
                     </li>
                   </ul>
                 </div>
               <% end %>
             </div>
-
           </div>
-
         </div>
       </div>
     </header>

@@ -1,15 +1,32 @@
 defmodule BadgeReaderWeb.BadgeLive do
   use BadgeReaderWeb, :live_view
 
-  @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+ @impl true
+  def mount(_params, session, socket) do
+    current_user = socket.assigns.current_scope.user
+
+    {:ok,
+    socket
+    |> assign(:current_user, current_user)
+    |> assign(:customers, @customers)
+    |> assign(:is_open, true)
+    |> assign(:active_menu_id, nil)}
   end
 
   @impl true
   def handle_params(_params, url, socket) do
     path = URI.parse(url).path
     {:noreply, assign(socket, :current_path, path)}
+  end
+
+  @impl true
+  def handle_event("toggle_menu", %{"id" => id}, socket) do
+    new_active_id = if socket.assigns.active_menu_id == id, do: nil, else: id
+
+    {:noreply,
+    socket
+    |> assign(:is_open, !socket.assigns.is_open)
+    |> assign(:active_menu_id, new_active_id)}
   end
 
   @impl true
@@ -22,10 +39,10 @@ defmodule BadgeReaderWeb.BadgeLive do
           id="main-sidebar"
           current_path={@current_path}
           variant="v2"
-      />
+          />
 
-      <%!-- Content area --%>
-      <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          <%!-- Content area --%>
+          <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
 
 
           <%!--  Site header --%>
@@ -34,6 +51,7 @@ defmodule BadgeReaderWeb.BadgeLive do
           id="main-header"
           current_path={@current_path}
           variant="v2"
+          current_user={@current_user}
           />
 
           <main class="grow">
@@ -67,9 +85,12 @@ defmodule BadgeReaderWeb.BadgeLive do
 
                   <%!--  Cards --%>
                   <div class="grid grid-cols-12 gap-6">
-                    <div class="col-span-6 ">
-                            <.dashboard_card_08/>
-                    </div>
+                    <div class="col-span-8 ">
+                            <.dashboard_card_08
+                                is_open={@active_menu_id == "1"}
+                                on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
+                            />
+                        </div>
                   </div>
 
               </div>

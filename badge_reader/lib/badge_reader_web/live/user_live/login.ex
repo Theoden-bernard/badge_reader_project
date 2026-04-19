@@ -28,9 +28,9 @@ defmodule BadgeReaderWeb.UserLive.Login do
         <div :if={local_mail_adapter?()} class="alert alert-info">
           <.icon name="hero-information-circle" class="size-6 shrink-0" />
           <div>
-            <p>You are running the local mail adapter.</p>
+            <p>Vous exécutez l'adaptateur de messagerie local.</p>
             <p>
-              To see sent emails, visit <.link href="/dev/mailbox" class="underline">the mailbox page</.link>.
+              Pour voir les courriels envoyés, visitez <.link href="/dev/mailbox" class="underline">La page mailbox</.link>.
             </p>
           </div>
         </div>
@@ -52,11 +52,11 @@ defmodule BadgeReaderWeb.UserLive.Login do
             phx-mounted={JS.focus()}
           />
           <.button class="btn btn-primary w-full">
-            Log in with email <span aria-hidden="true">→</span>
+            Se connecter avec email <span aria-hidden="true">→</span>
           </.button>
         </.form>
 
-        <div class="divider">or</div>
+        <div class="divider">ou</div>
 
         <.form
           :let={f}
@@ -77,14 +77,14 @@ defmodule BadgeReaderWeb.UserLive.Login do
           <.input
             field={@form[:password]}
             type="password"
-            label="Password"
+            label="mot de passe"
             autocomplete="current-password"
           />
           <.button class="btn btn-primary w-full" name={@form[:remember_me].name} value="true">
-            Log in and stay logged in <span aria-hidden="true">→</span>
+            Connectez-vous et restez connecté <span aria-hidden="true">→</span>
           </.button>
           <.button class="btn btn-primary btn-soft w-full mt-2">
-            Log in only this time
+            Connectez-vous uniquement cette fois
           </.button>
         </.form>
       </div>
