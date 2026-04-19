@@ -56,7 +56,7 @@ defmodule BadgeReaderWeb.UserAuth do
     conn
     |> renew_session(nil)
     |> delete_resp_cookie(@remember_me_cookie)
-    |> redirect(to: ~p"/")
+    |> redirect(to: ~p"/users/log-in")
   end
 
   @doc """
@@ -68,10 +68,14 @@ defmodule BadgeReaderWeb.UserAuth do
     with {token, conn} <- ensure_user_token(conn),
          {user, token_inserted_at} <- Accounts.get_user_by_session_token(token) do
       conn
+      |> assign(:current_user, user)
       |> assign(:current_scope, Scope.for_user(user))
       |> maybe_reissue_user_session_token(user, token_inserted_at)
     else
-      nil -> assign(conn, :current_scope, Scope.for_user(nil))
+      _ ->
+      conn
+      |> assign(:current_user, nil)         # ASSUREZ-VOUS QU'IL EST A NIL
+      |> assign(:current_scope, Scope.for_user(nil))
     end
   end
 
@@ -212,7 +216,14 @@ defmodule BadgeReaderWeb.UserAuth do
       end
   """
   def on_mount(:mount_current_scope, _params, session, socket) do
-    {:cont, mount_current_scope(socket, session)}
+    user_token = session["user_token"]
+    current_user = user_token && Accounts.get_user_by_session_token(user_token)
+
+    {:cont,
+      socket
+      |> Phoenix.Component.assign(:current_user, current_user)
+      |> Phoenix.Component.assign(:current_scope, Scope.for_user(current_user))
+    }
   end
 
   def on_mount(:require_authenticated, _params, session, socket) do

@@ -360,7 +360,7 @@ defmodule BadgeReaderWeb.Header do
                 />
                 <div class="flex items-center truncate">
                   <span class="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
-                    Bernard Théoden
+                    <%= if @current_user, do: @current_user.email, else: "Non connecté" %>
                   </span>
                   <svg
                     class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500"
@@ -380,7 +380,7 @@ defmodule BadgeReaderWeb.Header do
                   <ul>
                     <li>
                       <.link
-                        navigate="/profile"
+                        navigate="/users/profile"
                         class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
                         phx-click="close_all_dropdowns"
                         phx-target={@myself}
@@ -389,22 +389,21 @@ defmodule BadgeReaderWeb.Header do
                       </.link>
                     </li>
                     <li>
-                      <a
-                        class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
-                        href="/logout"
-                        phx-click="close_all_dropdowns"
-                        phx-target={@myself}
-                      >
-                        Se déconnecter
-                      </a>
+                      <.link
+                      href="/users/log-out"
+                      method="delete"
+                      class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
+                      phx-click="close_all_dropdowns"
+                      phx-target={@myself}
+                    >
+                      Se déconnecter
+                    </.link>
                     </li>
                   </ul>
                 </div>
               <% end %>
             </div>
-
           </div>
-
         </div>
       </div>
     </header>

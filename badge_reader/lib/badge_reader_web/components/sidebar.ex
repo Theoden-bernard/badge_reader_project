@@ -150,7 +150,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           <path d="M6.068 7.482A2.003 2.003 0 0 0 8 10a2 2 0 1 0-.518-3.932L3.707 2.293a1 1 0 0 0-1.414 1.414l3.775 3.775Z" />
                         </svg>
                         <.link
-                          navigate="/dashboard"
+                          navigate="/users/dashboard"
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/dashboard")]}
                         >
                           <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -184,7 +184,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           <path d="M12 1a1 1 0 1 0-2 0v2a3 3 0 0 0 3 3h2a1 1 0 1 0 0-2h-2a1 1 0 0 1-1-1V1ZM1 10a1 1 0 1 0 0 2h2a1 1 0 0 1 1 1v2a1 1 0 1 0 2 0v-2a3 3 0 0 0-3-3H1ZM5 0a1 1 0 0 1 1 1v2a3 3 0 0 1-3 3H1a1 1 0 0 1 0-2h2a1 1 0 0 0 1-1V1a1 1 0 0 1 1-1ZM12 13a1 1 0 0 1 1-1h2a1 1 0 1 0 0-2h-2a3 3 0 0 0-3 3v2a1 1 0 1 0 2 0v-2Z" />
                         </svg>
                         <.link
-                          navigate="/utilisateur"
+                          navigate="/users/utilisateur"
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/utilisateur")]}
                         >
                           <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -249,7 +249,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           <path d="M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12Zm-4 6a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" />
                         </svg>
                         <.link
-                          navigate="/badge"
+                          navigate="/users/badge"
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/badge")]}
                         >
                           <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -312,7 +312,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           <path d="M10.5 1a3.502 3.502 0 0 1 3.355 2.5H15a1 1 0 1 1 0 2h-1.145a3.502 3.502 0 0 1-6.71 0H1a1 1 0 0 1 0-2h6.145A3.502 3.502 0 0 1 10.5 1ZM9 4.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM5.5 9a3.502 3.502 0 0 1 3.355 2.5H15a1 1 0 1 1 0 2H8.855a3.502 3.502 0 0 1-6.71 0H1a1 1 0 1 1 0-2h1.145A3.502 3.502 0 0 1 5.5 9ZM4 12.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z" fill-rule="evenodd" />
                         </svg>
                         <.link
-                          navigate="/parametre"
+                          navigate="/users/parametre"
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/parametre")]}
                         >
                           <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -334,7 +334,7 @@ defmodule BadgeReaderWeb.Sidebar do
                   <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
                     <ul class={["pl-8 mt-1", if(is_open, do: "block", else: "hidden")]}>
                       <li class="mb-1 last:mb-0">
-                        <.link navigate="/profile"
+                        <.link navigate="/users/profile"
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/profile")]}
                         >
                           <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -386,7 +386,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           <path d="M11.442 4.576a1 1 0 1 0-1.634-1.152L4.22 11.35 1.773 8.366A1 1 0 1 0 .227 9.634l3.281 4a1 1 0 0 0 1.59-.058l6.344-9ZM15.817 4.576a1 1 0 1 0-1.634-1.152l-5.609 7.957a1 1 0 0 0-1.347 1.453l.656.8a1 1 0 0 0 1.59-.058l6.344-9Z" />
                         </svg>
                         <.link
-                          navigate="/authentification"
+                          navigate="/users/authentification"
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/authentification")]}
                         >
                           <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -449,7 +449,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           <path d="M6.668.714a1 1 0 0 1-.673 1.244 6.014 6.014 0 0 0-4.037 4.037 1 1 0 1 1-1.916-.571A8.014 8.014 0 0 1 5.425.041a1 1 0 0 1 1.243.673ZM7.71 4.709a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM9.995.04a1 1 0 1 0-.57 1.918 6.014 6.014 0 0 1 4.036 4.037 1 1 0 0 0 1.917-.571A8.014 8.014 0 0 0 9.995.041ZM14.705 8.75a1 1 0 0 1 .673 1.244 8.014 8.014 0 0 1-5.383 5.384 1 1 0 0 1-.57-1.917 6.014 6.014 0 0 0 4.036-4.037 1 1 0 0 1 1.244-.673ZM1.958 9.424a1 1 0 0 0-1.916.57 8.014 8.014 0 0 0 5.383 5.384 1 1 0 0 0 .57-1.917 6.014 6.014 0 0 1-4.037-4.037Z" />
                         </svg>
                         <.link
-                        navigate="/evenement"
+                        navigate="/users/evenement"
                         class={["block transition duration-150 truncate", active_link_class(@current_path, "/evenement")]}
                         >
                           <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -504,7 +504,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           <path d="M.06 10.003a1 1 0 0 1 1.948.455c-.019.08.01.152.078.19l5.83 3.333c.053.03.116.03.168 0l5.83-3.333a.163.163 0 0 0 .078-.188 1 1 0 0 1 1.947-.459 2.161 2.161 0 0 1-1.032 2.384l-5.83 3.331a2.168 2.168 0 0 1-2.154 0l-5.83-3.331a2.162 2.162 0 0 1-1.032-2.382Zm7.856-7.981-5.83 3.332a.17.17 0 0 0 0 .295l5.828 3.33c.054.031.118.031.17.002l5.83-3.333a.17.17 0 0 0 0-.294L8.085 2.023a.172.172 0 0 0-.17-.001ZM9.076.285l5.83 3.332c1.458.833 1.458 2.935 0 3.768l-5.83 3.333c-.667.38-1.485.38-2.153-.001l-5.83-3.332c-1.457-.833-1.457-2.935 0-3.767L6.925.285a2.173 2.173 0 0 1 2.15 0Z" />
                         </svg>
                         <.link
-                          navigate="/composants"
+                          navigate="/users/composants"
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/composants")]}
                         >
                           <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

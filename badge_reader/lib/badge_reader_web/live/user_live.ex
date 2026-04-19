@@ -4,7 +4,15 @@ defmodule BadgeReaderWeb.UserLive do
   @impl true
   def mount(_params, _session, socket) do
     temperature = 70
-    {:ok, assign(socket, :temperature, temperature)}
+    current_user = socket.assigns.current_scope.user
+
+    {:ok,
+    socket
+    |> assign(:current_user, current_user)
+    |> assign(:customers, @customers)
+    |> assign(:is_open, true)
+    |> assign(:active_menu_id, nil)
+    |> assign(:temperature, temperature)}
   end
 
   @impl true
@@ -39,6 +47,7 @@ defmodule BadgeReaderWeb.UserLive do
         id="main-header"
         current_path={@current_path}
         variant="v2"
+        current_user={@current_user}
         />
 
         <main class="grow">

@@ -1,10 +1,16 @@
 defmodule BadgeReaderWeb.ProfileLive do
   use BadgeReaderWeb, :live_view
 
-  @impl true
-  def mount(_params, _session, socket) do
-    temperature = 70
-    {:ok, assign(socket, :temperature, temperature)}
+@impl true
+  def mount(_params, session, socket) do
+    current_user = socket.assigns.current_scope.user
+
+    {:ok,
+    socket
+    |> assign(:current_user, current_user)
+    |> assign(:customers, @customers)
+    |> assign(:is_open, true)
+    |> assign(:active_menu_id, nil)}
   end
 
   @impl true
@@ -36,12 +42,13 @@ defmodule BadgeReaderWeb.ProfileLive do
             id="main-header"
             current_path={@current_path}
             variant="v2"
+            current_user={@current_user}
           />
 
           <div class="flex flex-row mt-10">
               <img class="ml-10 mr-10 w-30 h-30 rounded-full" src="../images/img_users/user-avatar-32.png" width="25" height="25" alt="User" />
               <div class="flex flex-col">
-                  <div class="text-6xl">Bernard Théoden</div>
+                  <div class="text-6xl"><%= if @current_user, do: @current_user.email, else: "Non connecté" %></div>
                   <div class="text-2xl">Administrateur</div>
               </div>
           </div>

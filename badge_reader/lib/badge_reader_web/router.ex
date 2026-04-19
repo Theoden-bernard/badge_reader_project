@@ -27,14 +27,6 @@ defmodule BadgeReaderWeb.Router do
 
     get "/", PageController, :home
     get "/login", BadgeReaderController, :login_page
-    live "/dashboard", DashboardLive
-    live "/utilisateur", UserLive
-    live "/badge", BadgeLive
-    live "/parametre", ParametreLive
-    live "/authentification", AuthentificationLive
-    live "/evenement", EvenementLive
-    live "/composants", ComposantsLive
-    live "/profile", ProfileLive
   end
 
   # Other scopes may use custom stacks.
@@ -68,6 +60,14 @@ defmodule BadgeReaderWeb.Router do
       on_mount: [{BadgeReaderWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
+      live "/users/dashboard", DashboardLive, :index
+      live "/users/utilisateur", UserLive, :index
+      live "/users/badge", BadgeLive, :index
+      live "/users/parametre", ParametreLive, :index
+      live "/users/authentification", AuthentificationLive, :index
+      live "/users/evenement", EvenementLive, :index
+      live "/users/composants", ComposantsLive, :index
+      live "/users/profile", ProfileLive, :index
     end
 
     post "/users/update-password", UserSessionController, :update_password
