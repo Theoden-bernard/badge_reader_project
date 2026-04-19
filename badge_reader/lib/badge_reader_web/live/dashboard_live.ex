@@ -10,7 +10,7 @@ defmodule BadgeReaderWeb.DashboardLive do
     ]
 
     @impl true
-    def mount(_params, session, socket) do
+    def mount(_params, _session, socket) do
         current_user = socket.assigns.current_scope.user
 
         {:ok,

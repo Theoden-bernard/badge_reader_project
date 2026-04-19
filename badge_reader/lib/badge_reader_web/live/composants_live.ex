@@ -2,13 +2,12 @@ defmodule BadgeReaderWeb.ComposantsLive do
   use BadgeReaderWeb, :live_view
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     current_user = socket.assigns.current_scope.user
 
     {:ok,
     socket
     |> assign(:current_user, current_user)
-    |> assign(:customers, @customers)
     |> assign(:is_open, true)
     |> assign(:active_menu_id, nil)}
   end

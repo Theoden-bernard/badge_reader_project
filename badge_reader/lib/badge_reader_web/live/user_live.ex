@@ -9,7 +9,6 @@ defmodule BadgeReaderWeb.UserLive do
     {:ok,
     socket
     |> assign(:current_user, current_user)
-    |> assign(:customers, @customers)
     |> assign(:is_open, true)
     |> assign(:active_menu_id, nil)
     |> assign(:temperature, temperature)}
