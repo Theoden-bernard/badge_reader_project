@@ -51,11 +51,11 @@ Il permet de :
             \hline
             Must Have & Authentification et chiffrement & \textbf{Critique} : sécuriser les accès et les données. \\
             \hline
-            Should Have & Génération et gestion des badges & \textbf{Nécessaire} pour un contrôle d’accès fiable. \\
+            Should Have & Génération et gestion de pseudo badges virtuel & \textbf{Nécessaire} pour donée une idée des fonctionnalités du projet. \\
             \hline
-            Could Have & Connexion de l’API intranet au lecteur & \textbf{Utile} pour améliorer l’interopérabilité. \\
+            Could Have & Graphique fonctionnelles & \textbf{Utile} mais ce n'est pas une priorité. \\
             \hline
-            Won’t Have & Intégration directe du lecteur dans l’intranet & \textbf{Non prioritaire} pour le MVP. \\
+            Won’t Have & Systeme de badge avec lecteur physique & \textbf{Non prioritaire} pour le MVP. \\
             \hline
         \end{tabular}
     \end{center}
@@ -63,10 +63,12 @@ Il permet de :
     \textbf{\newline Scénarios essentiels du MVP :}
     Le MVP devra permettre de :
     \begin{itemize}
-        \item Gérer les badges des utilisateurs.
-        \item Authentifier les accès et enregistrer les entrées/sorties.
+        \item Se connecter à l’interface web de manière sécurisée.
+        \item Interface graphique se rapprochant au plus près de la maquette.
+        \item Création de pseudo-badges. Ceux-ci permettent de simuler une activité utilisateur. (Note : Par "pseudo-badge", il ne s’agit pas de vrais badges, mais d’un élément permettant de simuler le comportement de futurs badges.)
+        \newline
     \end{itemize}
-    Ces fonctionnalités valident le besoin métier et la faisabilité technique.
+    \textbf{Note}: Ces fonctionnalités valident le besoin métier et la faisabilité technique.
 \end{for_you}
 
 \newpage
@@ -256,22 +258,27 @@ Elle couvre notamment les aspects de performance, de sécurité, de compatibilit
 
     \begin{verbatim}
     +-------------------+    +-------------------+    +-------------------+
-    |   Interface       |    |   Logique Métier  |    |   Bases de données|
-    | (HEEX,            |<-->|   (contexts,      |<-->|      PostgreSQL   |
-    |  LiveView)        |    |     Elixir)       |    |                   |
+    |   Interface       |    |   Logique Métier  |    |  Bases de données |
+    | (HEEX,            |<-->|   (contexts,      |<-->|     PostgreSQL    |
+    |  LiveView)        |    |     Elixir)       |    |     (ORM: Ecto)   |
     +-------------------+    +-------------------+    +-------------------+
     \end{verbatim}
 
-    \textbf{Exemple de modèle PostgreSQL :}
+    \textbf{Exemple de modèle Ecto :}
     \begin{lstlisting}[language=SQL]
-    CREATE TABLE users (
-        id SERIAL PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        role_id INTEGER REFERENCES roles(id),
-        badge_id INTEGER
-    );
+    defmodule BadgeReader.Repo.Migrations.CreateUsers do
+        use Ecto.Migration
 
-    CREATE INDEX idx_users_email ON users(email);
+        def change do
+            create table(:users) do
+            add :first_name, :string
+            add :last_name, :string
+            add :email, :string
+            add :password, :string
+            end
+        end
+    end
+
     \end{lstlisting}
 \end{for_you}
 
