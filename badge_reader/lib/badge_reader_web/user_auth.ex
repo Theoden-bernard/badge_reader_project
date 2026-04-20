@@ -66,7 +66,8 @@ defmodule BadgeReaderWeb.UserAuth do
   """
   def fetch_current_scope_for_user(conn, _opts) do
     with {token, conn} <- ensure_user_token(conn),
-         {user, token_inserted_at} <- Accounts.get_user_by_session_token(token) do
+    {user, token_inserted_at} <- Accounts.get_user_by_session_token(token) do
+      user = BadgeReader.Repo.preload(user, :role)
       conn
       |> assign(:current_user, user)
       |> assign(:current_scope, Scope.for_user(user))
@@ -74,7 +75,7 @@ defmodule BadgeReaderWeb.UserAuth do
     else
       _ ->
       conn
-      |> assign(:current_user, nil)         # ASSUREZ-VOUS QU'IL EST A NIL
+      |> assign(:current_user, nil)
       |> assign(:current_scope, Scope.for_user(nil))
     end
   end

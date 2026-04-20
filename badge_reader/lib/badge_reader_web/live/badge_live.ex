@@ -4,6 +4,7 @@ defmodule BadgeReaderWeb.BadgeLive do
  @impl true
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_scope.user
+    current_user = BadgeReader.Repo.preload(current_user, :role)
 
     {:ok,
     socket
@@ -38,6 +39,7 @@ defmodule BadgeReaderWeb.BadgeLive do
           id="main-sidebar"
           current_path={@current_path}
           variant="v2"
+          current_user={@current_user}
           />
 
           <%!-- Content area --%>

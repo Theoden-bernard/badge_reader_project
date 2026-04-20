@@ -8,6 +8,11 @@ defmodule BadgeReader.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
+    field :firstname, :string
+    field :lastname, :string
+
+    belongs_to :role, BadgeReader.Accounts.Role
+    has_one :badge, BadgeReader.Accounts.Badge
 
     timestamps(type: :utc_datetime)
   end
@@ -129,4 +134,13 @@ defmodule BadgeReader.Accounts.User do
     Bcrypt.no_user_verify()
     false
   end
+
+
+
+  def profile_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:firstname, :lastname, :role_id])
+    |> validate_required([:firstname, :lastname])
+  end
+
 end
