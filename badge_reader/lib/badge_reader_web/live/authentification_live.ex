@@ -1,16 +1,17 @@
 defmodule BadgeReaderWeb.AuthentificationLive do
   use BadgeReaderWeb, :live_view
 
-  @impl true
-  def mount(_params, _session, socket) do
-    current_user = socket.assigns.current_scope.user
+    @impl true
+    def mount(_params, _session, socket) do
+      current_user = socket.assigns.current_scope.user
+      current_user = BadgeReader.Repo.preload(current_user, :role)
 
-    {:ok,
-    socket
-    |> assign(:current_user, current_user)
-    |> assign(:is_open, true)
-    |> assign(:active_menu_id, nil)}
-  end
+      {:ok,
+      socket
+      |> assign(:current_user, current_user)
+      |> assign(:is_open, true)
+      |> assign(:active_menu_id, nil)}
+    end
 
   @impl true
   def handle_params(_params, url, socket) do
@@ -28,6 +29,7 @@ defmodule BadgeReaderWeb.AuthentificationLive do
           id="main-sidebar"
           current_path={@current_path}
           variant="v2"
+          current_user={@current_user}
       />
 
       <%!-- Content area --%>

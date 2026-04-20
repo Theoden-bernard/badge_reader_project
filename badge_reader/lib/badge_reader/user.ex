@@ -8,7 +8,6 @@ defmodule BadgeReader.User do
         field :password, :string
     end
 
-
     def creat_user(new_user, params) do
         changeset(new_user, params)
         new_user = params

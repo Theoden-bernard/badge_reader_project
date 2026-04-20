@@ -154,7 +154,7 @@ defmodule BadgeReaderWeb.Sidebar do
                           class={["block transition duration-150 truncate", active_link_class(@current_path, "/dashboard")]}
                         >
                           <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                            Dashboard - Théoden
+                            Dashboard - <%= if @current_user, do: @current_user.firstname, else: "Non connecté" %>
                           </span>
                         </.link>
                       </div>
