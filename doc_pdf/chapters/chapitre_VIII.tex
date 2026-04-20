@@ -2,7 +2,7 @@
 
 \section{Containerisation avec Docker}
 
-Pour standardiser les environnements de développement et de production, j’ai choisi dans le cadre de mon pfe \textbf{Docker}.
+Pour standardiser les environnements de développement et de production, j’ai choisi, dans le cadre de mon PFE, \textbf{Docker}.
 Cette solution permet :
 \begin{itemize}
     \item Une \textbf{reproductibilité} totale des déploiements.
@@ -12,10 +12,10 @@ Cette solution permet :
 
 \begin{for_you}{Dockerfile :}
 \begin{lstlisting}[language=dockerfile]
-# Image d'elixir
+# Image d'Elixir
 FROM elixir:1.18
 
-# Instalation des outils
+# Installation des outils
 RUN apt-get update \
     && apt-get install -y nodejs npm \
     && rm -rf /var/lib/apt/list/* \
@@ -24,26 +24,26 @@ RUN apt-get update \
 # Dossier de travaille 
 WORKDIR /app
 
-# Copie des fichier du project dans le dossier actuel 
+# Copie des fichiers du project dans le dossier actuel 
 COPY . .
 
 # Mise en mode production
 ENV MIX_ENV="prod"
 
-# Instalation des dependence et Instalation de Phoenix
+# Installation des dépendances et installation de Phoenix
 RUN set -xe \
 && mix local.hex --force \
 && mix archive.install hex phx_new --force \
 && mix deps.get \
 && mix deps.compile
 
-# compilation
+# Compilation
 RUN mix compile
 
 RUN mix assets.deploy \
     && mix phx.digest
 
-# lancement d'un localhost
+# Lancement d'un localhost
 CMD ["mix", "phx.server"]
 
 \end{lstlisting}
@@ -91,8 +91,8 @@ volumes:
 
 \end{lstlisting}
 
-Dans mon Docker-compose j'ai utilise des "Secrets-keys". Ce sont des outil mie a disposition pour eviter de partager des donnée sensible.
-Ces donées sont directement stocker et gerer par Github
+Dans mon Docker-compose, j'ai utilisé des "Secrets-keys". Ce sont des outils mis à disposition pour éviter de partager des données sensibles.
+Ces données sont directement stockées et gérées par GitHub.
 \end{for_you}
 
 \section{Pipeline CI/CD avec GitHub Actions}
