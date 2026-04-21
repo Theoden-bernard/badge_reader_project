@@ -25,7 +25,7 @@ defmodule BadgeReader.Accounts.Badge do
     |> put_change(:user_id, user_scope.user.id)
   end
 
-  def delete_all_user_badges(user_id) do
-    Repo.delete_all(from b in Badge, where: b.user_id == ^user_id)
-  end
+  # def delete_all_user_badges(user_id) do
+  #   Repo.delete_all(from b in Badge, where: b.user_id == ^user_id)
+  # end
 end
