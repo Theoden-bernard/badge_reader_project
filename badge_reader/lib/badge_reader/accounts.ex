@@ -89,6 +89,12 @@ defmodule BadgeReader.Accounts do
     Repo.all_by(User, role_id: role_id)
   end
 
+  def nbr_user() do
+    User
+    |> where([user], user.role_id != 4)
+    |> Repo.aggregate(:count, :id)
+  end
+
   ## User registration
 
   @doc """
@@ -140,6 +146,12 @@ defmodule BadgeReader.Accounts do
   """
   def change_user_email(user, attrs \\ %{}, opts \\ []) do
     User.email_changeset(user, attrs, opts)
+  end
+
+  def change_info_user(user, attrs) do
+    user
+    |> User.profile_changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """
