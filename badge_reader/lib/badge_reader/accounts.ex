@@ -78,8 +78,11 @@ defmodule BadgeReader.Accounts do
 
   ## Examples
 
-    iex> get_all_user_by_role(role_id)
+    iex> get_all_user_by_role(correct_role_id)
     %User{}
+
+    iex> get_all_user_by_role(invalid_role_id)
+    nil
 
   """
   def get_all_user_by_role(role_id) do
