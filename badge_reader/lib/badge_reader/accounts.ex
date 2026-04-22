@@ -6,7 +6,7 @@ defmodule BadgeReader.Accounts do
   import Ecto.Query, warn: false
   alias BadgeReader.Repo
 
-  alias BadgeReader.Accounts.{User, UserToken, UserNotifier, Badge}
+  alias BadgeReader.Accounts.{User, UserToken, UserNotifier, Badge, Role}
 
   ## Database getters
 
@@ -60,6 +60,32 @@ defmodule BadgeReader.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Gets all user.
+
+  ## Examples
+
+    iex> get_all_user()
+    %User{}
+
+  """
+  def get_all_user() do
+    Repo.all(User)
+  end
+
+  @doc """
+  Gets all user by role.
+
+  ## Examples
+
+    iex> get_all_user_by_role(role_id)
+    %User{}
+
+  """
+  def get_all_user_by_role(role_id) do
+    Repo.all_by(User, role_id: role_id)
+  end
+
   ## User registration
 
   @doc """
@@ -76,7 +102,9 @@ defmodule BadgeReader.Accounts do
   """
   def register_user(attrs) do
     %User{}
+    |> User.profile_changeset(attrs)
     |> User.email_changeset(attrs)
+    |> User.password_changeset(attrs)
     |> Repo.insert()
   end
 

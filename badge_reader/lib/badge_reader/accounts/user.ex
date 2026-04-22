@@ -135,8 +135,12 @@ defmodule BadgeReader.Accounts.User do
     false
   end
 
+  @doc """
+  A user changeset for registering or changing the basic information profile.
 
+  It requires the firstname, lastname and role_id to change otherwise an error is added.
 
+  """
   def profile_changeset(user, attrs) do
     user
     |> cast(attrs, [:firstname, :lastname, :role_id])
