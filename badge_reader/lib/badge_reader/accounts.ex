@@ -6,7 +6,7 @@ defmodule BadgeReader.Accounts do
   import Ecto.Query, warn: false
   alias BadgeReader.Repo
 
-  alias BadgeReader.Accounts.{User, UserToken, UserNotifier, Badge}
+  alias BadgeReader.Accounts.{User, UserToken, UserNotifier, Badge, Role}
 
   ## Database getters
 
@@ -60,6 +60,65 @@ defmodule BadgeReader.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Gets all user.
+
+  ## Examples
+
+    iex> get_all_user()
+    %User{}
+
+  """
+  def get_all_user() do
+    Repo.all(User)
+  end
+
+  @doc """
+  Gets all user by role.
+
+  ## Examples
+
+    iex> get_all_user_by_role(correct_role_id)
+    %User{}
+
+    iex> get_all_user_by_role(invalid_role_id)
+    nil
+
+  """
+  def get_all_user_by_role(role_id) do
+    Repo.all_by(User, role_id: role_id)
+  end
+
+  @doc """
+  The total number of active users
+
+  ## Examples
+
+    iex> nbr_user()
+    6
+
+  """
+  def nbr_user() do
+    User
+    |> where([user], user.role_id != 4)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  The total number of active users by role
+
+  ## Examples
+
+    iex> nbr_user_by_role(role)
+    2
+
+  """
+  def nbr_user_by_role(role) do
+    User
+    |> where([user], user.role_id == ^role)
+    |> Repo.aggregate(:count, :id)
+  end
+
   ## User registration
 
   @doc """
@@ -67,16 +126,18 @@ defmodule BadgeReader.Accounts do
 
   ## Examples
 
-      iex> register_user(%{field: value})
-      {:ok, %User{}}
+    iex> register_user(%{field: value})
+    {:ok, %User{}}
 
-      iex> register_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    iex> register_user(%{field: bad_value})
+    {:error, %Ecto.Changeset{}}
 
   """
   def register_user(attrs) do
     %User{}
+    |> User.profile_changeset(attrs)
     |> User.email_changeset(attrs)
+    |> User.password_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -109,6 +170,12 @@ defmodule BadgeReader.Accounts do
   """
   def change_user_email(user, attrs \\ %{}, opts \\ []) do
     User.email_changeset(user, attrs, opts)
+  end
+
+  def change_info_user(user, attrs) do
+    user
+    |> User.profile_changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """
