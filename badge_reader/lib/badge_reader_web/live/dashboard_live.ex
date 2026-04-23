@@ -39,8 +39,14 @@ defmodule BadgeReaderWeb.DashboardLive do
         |> assign(:active_menu_id, new_active_id)}
     end
 
-  @impl true
-  def render(assigns) do
+    @impl true
+    def handle_info({:toggle_sidebar}, socket) do
+        send_update(BadgeReaderWeb.Sidebar, id: "main-sidebar", toggle_sidebar: true)
+        {:noreply, socket}
+    end
+
+    @impl true
+    def render(assigns) do
     ~H"""
     <div class="flex h-screen overflow-hidden">
 
