@@ -20,6 +20,12 @@ defmodule BadgeReaderWeb.ComposantsLive do
   end
 
   @impl true
+  def handle_info({:toggle_sidebar}, socket) do
+    send_update(BadgeReaderWeb.Sidebar, id: "main-sidebar", toggle_sidebar: true)
+    {:noreply, socket}
+  end
+
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="flex h-screen overflow-hidden">
