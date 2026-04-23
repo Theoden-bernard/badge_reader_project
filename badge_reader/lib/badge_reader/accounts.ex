@@ -89,9 +89,33 @@ defmodule BadgeReader.Accounts do
     Repo.all_by(User, role_id: role_id)
   end
 
+  @doc """
+  The total number of active users
+
+  ## Examples
+
+    iex> nbr_user()
+    6
+
+  """
   def nbr_user() do
     User
     |> where([user], user.role_id != 4)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  The total number of active users by role
+
+  ## Examples
+
+    iex> nbr_user_by_role(role)
+    2
+
+  """
+  def nbr_user_by_role(role) do
+    User
+    |> where([user], user.role_id == ^role)
     |> Repo.aggregate(:count, :id)
   end
 
@@ -102,11 +126,11 @@ defmodule BadgeReader.Accounts do
 
   ## Examples
 
-      iex> register_user(%{field: value})
-      {:ok, %User{}}
+    iex> register_user(%{field: value})
+    {:ok, %User{}}
 
-      iex> register_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    iex> register_user(%{field: bad_value})
+    {:error, %Ecto.Changeset{}}
 
   """
   def register_user(attrs) do
