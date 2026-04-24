@@ -24,6 +24,12 @@ defmodule BadgeReaderWeb.Sidebar do
   end
 
   @impl true
+  def handle_event("trigger_modale", _params, socket) do
+    send(self(), {:open_modale})
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("toggle_sidebar", _params, socket) do
     {:noreply, update(socket, :sidebar_open, &(!&1))}
   end
@@ -217,9 +223,9 @@ defmodule BadgeReaderWeb.Sidebar do
                     <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
                       <ul class={["pl-8 mt-1", if(is_open, do: "block", else: "hidden")]}>
                         <li class="mb-1 last:mb-0">
-                          <.link navigate="/modaleUtilisateurCreation"
-                            class={["block transition duration-150 truncate", active_link_class(@current_path, "/modaleUtilisateurCreation")]}
-                          >Création</.link>
+                          <button phx-click="trigger_modale" class="block transition duration-150 truncate" phx-target={@myself}>
+                            Création
+                          </button>
                         </li>
                         <li class="mb-1 last:mb-0">
                           <.link navigate="/modaleUtilisateurEdit"

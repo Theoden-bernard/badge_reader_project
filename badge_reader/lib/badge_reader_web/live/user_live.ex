@@ -12,6 +12,7 @@ defmodule BadgeReaderWeb.UserLive do
     |> assign(:current_user, current_user)
     |> assign(:is_open, true)
     |> assign(:active_menu_id, nil)
+    |> assign(:modale_open, false)
     |> assign(:temperature, temperature)}
   end
 
@@ -19,6 +20,12 @@ defmodule BadgeReaderWeb.UserLive do
   def handle_params(_params, url, socket) do
     path = URI.parse(url).path
     {:noreply, assign(socket, :current_path, path)}
+  end
+
+  @impl true
+  def handle_event("open_modale", _params, socket) do
+    IO.inspect(:modale_open, label: "MODALE OPEN =")
+    {:noreply, update(socket, :modale_open, &(!&1))}
   end
 
   @impl true
@@ -43,6 +50,7 @@ defmodule BadgeReaderWeb.UserLive do
           current_path={@current_path}
           variant="v2"
           current_user={@current_user}
+          modale_open={@modale_open}
       />
 
       <%!-- Content area --%>
