@@ -60,7 +60,6 @@ defmodule BadgeReaderWeb.Header do
   end
 
   def handle_event("toggle_sidebar", _params, socket) do
-    # Envoyer l'événement au parent ou à la sidebar
     send(self(), {:toggle_sidebar})
     {:noreply, socket}
   end
