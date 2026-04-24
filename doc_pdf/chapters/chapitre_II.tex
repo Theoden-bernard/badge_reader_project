@@ -5,7 +5,7 @@ Cette section définit les objectifs du projet selon trois axes : \textbf{métie
 Ces objectifs guident le développement et garantissent la cohérence du système \textit{Badge reader}.
 \newline
 
-\begin{for_you}{3 grand objectifs :}
+\begin{for_you}{3 grands objectifs :}
 
     \textbf{\underline{Objectifs métier :}}
     \begin{itemize}
@@ -17,7 +17,7 @@ Ces objectifs guident le développement et garantissent la cohérence du systèm
     \textbf{\underline{Objectifs techniques :}}
     \begin{itemize}
         \item Concevoir et développer une \textbf{application web} intégrant un système de badge et de contrôle d’accès.
-        \item Mettre en œuvre des \textbf{mécanismes de sécurité robuste} : chiffrement des données, authentification par identifiant/mot de passe.
+        \item Mettre en œuvre des \textbf{mécanismes de sécurité robustes} : chiffrement des données, authentification par identifiant/mot de passe.
         \newline
     \end{itemize}
 
@@ -51,11 +51,11 @@ Il permet de :
             \hline
             Must Have & Authentification et chiffrement & \textbf{Critique} : sécuriser les accès et les données. \\
             \hline
-            Should Have & Génération et gestion des badges & \textbf{Nécessaire} pour un contrôle d’accès fiable. \\
+            Should Have & Génération et gestion de pseudo-badges virtuels & \textbf{Nécessaire} pour donner une idée des fonctionnalités du projet. \\
             \hline
-            Could Have & Connexion de l’API intranet au lecteur & \textbf{Utile} pour améliorer l’interopérabilité. \\
+            Could Have & Graphiques fonctionnels & \textbf{Utile} mais ce n'est pas une priorité. \\
             \hline
-            Won’t Have & Intégration directe du lecteur dans l’intranet & \textbf{Non prioritaire} pour le MVP. \\
+            Won’t Have & Système de badge avec lecteur physique & \textbf{Non prioritaire} pour le MVP. \\
             \hline
         \end{tabular}
     \end{center}
@@ -63,16 +63,18 @@ Il permet de :
     \textbf{\newline Scénarios essentiels du MVP :}
     Le MVP devra permettre de :
     \begin{itemize}
-        \item Gérer les badges des utilisateurs.
-        \item Authentifier les accès et enregistrer les entrées/sorties.
+        \item Se connecter à l’interface web de manière sécurisée.
+        \item Interface graphique se rapprochant au plus près de la maquette.
+        \item Création de pseudo-badges. Ceux-ci permettent de simuler une activité utilisateur. (Note : Par "pseudo-badge", il ne s’agit pas de vrais badges, mais d’un élément permettant de simuler le comportement de futurs badges.)
+        \newline
     \end{itemize}
-    Ces fonctionnalités valident le besoin métier et la faisabilité technique.
+    \textbf{Note}: Ces fonctionnalités valident le besoin métier et la faisabilité technique.
 \end{for_you}
 
 \newpage
 \section{Cibles et parties prenantes}
 
-Nous allons identifier et analyser les utilisateurs cibles et de les categoriser.  
+Nous allons identifier et analyser les utilisateurs cibles et les catégoriser.
 Chacun a des besoins spécifiques, détaillés ci-dessous :
 \newline
 
@@ -141,7 +143,7 @@ La sécurité et la confidentialité des données représentent des exigences cr
 Une authentification robuste et une gestion fine des autorisations sont indispensables pour garantir la protection des données sensibles.
 
 \subsection{Fonctionnalités « Front Office »}
-Voici les fonctionnalités \textbf{Front office} autrement dit les
+Voici les fonctionnalités \textbf{Front office} autrement dit les :
 \newline
 
 \begin{for_you}{Fonctionnalités utilisateurs :}
@@ -157,7 +159,7 @@ Voici les fonctionnalités \textbf{Front office} autrement dit les
 \end{for_you}
 
 \subsection{Fonctionnalités « Back Office »}
-Voici les fonctionnalités \textbf{Back office} autrement dit les
+Voici les fonctionnalités \textbf{Back office} autrement dit les :
 \newline
 
 \begin{for_you}{Fonctionnalités administrateur :}
@@ -206,7 +208,7 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 
     \begin{itemize}
         \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de jetons depuis une socket LiveView.
-        \item \textbf{Sécurité :} Politique de mots de passe forts et verification des informations envoyer
+        \item \textbf{Sécurité :} Politique de mots de passe forts et vérification des informations envoyées.
         \item \textbf{Récupération de compte :} Procédure de réinitialisation du mot de passe par email sécurisé.
     \end{itemize}
 
@@ -221,7 +223,7 @@ L’architecture \textbf{MVC Monolithique} permet une séparation claire des res
 PostgreSQL est utilisé pour garantir la cohérence transactionnelle et l’intégrité des données métier critiques.
 
 \subsection{Exigences non fonctionnelles}
-Elle couvre notamment les aspects de performance, de sécurité, de compatibilité multiplateforme et de maintenabilité.
+Elles couvrent notamment les aspects de performance, de sécurité, de compatibilité multiplateforme et de maintenabilité.
 \newline
 
 \begin{for_you}{Exigences techniques :}
@@ -256,22 +258,27 @@ Elle couvre notamment les aspects de performance, de sécurité, de compatibilit
 
     \begin{verbatim}
     +-------------------+    +-------------------+    +-------------------+
-    |   Interface       |    |   Logique Métier  |    |   Bases de données|
-    | (HEEX,            |<-->|   (contexts,      |<-->|      PostgreSQL   |
-    |  LiveView)        |    |     Elixir)       |    |                   |
+    |   Interface       |    |   Logique Métier  |    |  Bases de données |
+    | (HEEX,            |<-->|   (contexts,      |<-->|     PostgreSQL    |
+    |  LiveView)        |    |     Elixir)       |    |     (ORM: Ecto)   |
     +-------------------+    +-------------------+    +-------------------+
     \end{verbatim}
 
-    \textbf{Exemple de modèle PostgreSQL :}
+    \textbf{Exemple de modèle Ecto :}
     \begin{lstlisting}[language=SQL]
-    CREATE TABLE users (
-        id SERIAL PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        role_id INTEGER REFERENCES roles(id),
-        badge_id INTEGER
-    );
+    defmodule BadgeReader.Repo.Migrations.CreateUsers do
+        use Ecto.Migration
 
-    CREATE INDEX idx_users_email ON users(email);
+        def change do
+            create table(:users) do
+            add :first_name, :string
+            add :last_name, :string
+            add :email, :string
+            add :password, :string
+            end
+        end
+    end
+
     \end{lstlisting}
 \end{for_you}
 

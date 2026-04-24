@@ -6,7 +6,7 @@ defmodule BadgeReader.Accounts do
   import Ecto.Query, warn: false
   alias BadgeReader.Repo
 
-  alias BadgeReader.Accounts.{User, UserToken, UserNotifier}
+  alias BadgeReader.Accounts.{User, UserToken, UserNotifier, Badge, Role}
 
   ## Database getters
 
@@ -60,6 +60,65 @@ defmodule BadgeReader.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Gets all user.
+
+  ## Examples
+
+    iex> get_all_user()
+    %User{}
+
+  """
+  def get_all_user() do
+    Repo.all(User)
+  end
+
+  @doc """
+  Gets all user by role.
+
+  ## Examples
+
+    iex> get_all_user_by_role(correct_role_id)
+    %User{}
+
+    iex> get_all_user_by_role(invalid_role_id)
+    nil
+
+  """
+  def get_all_user_by_role(role_id) do
+    Repo.all_by(User, role_id: role_id)
+  end
+
+  @doc """
+  The total number of active users
+
+  ## Examples
+
+    iex> nbr_user()
+    6
+
+  """
+  def nbr_user() do
+    User
+    |> where([user], user.role_id != 4)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  The total number of active users by role
+
+  ## Examples
+
+    iex> nbr_user_by_role(role)
+    2
+
+  """
+  def nbr_user_by_role(role) do
+    User
+    |> where([user], user.role_id == ^role)
+    |> Repo.aggregate(:count, :id)
+  end
+
   ## User registration
 
   @doc """
@@ -67,16 +126,18 @@ defmodule BadgeReader.Accounts do
 
   ## Examples
 
-      iex> register_user(%{field: value})
-      {:ok, %User{}}
+    iex> register_user(%{field: value})
+    {:ok, %User{}}
 
-      iex> register_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    iex> register_user(%{field: bad_value})
+    {:error, %Ecto.Changeset{}}
 
   """
   def register_user(attrs) do
     %User{}
+    |> User.profile_changeset(attrs)
     |> User.email_changeset(attrs)
+    |> User.password_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -109,6 +170,12 @@ defmodule BadgeReader.Accounts do
   """
   def change_user_email(user, attrs \\ %{}, opts \\ []) do
     User.email_changeset(user, attrs, opts)
+  end
+
+  def change_info_user(user, attrs) do
+    user
+    |> User.profile_changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """
@@ -294,4 +361,63 @@ defmodule BadgeReader.Accounts do
       end
     end)
   end
+
+  ##RGP
+
+  @doc """
+  Retrieves user data with their badges (Access Right - Art. 15).
+  """
+  # def get_user_data(user_id) do
+  #   case Repo.get(User, user_id) do
+  #     %User{} = user ->
+  #       badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
+  #       {:ok, %{
+  #         email: user.email,
+  #         inserted_at: user.inserted_at,
+  #         badges: badges
+  #       }}
+  #     nil -> {:error, :not_found}
+  #   end
+  # end
+
+  @doc """
+  Deletes and anonymizes a user (Right to erasure - Art. 17).
+  """
+  # def delete_user_and_anonymize(%User{} = user) do
+  #   Repo.transaction(fn ->
+  #     BadgeReader.Badges.delete_all_user_badges(user.id)
+
+  #     user
+  #     |> Ecto.Changeset.change(%{
+  #       email: "deleted-user-#{user.id}@badge-reader.local",
+  #       hashed_password: "ANONYMIZED_#{Ecto.UUID.generate()}"
+  #     })
+  #     |> Repo.update()
+  #     |> case do
+  #       {:ok, updated_user} -> updated_user
+  #       {:error, changeset} -> Repo.rollback(changeset)
+  #     end
+  #   end)
+  # end
+
+  @doc """
+  Exports user data (Right to data portability - Art. 20).
+  Returns a data structure ready to be converted to JSON.
+  """
+  # def export_user_data(user_id) do
+  #   user = Repo.get!(User, user_id)
+  #   badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
+
+  #   %{
+  #     user_id: user.id,
+  #     email: user.email,
+  #     created_at: user.inserted_at,
+  #     badges: Enum.map(badges, fn b -> %{
+  #       rfid: b.rfid,
+  #       name: b.name_badge,
+  #       activated_at: b.date_activation,
+  #       expired_at: b.date_expiration
+  #     } end)
+  #   }
+  # end
 end

@@ -360,7 +360,7 @@ defmodule BadgeReaderWeb.Header do
                 />
                 <div class="flex items-center truncate">
                   <span class="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
-                    <%= if @current_user, do: @current_user.email, else: "Non connecté" %>
+                    <%= if @current_user, do: "#{@current_user.lastname} #{@current_user.firstname}", else: "Non connecté" %>
                   </span>
                   <svg
                     class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500"
@@ -374,8 +374,8 @@ defmodule BadgeReaderWeb.Header do
               <%= if @user_menu_open do %>
                 <div class="origin-top-right z-10 absolute top-full right-0 min-w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 py-1.5 rounded-lg shadow-lg overflow-hidden mt-1">
                   <div class="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
-                    <div class="font-medium text-gray-800 dark:text-gray-100">Théoden</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 italic">Administrateur</div>
+                    <div class="font-medium text-gray-800 dark:text-gray-100"><%= if @current_user, do: @current_user.firstname, else: "Non connecté" %></div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 italic"><%= if @current_user.role, do: @current_user.role.name_role, else: "Aucun rôle" %></div>
                   </div>
                   <ul>
                     <li>

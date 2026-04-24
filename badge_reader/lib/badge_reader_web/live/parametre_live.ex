@@ -2,13 +2,13 @@ defmodule BadgeReaderWeb.ParametreLive do
   use BadgeReaderWeb, :live_view
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     current_user = socket.assigns.current_scope.user
+    current_user = BadgeReader.Repo.preload(current_user, :role)
 
     {:ok,
     socket
     |> assign(:current_user, current_user)
-    |> assign(:customers, @customers)
     |> assign(:is_open, true)
     |> assign(:active_menu_id, nil)}
   end
@@ -17,6 +17,12 @@ defmodule BadgeReaderWeb.ParametreLive do
   def handle_params(_params, url, socket) do
     path = URI.parse(url).path
     {:noreply, assign(socket, :current_path, path)}
+  end
+
+  @impl true
+  def handle_info({:toggle_sidebar}, socket) do
+    send_update(BadgeReaderWeb.Sidebar, id: "main-sidebar", toggle_sidebar: true)
+    {:noreply, socket}
   end
 
   @impl true
@@ -29,6 +35,7 @@ defmodule BadgeReaderWeb.ParametreLive do
           id="main-sidebar"
           current_path={@current_path}
           variant="v2"
+          current_user={@current_user}
       />
 
       <%!-- Content area --%>

@@ -10,8 +10,9 @@ defmodule BadgeReaderWeb.DashboardLive do
     ]
 
     @impl true
-    def mount(_params, session, socket) do
+    def mount(_params, _session, socket) do
         current_user = socket.assigns.current_scope.user
+        current_user = BadgeReader.Repo.preload(current_user, :role)
 
         {:ok,
         socket
@@ -38,8 +39,14 @@ defmodule BadgeReaderWeb.DashboardLive do
         |> assign(:active_menu_id, new_active_id)}
     end
 
-  @impl true
-  def render(assigns) do
+    @impl true
+    def handle_info({:toggle_sidebar}, socket) do
+        send_update(BadgeReaderWeb.Sidebar, id: "main-sidebar", toggle_sidebar: true)
+        {:noreply, socket}
+    end
+
+    @impl true
+    def render(assigns) do
     ~H"""
     <div class="flex h-screen overflow-hidden">
 
@@ -48,6 +55,7 @@ defmodule BadgeReaderWeb.DashboardLive do
             id="main-sidebar"
             current_path={@current_path}
             variant="v2"
+            current_user={@current_user}
         />
 
         <%!-- Content area --%>

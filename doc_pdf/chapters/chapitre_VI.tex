@@ -13,71 +13,58 @@ Pour sécuriser \textbf{Badge Reader}, j’ai appliqué les recommandations \tex
         \item \textbf{Headers de sécurité} : Configuration via \texttt{Plug.Headers}.
     \end{itemize}
 \end{for_you}
-
-\begin{for_you}{Exemple d'éléments mie en place}
+\textit{\newline}
+\begin{for_you}{Exemple d'éléments mis en place}
 \textit{Protection XSS} :
-    \begin{lstlisting}
-    # Dans un template HEEx (lib/badge_reader_web/live/user_live.ex)
+  \begin{lstlisting}
+    # lib/badge_reader_web/components/header.ex
     def render(assigns) do
       ~H"""
-      <div>
-        <!-- Les données sont automatiquement échappées -->
-        <h1><%= @user.name %></h1>
-        <p><%= @user.bio %></p>
-
-        <!-- Danger : utiliser raw/1 uniquement pour du HTML sûr -->
-        <%= raw(@trusted_html) %>
+      <div class="flex items-center truncate>
+        <span class="truncate ml-2 text-sm font-medium ...">
+          <%= if @current_user, do: "#{@current_user.lastname} ... %>
+        </span>
+        ...
       </div>
       """
     end
-    \end{lstlisting}
+  \end{lstlisting}
 
-    \textit{Protection CSRF} :
-    \begin{lstlisting}
-    # Dans le router.ex
+  \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader_web/components/header.ex}{header.ex \newline}
+
+  \textit{Protection CSRF et Headers de sécurité} :
+  \begin{lstlisting}
+    # lib/badge_reader_web/router.ex
     pipeline :browser do
       plug :accepts, ["html"]
       plug :fetch_session
-      plug :fetch_flash
-      plug :protect_from_forgery  # Protection CSRF intégrée
-      plug :put_secure_browser_headers  # Headers de sécurité
+      plug :fetch_live_flash
+      plug :put_root_layout, html: {BadgeReaderWeb.Layouts, :root}
+      plug :protect_from_forgery # Protection CSRF intégré
+      plug :put_secure_browser_headers # Headers de sécurité
+      plug :fetch_current_scope_for_user
+      plug :put_current_path
     end
-    \end{lstlisting}
+  \end{lstlisting}
 
-    \textit{Requête Ecto (anti-SQL Injection)} :
-    \begin{lstlisting}
-    # Dans un repository (lib/badge_reader/repos/users.ex)
-    def get_user_by_email(email) do
-      BadgeReader.Repo.one(
-        from u in BadgeReader.Accounts.User,
-        where: u.email == ^email,  # ^ force le binding sécurisé
-        select: u
-      )
+  \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader_web/router.ex}{router.ex \newline}
+
+  \textit{Exemple de requête Ecto (anti-SQL Injection)} :
+  \begin{lstlisting}
+    # lib/badge_reader/accounts.ex
+    def get_user_by_email(email) when is_binary(email) do
+      Repo.get_by(User, email: email)
     end
-    \end{lstlisting}
+  \end{lstlisting}
 
-    \textbf{Headers de sécurité} (dans \texttt{config/config.exs}) :
-    \begin{lstlisting}
-    config :badge_reader, BadgeReaderWeb.Endpoint,
-      url: [host: "localhost"],
-      http: [
-        port: 4000,
-        # Headers de sécurité
-        :secure_browser_headers => %{
-          "x-frame-options" => "DENY",
-          "x-content-type-options" => "nosniff",
-          "x-xss-protection" => "1; mode=block",
-          "content-security-policy" => "default-src 'self'"
-        }
-      ]
-    \end{lstlisting}
+  \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader/accounts.ex}{accounts.ex}
+
 \end{for_you}
 
 \newpage
 
 \section{Authentification et autorisation}
-Pour sécuriser \textbf{Badge Reader}, j’ai mis en place un système d’\textbf{authentification robuste} et une \textbf{gestion fine des autorisations},
-en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modernes.
+Pour sécuriser \textbf{Badge Reader}, j’ai mis en place un système d’\textbf{authentification robuste} et une \textbf{gestion fine des autorisations}, en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modernes.
 
 \begin{itemize}
     \item Les \textbf{sessions Phoenix} (stockées côté serveur).
@@ -93,11 +80,12 @@ en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modern
 
     \textit{Exemple de contrôleur d’authentification} :
     \begin{lstlisting}
-  # lib/badge_reader_web/controllers/user_auth_controller.ex
-  defmodule BadgeReaderWeb.UserAuthController do
+  # lib/badge_reader_web/controllers/user_session_controller.ex
+  defmodule BadgeReaderWeb.UserSessionController do
     use BadgeReaderWeb, :controller
-    use Phoenix.Controller, :auth
-
+    alias BadgeReader.Accounts
+    alias BadgeReaderWeb.UserAuth
+    ...
     # Connexion utilisateur
     defp create(conn, %{"user" => user_params}, info) do
       %{"email" => email, "password" => password} = user_params
@@ -105,6 +93,7 @@ en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modern
       if user = Accounts.get_user_by_email_and_password(email, password) do
         conn
         |> put_flash(:info, info)
+        |> put_session(:user_return_to, ~p"/users/dashboard")
         |> UserAuth.log_in_user(user, user_params)
       else
         # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
@@ -114,7 +103,7 @@ en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modern
         |> redirect(to: ~p"/users/log-in")
       end
     end
-
+    ...
     # Déconnexion
     def delete(conn, _params) do
       conn
@@ -123,6 +112,8 @@ en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modern
     end
   end
     \end{lstlisting}
+
+    \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader_web/controllers/user_session_controller.ex}{user\_session\_controller.ex \newline}
 
     \textit{Points clés} :
     \begin{itemize}
@@ -155,26 +146,31 @@ en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modern
       end
 
       # Changeset pour l'inscription
-      def registration_changeset(user, attrs) do
-        user
-        |> cast(attrs, [:email, :password])
-        |> validate_required([:email, :password])
-        |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/)
-        |> validate_length(:password, min: 12)
-        |> put_password_hash()  # Hachage Bcrypt
+      defp validate_password(changeset, opts) do
+        changeset
+        |> validate_required([:password])
+        |> validate_length(:password, min: 12, max: 72)
+        |> maybe_hash_password(opts)
       end
 
-      # Fonction de hachage (générée par phx.gen.auth)
-      defp put_password_hash(changeset) do
-        case changeset do
-          %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
-            put_change(changeset, :hashed_password, Bcrypt.hash_pwd_salt(pass))
-          _ ->
-            changeset
+      # Fonction de hachage
+      defp maybe_hash_password(changeset, opts) do
+        hash_password? = Keyword.get(opts, :hash_password, true)
+        password = get_change(changeset, :password)
+
+        if hash_password? && password && changeset.valid? do
+          changeset
+          |> validate_length(:password, max: 72, count: :bytes)
+          |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
+          |> delete_change(:password)
+        else
+          changeset
         end
       end
     end
     \end{lstlisting}
+
+    \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader/accounts/user.ex}{user.ex \newline}
 
     \textit{Pourquoi Bcrypt ?} :
     \begin{itemize}
@@ -191,37 +187,50 @@ en suivant les bonnes pratiques de Phoenix et les exigences de sécurité modern
 
     \textit{Configuration des sessions} :
     \begin{lstlisting}
-    # config/config.exs
-    config :badge_reader, BadgeReaderWeb.Endpoint,
-      session_store: :cookie,
-      secret_key_base: System.get_env("SECRET_KEY_BASE"),
-      signing_salt: "session",
-      encryption_salt: "session_encrypt",
-      key: "_badge_reader_key",
-      store: :cookie,
-      max_age: 604_800  # 7 jours
+    # lib/badge_reader_web/endpoint.ex
+      @session_options [
+        store: :cookie,
+        key: "_badge_reader_key",
+        signing_salt: "z99qdCzP",
+        same_site: "Lax"
+      ]
+
+      plug Plug.Session, @session_options
     \end{lstlisting}
+    
+    \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader_web/endpoint.ex}{endpoint.ex \newline}
 
     \textit{Exemple de plug pour fetch l’utilisateur courant} :
     \begin{lstlisting}
-    # lib/badge_reader_web/plugs/fetch_current_user.ex
-    defmodule BadgeReaderWeb.Plugs.FetchCurrentUser do
+    # lib/badge_reader_web/user_auth.ex
+    defmodule BadgeReaderWeb.UserAuth do
+      use BadgeReaderWeb, :verified_routes
+
       import Plug.Conn
+      import Phoenix.Controller
 
-      def init(opts), do: opts
+      alias BadgeReader.Accounts
+      alias BadgeReader.Accounts.Scope
 
-      def call(conn, _opts) do
-        user_id = get_session(conn, :user_id)
-
-        if user_id do
-          user = Accounts.get_user!(user_id)
-          assign(conn, :current_user, user)
-        else
+      def fetch_current_scope_for_user(conn, _opts) do
+        with {token, conn} <- ensure_user_token(conn),
+        {user, token_inserted_at} <- Accounts.get_user_by_session_token(token) do
+          user = BadgeReader.Repo.preload(user, :role)
           conn
+          |> assign(:current_user, user)
+          |> assign(:current_scope, Scope.for_user(user))
+          |> maybe_reissue_user_session_token(user, token_inserted_at)
+        else
+          _ ->
+          conn
+          |> assign(:current_user, nil)
+          |> assign(:current_scope, Scope.for_user(nil))
         end
       end
     end
     \end{lstlisting}
+
+    \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader_web/user_auth.ex}{user\_auth.ex \newline}
 
     \textit{Pourquoi ce système de sessions ?} :
     \begin{itemize}
@@ -277,6 +286,8 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     end
     \end{lstlisting}
 
+    \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader/accounts/user.ex}{user.ex \newline}
+
     \textit{Points clés} :
     \begin{itemize}
         \item \textbf{Hachage des mots de passe} : Utilisation de \textbf{Bcrypt} (intégré à Phoenix).
@@ -285,36 +296,23 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     \end{itemize}
 \end{for_you}
 
-\begin{for_you}{2. Gestion des droits utilisateurs (RGPD) :}
+\begin{for_you}{2. Gestion des droits utilisateurs Droit d'accès (Article 15 RGPD) :}
     \begin{lstlisting}
     # lib/badge_reader/accounts.ex
     defmodule BadgeReader.Accounts do
-      import Ecto.Query
-
+      ...
       # Droit d'accès (Article 15 RGPD)
       def get_user_data(user_id) do
-        Repo.one(
-          from u in User,
-          where: u.id == ^user_id,
-          select: %{email: u.email, role: u.role, created_at: u.inserted_at}
-        )
-      end
-
-      # Droit à l'effacement (Article 17 RGPD)
-      def delete_user(user_id) do
-        Repo.transaction(fn ->
-          # Suppression des badges associés
-          Repo.delete_all(from b in Badge, where: b.user_id == ^user_id)
-          # Anonymisation de l'utilisateur (plutôt que suppression)
-          Repo.update!(User, set: [email: "deleted-#{user_id}@example.com"], id: user_id)
-        end)
-      end
-
-      # Droit à la portabilité (Article 20 RGPD)
-      def export_user_data(user_id) do
-        user = Repo.get!(User, user_id)
-        badges = Repo.all(from b in Badge, where: b.user_id == ^user_id)
-        %{user: user, badges: badges}
+        case Repo.get(User, user_id) do
+          %User{} = user ->
+            badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
+            {:ok, %{
+              email: user.email,
+              inserted_at: user.inserted_at,
+              badges: badges
+            }}
+          nil -> {:error, :not_found}
+        end
       end
     end
     \end{lstlisting}
@@ -322,14 +320,76 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     \textit{Conformité RGPD} :
     \begin{itemize}
         \item \textbf{Droit d’accès} : \texttt{get\_user\_data/1} retourne uniquement les données personnelles.
+    \end{itemize}
+\end{for_you}
+
+\textbf{\newline}
+
+\begin{for_you}{3. Gestion des droits utilisateurs. Droit à l'effacement (Article 17 RGPD):}
+    \begin{lstlisting}
+    # lib/badge_reader/accounts.ex
+    defmodule BadgeReader.Accounts do
+      ...
+      # Droit à l'effacement (Article 17 RGPD)
+      def delete_user_and_anonymize(%User{} = user) do
+        Repo.transaction(fn ->
+          BadgeReader.Badges.delete_all_user_badges(user.id)
+
+          user
+          |> Ecto.Changeset.change(%{
+            email: "deleted-user-#{user.id}@badge-reader.local",
+            hashed_password: "ANONYMIZED_#{Ecto.UUID.generate()}"
+          })
+          |> Repo.update()
+          |> case do
+            {:ok, updated_user} -> updated_user
+            {:error, changeset} -> Repo.rollback(changeset)
+          end
+        end)
+      end
+    end
+    \end{lstlisting}
+
+    \textit{Conformité RGPD} :
+    \begin{itemize}
         \item \textbf{Droit à l’oubli} : \texttt{delete\_user/1} anonymise (ne supprime pas pour garder la traçabilité).
+    \end{itemize}
+\end{for_you}
+
+\begin{for_you}{4. Gestion des droits utilisateurs. Droit à la portabilité (Article 20 RGPD):}
+    \begin{lstlisting}
+    # lib/badge_reader/accounts.ex
+    defmodule BadgeReader.Accounts do
+      ...
+      # Droit à la portabilité (Article 20 RGPD)
+      def export_user_data(user_id) do
+        user = Repo.get!(User, user_id)
+        badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
+
+        %{
+          user_id: user.id,
+          email: user.email,
+          created_at: user.inserted_at,
+          badges: Enum.map(badges, fn b -> %{
+            rfid: b.rfid,
+            name: b.name_badge,
+            activated_at: b.date_activation,
+            expired_at: b.date_expiration
+          } end)
+        }
+      end
+    end
+    \end{lstlisting}
+
+    \textit{Conformité RGPD} :
+    \begin{itemize}
         \item \textbf{Portabilité} : \texttt{export\_user\_data/1} retourne un JSON structuré.
     \end{itemize}
 \end{for_you}
 
 
 \textbf{\newline}
-\begin{for_you}{3. Chiffrement des données sensibles (sécurité RGPD)}
+\begin{for_you}{5. Chiffrement des données sensibles (sécurité RGPD)}
     Phoenix 1.8.3 utilise \textbf{Bcrypt} pour les mots de passe et permet d’ajouter du chiffrement supplémentaire pour les données critiques.
 
     \begin{lstlisting}

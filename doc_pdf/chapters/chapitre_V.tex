@@ -58,20 +58,17 @@ s'appuie sur la pile \textbf{Elixir/Phoenix} pour centraliser l'interface et la 
 
 \begin{for_you}{Exemple de contrôleur Phoenix}
     \begin{lstlisting}
-    # lib/badge_reader_web/controllers/badge_reader_controller.ex
-
-    defmodule BadgeReaderWeb.BadgeReaderController do
+        lib/badge_reader_web/controllers/badge_reader_controller.ex
+        
+        defmodule BadgeReaderWeb.BadgeReaderController do
         use BadgeReaderWeb, :controller
-
+        
         def login_page(conn, _params) do
-            render(conn, :login_page)
+        render(conn, :login_page)
         end
-
-        def dashboard(conn, _params) do
-            render(conn, :dashboard)
+        
         end
-    end
-
+        
     \end{lstlisting}
     
     \textit{Rôle} :
@@ -82,6 +79,8 @@ s'appuie sur la pile \textbf{Elixir/Phoenix} pour centraliser l'interface et la 
     \end{itemize}
 \end{for_you}
 
+\href{https://github.com/Theoden-bernard/badge_reader_project/blob/main/badge_reader/lib/badge_reader_web/controllers/badge_reader_controller.ex}{\newline badge\_reader\_controller.ex}
+
 \subsubsection{Le Contexte (Logique Métier)}
 
 \textbf{Mes Contextes :} Au lieu de "Services" externes, Phoenix utilise des contextes pour encapsuler la logique.
@@ -89,20 +88,26 @@ s'appuie sur la pile \textbf{Elixir/Phoenix} pour centraliser l'interface et la 
 
 \begin{for_you}{Exemple de contexte métier :}
     \begin{lstlisting}
-    # lib/badge_reader/access_control.ex
-    defmodule BadgeReader.AccessControl do
-    alias BadgeReader.Repo
-    alias BadgeReader.AccessControl.Badge
+    # lib/badge_reader/accounts.ex
 
-    def create_badge(attrs \\ %{}) do
-        # Logique métier : validation puis insertion
-        %Badge{}
-        |> Badge.changeset(attrs)
-        |> Repo.insert()
-    end
+    defmodule BadgeReader.Accounts do
+        import Ecto.Query, warn: false
+        alias BadgeReader.Repo
+        alias BadgeReader.Accounts.{User, UserToken, UserNotifier}    
+        ...
+
+        def register_user(attrs) do
+            %User{}
+            |> User.email_changeset(attrs)
+            |> Repo.insert()
+        end
+        
+        ...
     end
     \end{lstlisting}
 \end{for_you}
+
+\href{https://github.com/Theoden-bernard/badge_reader_project/blob/main/badge_reader/lib/badge_reader/accounts.ex}{\newline accounts.ex}
 
 \subsection{Couche Données (Database)}
 
@@ -116,44 +121,55 @@ s'appuie sur la pile \textbf{Elixir/Phoenix} pour centraliser l'interface et la 
 
     \textit{Exemple de schéma Ecto (User)} :
     \begin{lstlisting}
-    # lib/badge_reader/user.ex
+    # lib/badge_reader/accounts/badge.ex
 
-    defmodule BadgeReader.Accounts.User do
+    defmodule BadgeReader.Accounts.Badge do
         use Ecto.Schema
         import Ecto.Changeset
 
-        schema "users" do
-            field :email, :string
-            field :password, :string, virtual: true, redact: true
-            field :hashed_password, :string, redact: true
-            field :confirmed_at, :utc_datetime
-            field :authenticated_at, :utc_datetime, virtual: true
+        schema "badges" do
+            field :rfid, :integer
+            field :name_badge, :string
+            field :date_activation, :naive_datetime
+            field :date_expiration, :naive_datetime
+            field :statue, :boolean, default: false
+
+            belongs_to :user, BadgeReader.Accounts.User
 
             timestamps(type: :utc_datetime)
         end
         ...
     end
     \end{lstlisting}
+    \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/lib/badge_reader/accounts/badge.ex}{badge.ex}
 
     \textit{\newline Exemple de migration} :
-    Ils servent d'historique de version pour la base de données, permettant de créer ou modifier les tables de manière reproductible et sécurisée sur n'importe quel environnement.
+    Elles servent d'historique de version pour la base de données, permettant de créer ou modifier les tables de manière reproductible et sécurisée sur n'importe quel environnement.
     \begin{lstlisting}
-    # priv/repo/migrations/20260128141856_create_users.exs
-
-    defmodule BadgeReader.Repo.Migrations.CreateUsers do
+    # priv/repo/migrations/20260420152853_create_badges.exs
+    
+    defmodule BadgeReader.Repo.Migrations.CreateBadges do
         use Ecto.Migration
 
         def change do
-            create table(:users) do
-            add :first_name, :string
-            add :last_name, :string
-            add :email, :string
-            add :password, :string
+            create table(:badges) do
+                add :rfid, :integer
+                add :name_badge, :string
+                add :date_activation, :naive_datetime
+                add :date_expiration, :naive_datetime
+                add :statue, :boolean, default: false, null: false
+
+                add :user_id, references(:users, on_delete: :nothing), null: false
+
+                timestamps(type: :utc_datetime)
             end
+
+            create unique_index(:badges, [:user_id])
         end
     end
 
     \end{lstlisting}
+    \href{https://github.com/Theoden-bernard/badge_reader_project/blob/develop/badge_reader/priv/repo/migrations/20260420152853_create_badges.exs}{20260420152853\_create\_badges.ex}
 \end{for_you}
 
 \newpage
