@@ -172,7 +172,7 @@ defmodule BadgeReader.Accounts do
     User.email_changeset(user, attrs, opts)
   end
 
-  def change_info_user(user, attrs) do
+  def change_info_user(user, attrs \\ %{}, opts \\ []) do
     user
     |> User.profile_changeset(attrs)
     |> Repo.update()

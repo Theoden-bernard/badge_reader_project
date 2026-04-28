@@ -1,5 +1,6 @@
 defmodule BadgeReaderWeb.Sidebar do
   use Phoenix.LiveComponent
+  alias Phoenix.LiveView.JS
 
   @impl true
   def mount(socket) do
@@ -215,21 +216,21 @@ defmodule BadgeReaderWeb.Sidebar do
                       </div>
                     </div>
                     <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                      <ul class={["pl-8 mt-1", if(is_open, do: "block", else: "hidden")]}>
+                      <ul class={["pl-10 mt-1", if(is_open, do: "block", else: "hidden")]}>
                         <li class="mb-1 last:mb-0">
-                          <button phx-click="trigger_modale" class="block transition duration-150 truncate">
+                          <button phx-click={JS.push("trigger_modale", value: %{id: "1"})} class="block transition duration-150 truncate">
                             Création
                           </button>
                         </li>
                         <li class="mb-1 last:mb-0">
-                          <.link navigate="/modaleUtilisateurEdit"
-                            class={["block transition duration-150 truncate", active_link_class(@current_path, "/modaleUtilisateurEdit")]}
-                          >Modifications</.link>
+                          <button phx-click={JS.push("trigger_modale", value: %{id: "2"})} class="block transition duration-150 truncate">
+                            Modifications
+                          </button>
                         </li>
                         <li class="mb-1 last:mb-0">
-                          <.link navigate="/modaleUtilisateurDelete"
-                            class={["block transition duration-150 truncate", active_link_class(@current_path, "/modaleUtilisateurDelete")]}
-                          >Supprimer</.link>
+                          <button phx-click={JS.push("trigger_modale", value: %{id: "3"})} class="block transition duration-150 truncate">
+                            Supprimer
+                          </button>
                         </li>
                       </ul>
                     </div>

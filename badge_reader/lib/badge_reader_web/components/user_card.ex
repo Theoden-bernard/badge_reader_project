@@ -1,6 +1,7 @@
 defmodule BadgeReaderWeb.UserCard do
   use Phoenix.Component
   import BadgeReaderWeb.EditMenu
+  alias Phoenix.LiveView.JS
   alias BadgeReader.Accounts
 
   attr :customers, :list, default: []
@@ -58,7 +59,10 @@ defmodule BadgeReaderWeb.UserCard do
             <%!-- Table body --%>
             <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
               <%= for current_user <- Accounts.get_all_user() do %>
-                <tr>
+                <tr
+                  class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  phx-click={JS.push("user_modale", value: %{id: "4", user: current_user.id})}
+                >
                   <td class="p-2 whitespace-nowrap">
                     <div class="flex items-center">
                       <div class="w-10 h-10 shrink-0 mr-2 sm:mr-3">

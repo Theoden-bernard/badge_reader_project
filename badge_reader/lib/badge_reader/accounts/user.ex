@@ -141,10 +141,13 @@ defmodule BadgeReader.Accounts.User do
   It requires the firstname, lastname and role_id to change otherwise an error is added.
 
   """
-  def profile_changeset(user, attrs) do
+  def profile_changeset(user, attrs, opt \\ []) do
+    IO.inspect(user, label: "USER = ")
+    IO.inspect(attrs, label: "ATTRS = ")
     user
-    |> cast(attrs, [:firstname, :lastname, :role_id])
-    |> validate_required([:firstname, :lastname])
+    |> cast(attrs, [:firstname, :lastname, :role_id, :email])
+    |> validate_email(opt)
+    |> validate_required([:firstname, :lastname, :role_id, :email])
   end
 
 end

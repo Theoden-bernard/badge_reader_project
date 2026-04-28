@@ -16,7 +16,7 @@ defmodule BadgeReaderWeb.UserLive do
     |> assign(:is_open, true)
     |> assign(:active_menu_id, nil)
     |> assign(:modale_open, false)
-    |> assign(:trigger_submit, false)
+    |> assign(:user, BadgeReader.Repo.all(BadgeReader.Accounts.User))
     |> assign(:role, BadgeReader.Repo.all(BadgeReader.Accounts.Role))
     |> assign_form(changeset)}
   end
@@ -28,33 +28,83 @@ defmodule BadgeReaderWeb.UserLive do
   end
 
   @impl true
-  def handle_event("trigger_modale", _params ,socket) do
-    {:noreply, update(socket, :modale_open, &(!&1))}
+  def handle_event("trigger_modale", %{"id" => id} ,socket) do
+    modale_open = socket.assigns.modale_open
+
+    {:noreply,
+    socket
+    |> assign(:modale_open, !modale_open)
+    |> assign(:id_modal, id)}
+  end
+
+  @impl true
+  def handle_event("user_modale", %{"id" => id, "user" => user} ,socket) do
+    modale_open = socket.assigns.modale_open
+
+    user = Accounts.get_user!(user)
+
+    {:noreply,
+    socket
+    |> assign(:modale_open, !modale_open)
+    |> assign(:id_modal, id)
+    |> assign(:user_modal, user)}
   end
 
   def handle_event("validate_user", %{"user" => params}, socket) do
-    changeset =
+
+    if Map.has_key?(params, "current_user") do
+      user = Accounts.get_user!(params["current_user"])
+
+      user_data = %{
+        "firstname" => user.firstname,
+        "lastname" => user.lastname,
+        "email" => user.email,
+        "role_id" => user.role_id
+      }
+
+      changeset =
+      %User{}
+      |> User.profile_changeset(user_data)
+      |> Map.put(:action, :validate)
+      {:noreply, assign_form(socket, changeset)}
+    else
+      changeset =
       %User{}
       |> User.profile_changeset(params)
       |> Map.put(:action, :validate)
-    {:noreply, assign_form(socket, changeset)}
-  end
-
-  def handle_event("submit_user", %{"user" => params}, socket) do
-    case Accounts.register_user(params) do
-      {:ok, _user} ->
-        {:noreply,
-        socket
-        |> put_flash(:info, "Utilisateur créé avec succès !")
-        |> assign(:modale_open, false)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
+      {:noreply, assign_form(socket, changeset)}
     end
   end
 
-  defp assign_form(socket, %Ecto.Changeset{} = changeset) do
-    assign(socket, :form, to_form(changeset, as: "user"))
+  def handle_event("submit_user", %{"user" => params}, socket) do
+
+    if Map.has_key?(params, "current_user") do
+
+      user = Accounts.get_user!(params["current_user"])
+
+      case Accounts.change_info_user(user, params) do
+        {:ok, _user} ->
+          {:noreply,
+          socket
+          |> put_flash(:info, "Utilisateur modifier avec succès !")
+          |> assign(:modale_open, false)}
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          {:noreply, assign_form(socket, changeset)}
+      end
+    else
+
+      case Accounts.register_user(params) do
+        {:ok, _user} ->
+          {:noreply,
+          socket
+          |> put_flash(:info, "Utilisateur créé avec succès !")
+          |> assign(:modale_open, false)}
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          {:noreply, assign_form(socket, changeset)}
+      end
+    end
   end
 
   @impl true
@@ -65,6 +115,14 @@ defmodule BadgeReaderWeb.UserLive do
     socket
     |> assign(:is_open, !socket.assigns.is_open)
     |> assign(:active_menu_id, new_active_id)}
+  end
+
+  defp assign_form(socket, changeset) do
+    assign(socket, :form, to_form(changeset, as: "user"))
+  end
+
+  defp assign_form(socket, %Ecto.Changeset{} = changeset) do
+    assign(socket, :form, to_form(changeset, as: "user"))
   end
 
   @impl true
@@ -126,13 +184,13 @@ defmodule BadgeReaderWeb.UserLive do
 
             </div>
 
-            <%= if @modale_open do %>
+            <%= if @modale_open && @id_modal == "1" do %>
               <div class="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center">
                 <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
 
                   <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Créer un utilisateur</h2>
-                    <button phx-click="trigger_modale" class="text-gray-400 hover:text-gray-600">✕</button>
+                    <button phx-click={JS.push("trigger_modale", value: %{id: "1"})} class="text-gray-400 hover:text-gray-600">✕</button>
                   </div>
 
                   <.form
@@ -155,6 +213,121 @@ defmodule BadgeReaderWeb.UserLive do
 
                     <.button class="btn btn-primary w-full mt-4">
                       Créer l'utilisateur
+                    </.button>
+                  </.form>
+
+                </div>
+              </div>
+            <% end %>
+
+            <%= if @modale_open && @id_modal == "2" do %>
+              <div class="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
+
+                  <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Modifier un utilisateur</h2>
+                    <button phx-click={JS.push("trigger_modale", value: %{id: "1"})} class="text-gray-400 hover:text-gray-600">✕</button>
+                  </div>
+
+                  <.form
+                    for={@form}
+                    id="edit_user"
+                    phx-submit="submit_user"
+                    phx-change="validate_user"
+                  >
+                    <.input
+                      field={@form[:current_user]}
+                      type="select"
+                      label="User"
+                      options={Enum.map(@user, fn u -> {u.firstname, u.id} end)}
+                      required
+                    />
+                    <.input field={@form[:firstname]} type="text" label="Prénom" required />
+                    <.input field={@form[:lastname]} type="text" label="Nom" required />
+                    <.input
+                      field={@form[:role_id]}
+                      type="select"
+                      label="Rôle"
+                      options={Enum.map(@role, fn r -> {r.name_role, r.id} end)}
+                      value="@role"
+                      required
+                    />
+                    <.input field={@form[:email]} type="email" label="Email" required />
+
+                    <.button class="btn btn-primary w-full mt-4">
+                      Modifier l'utilisateur
+                    </.button>
+                  </.form>
+
+                </div>
+              </div>
+            <% end %>
+
+            <%= if @modale_open && @id_modal == "3" do %>
+              <div class="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
+
+                  <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Supprimer un utilisateur</h2>
+                    <button phx-click={JS.push("trigger_modale", value: %{id: "1"})} class="text-gray-400 hover:text-gray-600">✕</button>
+                  </div>
+
+                  <.form
+                    for={@form}
+                    id="delete_user"
+                    phx-submit="submit_user"
+                    phx-change="validate_user"
+                  >
+                    <.input field={@form[:firstname]} type="text" label="Prénom" required />
+                    <.input field={@form[:lastname]} type="text" label="Nom" required />
+                    <.input
+                      field={@form[:role_id]}
+                      type="select"
+                      label="Rôle"
+                      options={Enum.map(@role, fn r -> {r.name_role, r.id} end)}
+                      required
+                    />
+                    <.input field={@form[:email]} type="email" label="Email" required />
+                    <.input field={@form[:password]} type="password" label="Mot de passe" required />
+
+                    <.button class="btn btn-primary w-full mt-4">
+                      Créer l'utilisateur
+                    </.button>
+                  </.form>
+
+                </div>
+              </div>
+            <% end %>
+
+            <%= if @modale_open && @id_modal == "4" do %>
+              <div class="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
+
+                  <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Profile de <%=@user_modal.firstname%> <%=@user_modal.lastname%></h2>
+                    <button phx-click={JS.push("trigger_modale", value: %{id: "1"})} class="text-gray-400 hover:text-gray-600">✕</button>
+                  </div>
+
+                  <.form
+                    for={@form}
+                    id="edit_user"
+                    phx-submit="submit_user"
+                    phx-change="validate_user"
+                  >
+                    <.input field={@form[:firstname]} type="text" label="Prénom" value={@user_modal.firstname} required />
+                    <.input field={@form[:lastname]} type="text" label="Nom" value={@user_modal.lastname} required />
+                    <.input
+                      field={@form[:role_id]}
+                      type="select"
+                      label="Rôle"
+                      options={Enum.map(@role, fn r -> {r.name_role, r.id} end)}
+                      value={@user_modal.role_id}
+                      required
+                    />
+                    <.input field={@form[:email]} type="email" label="Email" value={@user_modal.email} required />
+
+                    <.button class="btn btn-primary w-full mt-4">
+                      Modifier l'utilisateur
                     </.button>
                   </.form>
 
