@@ -165,7 +165,6 @@ defmodule BadgeReaderWeb.UserLive do
             <%!--  Cards --%>
             <div class="grid grid-cols-12 gap-6">
               <.user_card01
-              current_user = {@current_user}
               is_open={@active_menu_id == "1"}
               on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
               />

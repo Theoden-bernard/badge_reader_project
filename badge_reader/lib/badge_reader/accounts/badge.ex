@@ -2,9 +2,6 @@ defmodule BadgeReader.Accounts.Badge do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias BadgeReader.Repo
-  alias BadgeReader.Badges.Badge
-
   schema "badges" do
     field :rfid, :integer
     field :name_badge, :string
