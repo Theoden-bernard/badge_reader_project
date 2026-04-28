@@ -109,7 +109,7 @@ defmodule BadgeReaderWeb.CoreComponents do
       """
     else
       ~H"""
-      <button class={@class} {@rest}>
+      <button class="bg-yellow-400 dark:bg-yellow-500 text-white dark:text-black w-full h-10 rounded-xl " {@rest}>
         {render_slot(@inner_block)}
       </button>
       """

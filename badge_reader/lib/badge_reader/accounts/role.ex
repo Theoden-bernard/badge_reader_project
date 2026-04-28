@@ -28,4 +28,5 @@ defmodule BadgeReader.Accounts.Role do
     |> cast(attrs, [:name_role])
     |> validate_required([:name_role])
   end
+
 end

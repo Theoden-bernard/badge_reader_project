@@ -1,6 +1,7 @@
 defmodule BadgeReaderWeb.UserCard do
   use Phoenix.Component
   import BadgeReaderWeb.EditMenu
+  alias BadgeReader.Accounts
 
   attr :customers, :list, default: []
   attr :is_open, :boolean, default: false
@@ -56,24 +57,24 @@ defmodule BadgeReaderWeb.UserCard do
             </thead>
             <%!-- Table body --%>
             <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
-              <%= for customer <- @customers do %>
+              <%= for current_user <- Accounts.get_all_user() do %>
                 <tr>
                   <td class="p-2 whitespace-nowrap">
                     <div class="flex items-center">
                       <div class="w-10 h-10 shrink-0 mr-2 sm:mr-3">
-                        <img class="rounded-full" src={customer.image} width="40" height="40" alt={customer.name} />
+                        <%!-- <img class="rounded-full" src={customer.image} width="40" height="40" alt={customer.name} /> --%>
                       </div>
-                      <div class="font-medium text-gray-800 dark:text-gray-100"><%= customer.name %></div>
+                      <div class="font-medium text-gray-800 dark:text-gray-100"><%= current_user.lastname %> <%= current_user.firstname %></div>
                     </div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left"><%= customer.email %></div>
+                    <div class="text-left"><%= current_user.email %></div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left text-center"><%= customer.status %></div>
+                    <div class="text-left text-center"><%= current_user.role_id %></div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-lg text-center font-medium text-green-500"><%= customer.present %></div>
+                    <%!-- <div class="text-lg text-center font-medium text-green-500"><%= current_user.present %></div> --%>
                   </td>
                 </tr>
               <% end %>
