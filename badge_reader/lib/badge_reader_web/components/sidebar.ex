@@ -123,10 +123,15 @@ defmodule BadgeReaderWeb.Sidebar do
               </svg>
             </button>
 
-            <.link navigate="/users/dashboard" class="block">
-              <svg class="fill-yellow-500" xmlns="http://www.w3.org/2000/svg" width={32} height={32}>
-                <path d="M31.956 14.8C31.372 6.92 25.08.628 17.2.044V5.76a9.04 9.04 0 0 0 9.04 9.04h5.716ZM14.8 26.24v5.716C6.92 31.372.63 25.08.044 17.2H5.76a9.04 9.04 0 0 1 9.04 9.04Zm11.44-9.04h5.716c-.584 7.88-6.876 14.172-14.756 14.756V26.24a9.04 9.04 0 0 1 9.04-9.04ZM.044 14.8C.63 6.92 6.92.628 14.8.044V5.76a9.04 9.04 0 0 1-9.04 9.04H.044Z" />
-              </svg>
+            <.link navigate="/" class="block">
+              <img
+                src={if @sidebar_expanded, do: "/images/colint-logo-complet.png", else: "/images/colint-logo.png"}
+                class={[
+                  "transition-all duration-300 object-contain",
+                  if(@sidebar_expanded, do: "w-40 h-25", else: "w-20 h-10")
+                ]}
+                alt="Logo"
+              />
             </.link>
           </div>
 
@@ -151,7 +156,7 @@ defmodule BadgeReaderWeb.Sidebar do
                 >
                   <:content :let={%{is_open: _is_open}}>
                     <div class="flex items-center">
-                      <.link navigate="/users/dashboard">
+                      <.link navigate="/">
                         <svg
                           class={["shrink-0 fill-current", active_icon_class(@current_path, "dashboard")]}
                           xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
@@ -161,8 +166,8 @@ defmodule BadgeReaderWeb.Sidebar do
                         </svg>
                       </.link>
                       <.link
-                        navigate="/users/dashboard"
-                        class={["block transition duration-150 truncate", active_link_class(@current_path, "/dashboard")]}
+                        navigate="/"
+                        class={["block transition duration-150 truncate", active_link_class(@current_path, "dashboard")]}
                       >
                         <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                           Dashboard - <%= if @current_user, do: @current_user.firstname, else: "Non connecté" %>

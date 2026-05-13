@@ -359,7 +359,12 @@ defmodule BadgeReaderWeb.Header do
                 />
                 <div class="flex items-center truncate">
                   <span class="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
-                    <%= if @current_user, do: "#{@current_user.lastname} #{@current_user.firstname}", else: "Non connecté" %>
+                    <%= if @current_user do %>
+                      <%= "#{@current_user.lastname} #{@current_user.firstname}" %>
+                      <span class="hidden"><%= @current_user.email %></span>
+                    <% else %>
+                      Non connecté
+                    <% end %>
                   </span>
                   <svg
                     class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500"

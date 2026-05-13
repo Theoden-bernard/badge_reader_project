@@ -1,7 +1,7 @@
 defmodule BadgeReaderWeb.UserLive do
   use BadgeReaderWeb, :live_view
   alias BadgeReader.Accounts.User
-  alias BadgeReader.Accounts
+  alias BadgeReader.{Accounts, RoleManager}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,7 +17,7 @@ defmodule BadgeReaderWeb.UserLive do
     |> assign(:active_menu_id, nil)
     |> assign(:modale_open, false)
     |> assign(:user, BadgeReader.Repo.all(BadgeReader.Accounts.User))
-    |> assign(:role, BadgeReader.Repo.all(BadgeReader.Accounts.Role))
+    |> assign(:role, BadgeReader.Repo.all(BadgeReader.RoleManager.Role))
     |> assign_form(changeset)}
   end
 

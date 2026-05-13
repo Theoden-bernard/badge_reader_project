@@ -1,4 +1,4 @@
-defmodule BadgeReader.Accounts.Role do
+defmodule BadgeReader.RoleManager.Role do
   use Ecto.Schema
   import Ecto.Changeset
 

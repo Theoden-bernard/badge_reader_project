@@ -4,7 +4,6 @@ defmodule BadgeReaderWeb.UserCard do
   alias Phoenix.LiveView.JS
   alias BadgeReader.Accounts
 
-  attr :customers, :list, default: []
   attr :is_open, :boolean, default: false
   attr :on_toggle, :any, default: nil
 
@@ -75,7 +74,7 @@ defmodule BadgeReaderWeb.UserCard do
                     <div class="text-left"><%= current_user.email %></div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left text-center"><%= current_user.role_id %></div>
+                    <div class="text-left text-center"><%= current_user.role.name_role %></div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
                     <%!-- <div class="text-lg text-center font-medium text-green-500"><%= current_user.present %></div> --%>

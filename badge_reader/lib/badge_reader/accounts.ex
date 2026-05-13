@@ -70,7 +70,9 @@ defmodule BadgeReader.Accounts do
 
   """
   def get_all_user() do
-    Repo.all(User)
+    User
+    |> Repo.all()
+    |> Repo.preload([:role])
   end
 
   @doc """
@@ -135,10 +137,18 @@ defmodule BadgeReader.Accounts do
   """
   def register_user(attrs) do
     %User{}
+    |> User.email_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def admin_create_user(attrs) do
+    %User{}
     |> User.profile_changeset(attrs)
     |> User.email_changeset(attrs)
     |> User.password_changeset(attrs)
+    |> User.confirm_changeset()
     |> Repo.insert()
+    |> user_preloads()
   end
 
   ## Settings
@@ -172,9 +182,10 @@ defmodule BadgeReader.Accounts do
     User.email_changeset(user, attrs, opts)
   end
 
-  def change_info_user(user, attrs \\ %{}, opts \\ []) do
+  def change_info_user(user, attrs \\ %{}, _opts \\ []) do
     user
     |> User.profile_changeset(attrs)
+    |> User.email_changeset(attrs)
     |> Repo.update()
   end
 
@@ -362,4 +373,9 @@ defmodule BadgeReader.Accounts do
     end)
   end
 
+  defp user_preloads({:ok, user}),
+    do: {:ok, Repo.preload(user, [:role])}
+
+  defp user_preloads(any),
+    do: any
 end
