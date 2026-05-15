@@ -21,8 +21,13 @@ defmodule BadgeReaderWeb.ProfileLive do
   end
 
   @impl true
-  def handle_event("inc_temperature", _params, socket) do
-    {:noreply, update(socket, :temperature, &(&1 + 1))}
+  def handle_event("toggle_menu", %{"id" => id}, socket) do
+    new_active_id = if socket.assigns.active_menu_id == id, do: nil, else: id
+
+    {:noreply,
+    socket
+    |> assign(:is_open, !socket.assigns.is_open)
+    |> assign(:active_menu_id, new_active_id)}
   end
 
   @impl true
@@ -64,7 +69,9 @@ defmodule BadgeReaderWeb.ProfileLive do
           <div class="px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-12 gap-6 grid-rows-10">
 
             <div class="col-span-12 sm:col-span-8 xl:col-span-8 sm:row-span-5 xl:row-spen-5 h-full">
-              <.profile_card_01
+              <.live_component
+                module={BadgeReaderWeb.Profile.ComponentsLive.ProfileCard01}
+                id="activity_user"
                 is_open={@active_menu_id == "1"}
                 on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
               />
@@ -81,7 +88,9 @@ defmodule BadgeReaderWeb.ProfileLive do
             </div>
 
             <div class="col-span-12 sm:col-span-8 xl:col-span-8 sm:row-span-3 xl:row-spen-3 h-full">
-              <.profile_card_03
+              <.live_component
+                module={BadgeReaderWeb.Profile.ComponentsLive.ProfileCard03}
+                id="event_user"
                 is_open={@active_menu_id == "3"}
                 on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
               />

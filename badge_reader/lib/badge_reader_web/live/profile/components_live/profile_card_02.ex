@@ -4,6 +4,9 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
   alias BadgeReader.Accounts
   import BadgeReaderWeb.EditMenu
 
+  attr :is_open, :boolean, default: false
+  attr :on_toggle, :any, default: nil
+
   def mount(socket) do
     {:ok,
     socket

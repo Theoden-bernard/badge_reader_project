@@ -4,9 +4,8 @@ defmodule BadgeReaderWeb.ProfileCard do
   alias BadgeReader.Accounts
   import BadgeReaderWeb.EditMenu
 
-  def mount(socket) do
-
-  end
+  attr :is_open, :boolean, default: false
+  attr :on_toggle, :any, default: nil
 
   def profile_card_01(assigns) do
     ~H"""
