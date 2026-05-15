@@ -89,16 +89,16 @@ defmodule BadgeReaderWeb.UserLive do
 
     if Map.has_key?(params, "current_user") do
 
-      current_user = socket.assigns.current_user
+      selected_user = Accounts.get_user!(params["current_user"])
 
-      case Accounts.change_info_user(current_user, params) do
+      case Accounts.change_info_user(selected_user, params) do
         {:ok, user} ->
           {:noreply,
           socket
           |> put_flash(:info, "Utilisateur modifier avec succès !")
           |> assign(:modale_open, false)
           |> assign(:user_table, Accounts.get_all_user())
-          |> assign(:current_user, user)}
+          |> assign(:user_modal, selected_user)}
 
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign_form(socket, changeset)}
@@ -247,6 +247,7 @@ defmodule BadgeReaderWeb.UserLive do
                     phx-change="validate_user"
                   >
                     <.input
+
                       field={@form[:current_user]}
                       type="select"
                       label="User"
@@ -325,6 +326,14 @@ defmodule BadgeReaderWeb.UserLive do
                     phx-submit="submit_user"
                     phx-change="validate_user"
                   >
+                    <.input
+                      class="hidden"
+                      field={@form[:current_user]}
+                      type="select"
+                      options={Enum.map(@user, fn u -> {u.firstname, u.id} end)}
+                      value={@user_modal.id}
+                      required
+                    />
                     <.input field={@form[:firstname]} type="text" label="Prénom" value={@user_modal.firstname} required />
                     <.input field={@form[:lastname]} type="text" label="Nom" value={@user_modal.lastname} required />
                     <.input
