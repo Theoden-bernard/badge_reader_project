@@ -89,6 +89,7 @@ defmodule BadgeReaderWeb do
       import BadgeReaderWeb.Sidebar
       import BadgeReaderWeb.Header
       import BadgeReaderWeb.DashboardCard
+      import BadgeReaderWeb.ProfileCard
       import BadgeReaderWeb.UserCard
       import BadgeReaderWeb.ChartComponents
 

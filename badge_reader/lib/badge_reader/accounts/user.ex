@@ -145,6 +145,7 @@ defmodule BadgeReader.Accounts.User do
     user
     |> cast(attrs, [:firstname, :lastname, :role_id, :email])
     |> validate_required([:firstname, :lastname, :role_id, :email])
+    |> validate_email(validate_unique: false)
   end
 
 end

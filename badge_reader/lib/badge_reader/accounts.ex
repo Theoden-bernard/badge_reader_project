@@ -144,7 +144,7 @@ defmodule BadgeReader.Accounts do
   def admin_create_user(attrs) do
     %User{}
     |> User.profile_changeset(attrs)
-    |> User.email_changeset(attrs)
+    # |> User.email_changeset(attrs)
     |> User.password_changeset(attrs)
     |> User.confirm_changeset()
     |> Repo.insert()
@@ -185,7 +185,7 @@ defmodule BadgeReader.Accounts do
   def change_info_user(user, attrs \\ %{}, _opts \\ []) do
     user
     |> User.profile_changeset(attrs)
-    |> User.email_changeset(attrs)
+    # |> User.email_changeset(attrs)
     |> Repo.update()
   end
 

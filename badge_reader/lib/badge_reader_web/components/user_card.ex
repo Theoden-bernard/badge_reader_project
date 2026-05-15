@@ -74,7 +74,7 @@ defmodule BadgeReaderWeb.UserCard do
                     <div class="text-left"><%= current_user.email %></div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left text-center"><%= current_user.role.name_role %></div>
+                    <div class="text-left text-center"><%= if current_user.role, do: current_user.role.name_role, else: "Aucun rôle" %></div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
                     <%!-- <div class="text-lg text-center font-medium text-green-500"><%= current_user.present %></div> --%>

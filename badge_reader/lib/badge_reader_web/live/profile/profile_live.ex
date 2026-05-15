@@ -5,6 +5,7 @@ defmodule BadgeReaderWeb.ProfileLive do
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_scope.user
     current_user = BadgeReader.Repo.preload(current_user, :role)
+    current_user = BadgeReader.Repo.preload(current_user, :badge)
 
     {:ok,
     socket
@@ -61,6 +62,31 @@ defmodule BadgeReaderWeb.ProfileLive do
           </div>
             <%!-- Cards --%>
           <div class="px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-12 gap-6 grid-rows-10">
+
+            <div class="col-span-12 sm:col-span-8 xl:col-span-8 sm:row-span-5 xl:row-spen-5 h-full">
+              <.profile_card_01
+                is_open={@active_menu_id == "1"}
+                on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
+              />
+            </div>
+
+            <div class="col-span-12 sm:col-span-4 xl:col-span-4 sm:row-span-8 xl:row-spen-8 h-full">
+              <.live_component
+                module={BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02}
+                id="form_current_user"
+                is_open={@active_menu_id == "2"}
+                on_toggle={JS.push("toggle_menu", value: %{id: "2"})}
+                current_user={@current_user}
+              />
+            </div>
+
+            <div class="col-span-12 sm:col-span-8 xl:col-span-8 sm:row-span-3 xl:row-spen-3 h-full">
+              <.profile_card_03
+                is_open={@active_menu_id == "3"}
+                on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
+              />
+            </div>
+
           </div>
         </div>
       </div>
