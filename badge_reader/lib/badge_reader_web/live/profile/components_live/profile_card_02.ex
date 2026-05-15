@@ -47,7 +47,6 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
   end
 
   def handle_event("submit_user", user_info, socket) do
-    edit = socket.assigns.edit
     current_user = socket.assigns.current_user
 
     case Accounts.change_info_user(current_user, user_info["user"]) do

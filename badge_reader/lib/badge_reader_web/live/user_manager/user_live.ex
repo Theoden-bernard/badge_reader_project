@@ -1,18 +1,21 @@
 defmodule BadgeReaderWeb.UserLive do
   use BadgeReaderWeb, :live_view
   alias BadgeReader.Accounts.User
-  alias BadgeReader.{Accounts, RoleManager}
+  alias BadgeReader.{Accounts}
 
   @impl true
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_scope.user
     current_user = BadgeReader.Repo.preload(current_user, :role)
 
+    user_table = Accounts.get_all_user()
+
     changeset = User.profile_changeset(%User{}, %{})
 
     {:ok,
     socket
     |> assign(:current_user, current_user)
+    |> assign(:user_table, user_table)
     |> assign(:is_open, true)
     |> assign(:active_menu_id, nil)
     |> assign(:modale_open, false)
@@ -53,6 +56,9 @@ defmodule BadgeReaderWeb.UserLive do
   def handle_event("validate_user", %{"user" => params}, socket) do
 
     if Map.has_key?(params, "current_user") do
+
+      IO.inspect("TEST1")
+
       user = Accounts.get_user!(params["current_user"])
 
       user_data = %{
@@ -68,6 +74,9 @@ defmodule BadgeReaderWeb.UserLive do
       |> Map.put(:action, :validate)
       {:noreply, assign_form(socket, changeset)}
     else
+
+      IO.inspect("TEST2")
+
       changeset =
       %User{}
       |> User.profile_changeset(params)
@@ -80,14 +89,16 @@ defmodule BadgeReaderWeb.UserLive do
 
     if Map.has_key?(params, "current_user") do
 
-      user = Accounts.get_user!(params["current_user"])
+      current_user = socket.assigns.current_user
 
-      case Accounts.change_info_user(user, params) do
-        {:ok, _user} ->
+      case Accounts.change_info_user(current_user, params) do
+        {:ok, user} ->
           {:noreply,
           socket
           |> put_flash(:info, "Utilisateur modifier avec succès !")
-          |> assign(:modale_open, false)}
+          |> assign(:modale_open, false)
+          |> assign(:user_table, Accounts.get_all_user())
+          |> assign(:current_user, user)}
 
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign_form(socket, changeset)}
@@ -337,7 +348,10 @@ defmodule BadgeReaderWeb.UserLive do
 
             <%!--  Cards --%>
             <div class="grid grid-cols-12 gap-6">
-              <.user_card01
+              <.live_component
+              module={BadgeReaderWeb.UserManager.ComponentsLive.UserCard01}
+              id="table_user"
+              user_table={@user_table}
               is_open={@active_menu_id == "1"}
               on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
               />
@@ -345,7 +359,6 @@ defmodule BadgeReaderWeb.UserLive do
 
           </div>
         </main>
-
       </div>
     </div>
     """

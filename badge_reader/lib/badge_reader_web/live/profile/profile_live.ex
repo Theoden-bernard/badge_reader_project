@@ -1,7 +1,7 @@
 defmodule BadgeReaderWeb.ProfileLive do
   use BadgeReaderWeb, :live_view
 
-@impl true
+  @impl true
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_scope.user
     current_user = BadgeReader.Repo.preload(current_user, :role)
