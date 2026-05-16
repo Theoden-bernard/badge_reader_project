@@ -68,6 +68,7 @@ defmodule BadgeReaderWeb.Router do
       live "/users/evenement", EvenementLive, :index
       live "/users/composants", ComposantsLive, :index
       live "/users/profile", ProfileLive, :index
+      live "/user_profile/:id", UserProfileLive, :index
     end
 
     post "/users/update-password", UserSessionController, :update_password

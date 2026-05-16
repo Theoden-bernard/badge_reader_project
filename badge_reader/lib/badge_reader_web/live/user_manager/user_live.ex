@@ -247,7 +247,6 @@ defmodule BadgeReaderWeb.UserLive do
                     phx-change="validate_user"
                   >
                     <.input
-
                       field={@form[:current_user]}
                       type="select"
                       label="User"
@@ -316,7 +315,12 @@ defmodule BadgeReaderWeb.UserLive do
                 <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
 
                   <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Profile de <%=@user_modal.firstname%> <%=@user_modal.lastname%></h2>
+                  <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">
+                    Profile de
+                    <.link class="underline" navigate={~p"/user_profile/#{@user_modal.id}"}>
+                      <%= @user_modal.firstname %> <%= @user_modal.lastname %>
+                    </.link>
+                  </h2>
                     <button phx-click={JS.push("trigger_modale", value: %{id: "1"})} class="text-gray-400 hover:text-gray-600">✕</button>
                   </div>
 
