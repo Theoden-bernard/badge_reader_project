@@ -21,6 +21,7 @@ defmodule BadgeReaderWeb.UserProfileLive do
     {:noreply, assign(socket, :current_path, path)}
   end
 
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -46,12 +47,33 @@ defmodule BadgeReaderWeb.UserProfileLive do
           <div class="flex flex-row mt-10">
               <img class="ml-10 mr-10 w-30 h-30 rounded-full" src="../images/img_users/user-avatar-32.png" width="25" height="25" alt="User" />
               <div class="flex flex-col">
-                  <div class="text-6xl"><%= if @user, do: "#{@user.lastname} #{@user.firstname}", else: "Non connecté" %></div>
+                  <div class="text-6xl"><%= if @user, do: "#{@user.lastname} #{@user.firstname}", else: "Utilisateur introuvable" %></div>
                   <div class="text-2xl"><%= if @user, do: @user.role.name_role, else: "Aucun rôle" %></div>
               </div>
           </div>
             <%!-- Cards --%>
           <div class="px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-12 gap-6 grid-rows-10">
+            <div class="col-span-12 sm:col-span-8 xl:col-span-8 sm:row-span-5 xl:row-spen-5 h-full">
+              <.live_component
+                module={BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard01}
+                id="card-01"
+              />
+            </div>
+
+            <div class="col-span-12 sm:col-span-4 xl:col-span-4 sm:row-span-8 xl:row-spen-8 h-full">
+              <.live_component
+                module={BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard02}
+                id="card_02"
+                user={@user}
+              />
+            </div>
+
+            <div class="col-span-12 sm:col-span-8 xl:col-span-8 sm:row-span-3 xl:row-spen-3 h-full">
+              <.live_component
+                module={BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard03}
+                id="card_03"
+              />
+            </div>
           </div>
         </div>
       </div>

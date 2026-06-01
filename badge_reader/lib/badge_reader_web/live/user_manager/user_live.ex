@@ -362,11 +362,11 @@ defmodule BadgeReaderWeb.UserLive do
             <%!--  Cards --%>
             <div class="grid grid-cols-12 gap-6">
               <.live_component
-              module={BadgeReaderWeb.UserManager.ComponentsLive.UserCard01}
-              id="table_user"
-              user_table={@user_table}
-              is_open={@active_menu_id == "1"}
-              on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
+                module={BadgeReaderWeb.UserManager.ComponentsLive.UserCard01}
+                id="table_user"
+                user_table={@user_table}
+                is_open={@active_menu_id == "1"}
+                on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
               />
             </div>
 

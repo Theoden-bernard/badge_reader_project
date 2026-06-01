@@ -1,11 +1,7 @@
-defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
+defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard02 do
   use BadgeReaderWeb, :live_component
+  alias BadgeReader.{Accounts}
   alias BadgeReader.Accounts.User
-  alias BadgeReader.Accounts
-  import BadgeReaderWeb.EditMenu
-
-  attr :is_open, :boolean, default: false
-  attr :on_toggle, :any, default: nil
 
   def mount(socket) do
     {:ok,
@@ -13,7 +9,7 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
     |> assign(:edit, false)}
   end
 
-  def update(%{current_user: current_user, is_open: is_open, on_toggle: on_toggle}, socket) do
+  def update(%{user: current_user}, socket) do
     form = current_user
     |> User.profile_changeset(%{})
     |> to_form()
@@ -22,9 +18,7 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
     socket
     |> assign(:current_user, current_user)
     |> assign(:role, BadgeReader.Repo.all(BadgeReader.RoleManager.Role))
-    |> assign(:form, form)
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+    |> assign(:form, form)}
   end
 
   def handle_event("toggle_edit", _attrs, socket) do
@@ -35,7 +29,7 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
     |> assign(:edit, !edit)}
   end
 
-  def handle_event("validate_user", user_info, socket) do
+  def handle_event("validate_info", user_info, socket) do
     current_user = socket.assigns.current_user
     changeset = current_user
     |> User.profile_changeset(user_info["user"])
@@ -51,13 +45,14 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
 
     case Accounts.change_info_user(current_user, user_info["user"]) do
       {:ok, user} ->
-       {:noreply,
-      socket
-      |> put_flash(:info, "Utilisateur modifier avec succès !")
-      |> assign(:current_user, user)
-      |> assign(:edit, false)}
+        {:noreply,
+        socket
+        |> put_flash(:info, "Utilisateur modifier avec succès !")
+        |> assign(:current_user, user)
+        |> assign(:edit, false)}
       {:error, %Ecto.Changeset{} = changeset} ->
          {:noreply, assign_form(socket, changeset)}
+
     end
   end
 
@@ -70,36 +65,20 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
     <div class="flex flex-col h-full bg-white dark:bg-gray-800 shadow-xs rounded-xl">
       <div class="w-full px-5">
         <header class="flex justify-between items-start pt-4">
-          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Vos informations</h2>
-          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
-            <ul class="text-sm">
-              <li>
-                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
-                  Option 1
-                </button>
-              </li>
-              <li>
-                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
-                  Option 2
-                </button>
-              </li>
-              <li class="border-t border-gray-700 mt-1 pt-1">
-                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
-                  Remove
-                </button>
-              </li>
-            </ul>
-          </.edit_menu>
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+            Ses informations
+          </h2>
         </header>
         <h3 class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-3">
-        VOS INFORMATION PERSONNEL
+          SES INFORMATION PERSONNEL
         </h3>
+
         <.form
-          for={@form}
-          id="edit_user"
-          phx-submit="submit_user"
-          phx-change="validate_user"
-          phx-target={@myself}
+        for={@form}
+        id="edit_user"
+        phx-submit="submit_user"
+        phx-change="validate_info"
+        phx-target={@myself}
         >
           <div class="bg-white dark:bg-gray-800 border-gray-400 mb-5 overflow-hidden shadow rounded-lg border">
             <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
@@ -171,13 +150,13 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard02 do
                     Badge
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
-                    <%= if @current_user.badge, do: @current_user.badge.name_badge, else: "Badge non attribuer" %>
+                    <%!-- <%= if @current_user.badge, do: @current_user.badge.name_badge, else: "Badge non attribuer" %> --%>
                   </dd>
                 </div>
+
               </dl>
             </div>
           </div>
-
           <div class="flex justify-end mb-5">
             <.button type="submit" class="btn btn-primary w-full mt-4">
               Modifier l'utilisateur
