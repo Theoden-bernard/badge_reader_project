@@ -6,7 +6,7 @@ defmodule BadgeReader.Accounts do
   import Ecto.Query, warn: false
   alias BadgeReader.Repo
 
-  alias BadgeReader.Accounts.{User, UserToken, UserNotifier, Badge, Role}
+  alias BadgeReader.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
 
@@ -39,7 +39,7 @@ defmodule BadgeReader.Accounts do
 
   """
   def get_user_by_email_and_password(email, password)
-      when is_binary(email) and is_binary(password) do
+    when is_binary(email) and is_binary(password) do
     user = Repo.get_by(User, email: email)
     if User.valid_password?(user, password), do: user
   end
@@ -70,7 +70,18 @@ defmodule BadgeReader.Accounts do
 
   """
   def get_all_user() do
-    Repo.all(User)
+    User
+    |> Repo.all()
+    |> Repo.preload([:role])
+  end
+
+  def list_all_users_except_the_logged_user(user) do
+    IO.inspect(user, label: "USER = ")
+
+    User
+    |> where([u], u.id != ^user.id)
+    |> Repo.all()
+    |> Repo.preload([:role])
   end
 
   @doc """
@@ -135,10 +146,18 @@ defmodule BadgeReader.Accounts do
   """
   def register_user(attrs) do
     %User{}
-    |> User.profile_changeset(attrs)
     |> User.email_changeset(attrs)
-    |> User.password_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def admin_create_user(attrs) do
+    %User{}
+    |> User.profile_changeset(attrs)
+    # |> User.email_changeset(attrs)
+    |> User.password_changeset(attrs)
+    |> User.confirm_changeset()
+    |> Repo.insert()
+    |> user_preloads()
   end
 
   ## Settings
@@ -172,9 +191,10 @@ defmodule BadgeReader.Accounts do
     User.email_changeset(user, attrs, opts)
   end
 
-  def change_info_user(user, attrs) do
+  def change_info_user(user, attrs \\ %{}, _opts \\ []) do
     user
     |> User.profile_changeset(attrs)
+    # |> User.email_changeset(attrs)
     |> Repo.update()
   end
 
@@ -362,62 +382,9 @@ defmodule BadgeReader.Accounts do
     end)
   end
 
-  ##RGP
+  defp user_preloads({:ok, user}),
+    do: {:ok, Repo.preload(user, [:role])}
 
-  @doc """
-  Retrieves user data with their badges (Access Right - Art. 15).
-  """
-  # def get_user_data(user_id) do
-  #   case Repo.get(User, user_id) do
-  #     %User{} = user ->
-  #       badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
-  #       {:ok, %{
-  #         email: user.email,
-  #         inserted_at: user.inserted_at,
-  #         badges: badges
-  #       }}
-  #     nil -> {:error, :not_found}
-  #   end
-  # end
-
-  @doc """
-  Deletes and anonymizes a user (Right to erasure - Art. 17).
-  """
-  # def delete_user_and_anonymize(%User{} = user) do
-  #   Repo.transaction(fn ->
-  #     BadgeReader.Badges.delete_all_user_badges(user.id)
-
-  #     user
-  #     |> Ecto.Changeset.change(%{
-  #       email: "deleted-user-#{user.id}@badge-reader.local",
-  #       hashed_password: "ANONYMIZED_#{Ecto.UUID.generate()}"
-  #     })
-  #     |> Repo.update()
-  #     |> case do
-  #       {:ok, updated_user} -> updated_user
-  #       {:error, changeset} -> Repo.rollback(changeset)
-  #     end
-  #   end)
-  # end
-
-  @doc """
-  Exports user data (Right to data portability - Art. 20).
-  Returns a data structure ready to be converted to JSON.
-  """
-  # def export_user_data(user_id) do
-  #   user = Repo.get!(User, user_id)
-  #   badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
-
-  #   %{
-  #     user_id: user.id,
-  #     email: user.email,
-  #     created_at: user.inserted_at,
-  #     badges: Enum.map(badges, fn b -> %{
-  #       rfid: b.rfid,
-  #       name: b.name_badge,
-  #       activated_at: b.date_activation,
-  #       expired_at: b.date_expiration
-  #     } end)
-  #   }
-  # end
+  defp user_preloads(any),
+    do: any
 end

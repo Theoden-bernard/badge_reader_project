@@ -13,9 +13,24 @@ defmodule BadgeReader.AccountsFixtures do
   def valid_user_password, do: "hello world!"
 
   def valid_user_attributes(attrs \\ %{}) do
+    role = get_or_create_default_role()
+
     Enum.into(attrs, %{
-      email: unique_user_email()
+      email: unique_user_email(),
+      password: valid_user_password(),
+      firstname: "Test",
+      lastname: "User",
+      role_id: role.id
     })
+  end
+
+  defp get_or_create_default_role do
+    case BadgeReader.Repo.get_by(BadgeReader.RoleManager.Role, name_role: "test_role") do
+      nil ->
+        BadgeReader.Repo.insert!(%BadgeReader.RoleManager.Role{name_role: "test_role"})
+      role ->
+        role
+    end
   end
 
   def unconfirmed_user_fixture(attrs \\ %{}) do

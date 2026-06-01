@@ -11,7 +11,7 @@ defmodule BadgeReader.Accounts.User do
     field :firstname, :string
     field :lastname, :string
 
-    belongs_to :role, BadgeReader.Accounts.Role
+    belongs_to :role, BadgeReader.RoleManager.Role
     has_one :badge, BadgeReader.Accounts.Badge
 
     timestamps(type: :utc_datetime)
@@ -141,10 +141,11 @@ defmodule BadgeReader.Accounts.User do
   It requires the firstname, lastname and role_id to change otherwise an error is added.
 
   """
-  def profile_changeset(user, attrs) do
+  def profile_changeset(user, attrs, _opt \\ []) do
     user
-    |> cast(attrs, [:firstname, :lastname, :role_id])
-    |> validate_required([:firstname, :lastname])
+    |> cast(attrs, [:firstname, :lastname, :role_id, :email])
+    |> validate_required([:firstname, :lastname, :role_id, :email])
+    |> validate_email(validate_unique: false)
   end
 
 end

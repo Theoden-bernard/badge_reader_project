@@ -1,5 +1,6 @@
 defmodule BadgeReaderWeb.Sidebar do
   use Phoenix.LiveComponent
+  alias Phoenix.LiveView.JS
 
   @impl true
   def mount(socket) do
@@ -21,12 +22,6 @@ defmodule BadgeReaderWeb.Sidebar do
   @impl true
   def update(assigns, socket) do
     {:ok, assign(socket, assigns)}
-  end
-
-  @impl true
-  def handle_event("trigger_modale", _params, socket) do
-    send(self(), {:open_modale})
-    {:noreply, socket}
   end
 
   @impl true
@@ -128,10 +123,15 @@ defmodule BadgeReaderWeb.Sidebar do
               </svg>
             </button>
 
-            <.link navigate="/users/dashboard" class="block">
-              <svg class="fill-yellow-500" xmlns="http://www.w3.org/2000/svg" width={32} height={32}>
-                <path d="M31.956 14.8C31.372 6.92 25.08.628 17.2.044V5.76a9.04 9.04 0 0 0 9.04 9.04h5.716ZM14.8 26.24v5.716C6.92 31.372.63 25.08.044 17.2H5.76a9.04 9.04 0 0 1 9.04 9.04Zm11.44-9.04h5.716c-.584 7.88-6.876 14.172-14.756 14.756V26.24a9.04 9.04 0 0 1 9.04-9.04ZM.044 14.8C.63 6.92 6.92.628 14.8.044V5.76a9.04 9.04 0 0 1-9.04 9.04H.044Z" />
-              </svg>
+            <.link navigate="/" class="block">
+              <img
+                src={if @sidebar_expanded, do: "/images/colint-logo-complet.png", else: "/images/colint-logo.png"}
+                class={[
+                  "transition-all duration-300 object-contain",
+                  if(@sidebar_expanded, do: "w-40 h-25", else: "w-20 h-10")
+                ]}
+                alt="Logo"
+              />
             </.link>
           </div>
 
@@ -156,7 +156,7 @@ defmodule BadgeReaderWeb.Sidebar do
                 >
                   <:content :let={%{is_open: _is_open}}>
                     <div class="flex items-center">
-                      <.link navigate="/users/dashboard">
+                      <.link navigate="/">
                         <svg
                           class={["shrink-0 fill-current", active_icon_class(@current_path, "dashboard")]}
                           xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
@@ -166,8 +166,8 @@ defmodule BadgeReaderWeb.Sidebar do
                         </svg>
                       </.link>
                       <.link
-                        navigate="/users/dashboard"
-                        class={["block transition duration-150 truncate", active_link_class(@current_path, "/dashboard")]}
+                        navigate="/"
+                        class={["block transition duration-150 truncate", active_link_class(@current_path, "dashboard")]}
                       >
                         <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                           Dashboard - <%= if @current_user, do: @current_user.firstname, else: "Non connecté" %>
@@ -221,21 +221,21 @@ defmodule BadgeReaderWeb.Sidebar do
                       </div>
                     </div>
                     <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                      <ul class={["pl-8 mt-1", if(is_open, do: "block", else: "hidden")]}>
+                      <ul class={["pl-10 mt-1", if(is_open, do: "block", else: "hidden")]}>
                         <li class="mb-1 last:mb-0">
-                          <button phx-click="trigger_modale" class="block transition duration-150 truncate" phx-target={@myself}>
+                          <button phx-click={JS.push("trigger_modale", value: %{id: "1"})} class="block transition duration-150 truncate">
                             Création
                           </button>
                         </li>
                         <li class="mb-1 last:mb-0">
-                          <.link navigate="/modaleUtilisateurEdit"
-                            class={["block transition duration-150 truncate", active_link_class(@current_path, "/modaleUtilisateurEdit")]}
-                          >Modifications</.link>
+                          <button phx-click={JS.push("trigger_modale", value: %{id: "2"})} class="block transition duration-150 truncate">
+                            Modifications
+                          </button>
                         </li>
                         <li class="mb-1 last:mb-0">
-                          <.link navigate="/modaleUtilisateurDelete"
-                            class={["block transition duration-150 truncate", active_link_class(@current_path, "/modaleUtilisateurDelete")]}
-                          >Supprimer</.link>
+                          <button phx-click={JS.push("trigger_modale", value: %{id: "3"})} class="block transition duration-150 truncate">
+                            Supprimer
+                          </button>
                         </li>
                       </ul>
                     </div>

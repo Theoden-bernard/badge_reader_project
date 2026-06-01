@@ -26,6 +26,5 @@ RUN mix compile
 RUN mix assets.deploy \
     && mix phx.digest
 
-#CMD ["iex", "-S", "mix"]
 CMD ["mix", "phx.server"]
-#CMD ["ls", "/app"]
+
