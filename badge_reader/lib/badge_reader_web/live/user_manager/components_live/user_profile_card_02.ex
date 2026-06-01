@@ -2,6 +2,7 @@ defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard02 do
   use BadgeReaderWeb, :live_component
   alias BadgeReader.{Accounts}
   alias BadgeReader.Accounts.User
+  import BadgeReaderWeb.EditMenu
 
   def mount(socket) do
     {:ok,
@@ -9,7 +10,7 @@ defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard02 do
     |> assign(:edit, false)}
   end
 
-  def update(%{user: current_user}, socket) do
+  def update(%{user: current_user, is_open: is_open, on_toggle: on_toggle}, socket) do
     form = current_user
     |> User.profile_changeset(%{})
     |> to_form()
@@ -18,6 +19,8 @@ defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard02 do
     socket
     |> assign(:current_user, current_user)
     |> assign(:role, BadgeReader.Repo.all(BadgeReader.RoleManager.Role))
+    |> assign(:is_open, is_open)
+    |> assign(:on_toggle, on_toggle)
     |> assign(:form, form)}
   end
 
@@ -68,6 +71,25 @@ defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard02 do
           <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
             Ses informations
           </h2>
+          <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
+            <ul class="text-sm">
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 1
+                </button>
+              </li>
+              <li>
+                <button class="block w-full text-left font-medium text-black dark:text-gray-200 hover:text-gray-500 dark:hover:text-white py-1.5 px-3">
+                  Option 2
+                </button>
+              </li>
+              <li class="border-t border-gray-700 mt-1 pt-1">
+                <button class="block w-full text-left font-medium text-red-500 hover:text-red-400 py-1.5 px-3">
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </.edit_menu>
         </header>
         <h3 class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-3">
           SES INFORMATION PERSONNEL

@@ -8,7 +8,7 @@ defmodule BadgeReaderWeb.UserLive do
     current_user = socket.assigns.current_scope.user
     current_user = BadgeReader.Repo.preload(current_user, :role)
 
-    user_table = Accounts.get_all_user()
+    user_table = Accounts.list_all_users_except_the_logged_user(current_user)
 
     changeset = User.profile_changeset(%User{}, %{})
 
@@ -19,7 +19,7 @@ defmodule BadgeReaderWeb.UserLive do
     |> assign(:is_open, true)
     |> assign(:active_menu_id, nil)
     |> assign(:modale_open, false)
-    |> assign(:user, BadgeReader.Repo.all(BadgeReader.Accounts.User))
+    |> assign(:user, Accounts.list_all_users_except_the_logged_user(current_user))
     |> assign(:role, BadgeReader.Repo.all(BadgeReader.RoleManager.Role))
     |> assign_form(changeset)}
   end
@@ -197,7 +197,9 @@ defmodule BadgeReaderWeb.UserLive do
 
             <%= if @modale_open && @id_modal == "1" do %>
               <div class="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center">
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
+                <div phx-click-away={JS.push("trigger_modale", value: %{id: "1"})}
+                phx-window-keydown={JS.push("trigger_modale", value: %{id: "1"})}
+                phx-key="Escape" class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
 
                   <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Créer un utilisateur</h2>
@@ -233,7 +235,9 @@ defmodule BadgeReaderWeb.UserLive do
 
             <%= if @modale_open && @id_modal == "2" do %>
               <div class="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center">
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
+                <div phx-click-away={JS.push("trigger_modale", value: %{id: "1"})}
+                phx-window-keydown={JS.push("trigger_modale", value: %{id: "1"})}
+                phx-key="Escape" class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
 
                   <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Modifier un utilisateur</h2>
@@ -276,7 +280,9 @@ defmodule BadgeReaderWeb.UserLive do
 
             <%= if @modale_open && @id_modal == "3" do %>
               <div class="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center">
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
+                <div phx-click-away={JS.push("trigger_modale", value: %{id: "1"})}
+                phx-window-keydown={JS.push("trigger_modale", value: %{id: "1"})}
+                phx-key="Escape" class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl w-full max-w-md">
 
                   <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Supprimer un utilisateur</h2>

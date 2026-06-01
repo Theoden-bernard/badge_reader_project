@@ -1,7 +1,7 @@
 defmodule BadgeReaderWeb.ProfileCard do
   use Phoenix.LiveComponent
-  alias BadgeReader.Accounts.User
-  alias BadgeReader.Accounts
+  # alias BadgeReader.Accounts.User
+  # alias BadgeReader.Accounts
   import BadgeReaderWeb.EditMenu
 
   attr :is_open, :boolean, default: false

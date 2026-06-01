@@ -75,6 +75,15 @@ defmodule BadgeReader.Accounts do
     |> Repo.preload([:role])
   end
 
+  def list_all_users_except_the_logged_user(user) do
+    IO.inspect(user, label: "USER = ")
+
+    User
+    |> where([u], u.id != ^user.id)
+    |> Repo.all()
+    |> Repo.preload([:role])
+  end
+
   @doc """
   Gets all user by role.
 

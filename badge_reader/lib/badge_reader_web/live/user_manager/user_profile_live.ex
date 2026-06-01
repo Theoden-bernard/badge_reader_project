@@ -12,7 +12,9 @@ defmodule BadgeReaderWeb.UserProfileLive do
     {:ok,
     socket
     |> assign(:user, user)
-    |> assign(:current_user, current_user)}
+    |> assign(:current_user, current_user)
+    |> assign(:is_open, true)
+    |> assign(:active_menu_id, nil)}
   end
 
   @impl true
@@ -21,6 +23,15 @@ defmodule BadgeReaderWeb.UserProfileLive do
     {:noreply, assign(socket, :current_path, path)}
   end
 
+  @impl true
+  def handle_event("toggle_menu", %{"id" => id}, socket) do
+    new_active_id = if socket.assigns.active_menu_id == id, do: nil, else: id
+
+    {:noreply,
+    socket
+    |> assign(:is_open, !socket.assigns.is_open)
+    |> assign(:active_menu_id, new_active_id)}
+  end
 
   @impl true
   def render(assigns) do
@@ -57,6 +68,8 @@ defmodule BadgeReaderWeb.UserProfileLive do
               <.live_component
                 module={BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard01}
                 id="card-01"
+                is_open={@active_menu_id == "1"}
+                on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
               />
             </div>
 
@@ -65,6 +78,8 @@ defmodule BadgeReaderWeb.UserProfileLive do
                 module={BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard02}
                 id="card_02"
                 user={@user}
+                is_open={@active_menu_id == "2"}
+                on_toggle={JS.push("toggle_menu", value: %{id: "2"})}
               />
             </div>
 
@@ -72,6 +87,8 @@ defmodule BadgeReaderWeb.UserProfileLive do
               <.live_component
                 module={BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard03}
                 id="card_03"
+                is_open={@active_menu_id == "3"}
+                on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
               />
             </div>
           </div>

@@ -1,6 +1,5 @@
 defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserCard01 do
   use BadgeReaderWeb, :live_component
-  alias BadgeReader.Accounts
   import BadgeReaderWeb.EditMenu
 
   def mount(socket) do

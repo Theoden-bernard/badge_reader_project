@@ -90,7 +90,7 @@ defmodule BadgeReaderWeb.Header do
     ~H"""
     <header class={header_classes(@variant) <> "bg-base-100"} phx-target={@myself}>
       <div class="px-4 sm:px-6 lg:px-8 bg-base-100">
-        <div class={["flex items-center justify-between h-16", border_class(@variant)]}>
+        <div phx-click-away="close_all_dropdowns" phx-target={@myself} class={["flex items-center justify-between h-16", border_class(@variant)]}>
 
           <%!-- Header: Left side --%>
           <div class="flex">
