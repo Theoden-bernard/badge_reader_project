@@ -6,17 +6,19 @@ defmodule BadgeReader.AccessPointsManager.AccessPoints do
     field :nom_access_points, :string
     field :places, :string
 
-    many_to_many :roles, BadgeReader.Accounts.Role,
-      join_through: "roles_access_points"
+    many_to_many :roles, BadgeReader.RoleManager.Role,
+      join_through: "roles_access_points",
+      join_keys: [access_point_id: :id, role_id: :id],
+      on_replace: :delete
 
     timestamps(type: :utc_datetime)
   end
 
   @doc false
-  def changeset(access_points, attrs, user_scope) do
+  def changeset_access_points(access_points, attrs, roles \\ []) do
     access_points
     |> cast(attrs, [:nom_access_points, :places])
     |> validate_required([:nom_access_points, :places])
-    |> put_change(:user_id, user_scope.user.id)
+    |> put_assoc(:roles, roles)
   end
 end

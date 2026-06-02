@@ -7,8 +7,9 @@ defmodule BadgeReader.RoleManager.Role do
 
     has_many :users, BadgeReader.Accounts.User
 
-    many_to_many :access_points, BadgeReader.Accounts.AccessPoints,
+    many_to_many :access_points, BadgeReader.AccessPointsManager.AccessPoints,
       join_through: "roles_access_points",
+      join_keys: [role_id: :id, access_point_id: :id],
       on_replace: :delete
 
     timestamps(type: :utc_datetime)

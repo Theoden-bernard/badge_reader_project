@@ -15,14 +15,9 @@ defmodule BadgeReader.Accounts.Badge do
   end
 
   @doc false
-  def changeset(badge, attrs, user_scope) do
+  def changeset(badge, attrs) do
     badge
     |> cast(attrs, [:rfid, :name_badge, :date_activation, :date_expiration, :statue])
     |> validate_required([:rfid, :name_badge, :date_activation, :date_expiration, :statue])
-    |> put_change(:user_id, user_scope.user.id)
   end
-
-  # def delete_all_user_badges(user_id) do
-  #   Repo.delete_all(from b in Badge, where: b.user_id == ^user_id)
-  # end
 end
