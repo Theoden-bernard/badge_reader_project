@@ -9,39 +9,6 @@ defmodule BadgeReaderWeb.DashboardLive do
       %{id: "4", image: "/images/img_users/user-36-09.jpg", name: "Burak Long", email: "longburak@gmail.com", status: "Etudiant", present: "🟢"},
     ]
 
-    # my_chart =
-    # LiveCharts.build(%{
-    #     # (Optional) a unique string id to differentiate the chart from other
-    #     # charts on the same page. If not set, a random id will be assigned
-    #     # to the chart.
-    #     id: "my-custom-chart-id",
-
-    #     # Set the chart type. Supports `:line`, `:bar`, `:pie`, `:donut`,
-    #     # `:area`, and many more. For a full list of supported types, see the
-    #     # adapter or JS library documentation.
-    #     type: :bar,
-
-    #     # A list of series data with all the datapoints to chart. Format of
-    #     # this data is determined by the adapter/JS library. This may also
-    #     # be empty, if you plan to push dynamic updates to the chart over
-    #     # the socket later.
-    #     series: [
-    #     %{name: "Sales", data: [10, 20, 30, 40, 50]},
-    #     ],
-
-    #     # (Optional) Other library and adapter-specific options.
-    #     options: %{
-    #     xaxis: %{
-    #         categories: [2021, 2022, 2023, 2024, 2025]
-    #     },
-    #     },
-
-    #     # (Optional) set the adapter to use for the chart. If not set, uses
-    #     # the global adapter configured in `config.exs` (defaults to
-    #     # `LiveCharts.Adapter.ApexCharts`).
-    #     adapter: LiveCharts.Adapter.ApexCharts,
-    # })
-
     @impl true
     def mount(_params, _session, socket) do
         current_user = socket.assigns.current_scope.user
@@ -136,47 +103,62 @@ defmodule BadgeReaderWeb.DashboardLive do
                     <%!--  Cards --%>
                     <div class="grid grid-cols-12 gap-6">
 
-                        <.dashboard_card_01
+                        <.live_component
+                            id="card__dashboard_01"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01}
                             is_open={@active_menu_id == "1"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
                         />
 
-                        <.dashboard_card_02
+                        <.live_component
+                            id="card__dashboard_02"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02}
                             is_open={@active_menu_id == "2"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "2"})}
                         />
 
-                        <.dashboard_card_03
+                        <.live_component
+                            id="card__dashboard_03"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03}
                             is_open={@active_menu_id == "3"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
                         />
 
-                        <.dashboard_card_04
+                        <.live_component
+                            id="card__dashboard_04"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard04}
                             is_open={@active_menu_id == "4"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "4"})}
                         />
 
-                        <.dashboard_card_05
+                        <.live_component
+                            id="card__dashboard_05"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard05}
                             is_open={@active_menu_id == "5"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "5"})}
                         />
 
-                        <.dashboard_card_06
+                        <.live_component
+                            id="card__dashboard_06"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard06}
                             is_open={@active_menu_id == "6"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "6"})}
                         />
 
-                        <.dashboard_card_07
+                        <.live_component
+                            id="card__dashboard_07"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard07}
                             customers={@customers}
                             is_open={@active_menu_id == "7"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "7"})}
                         />
 
-                        <.dashboard_card_08
+                        <.live_component
+                            id="card__dashboard_08"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08}
                             is_open={@active_menu_id == "8"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "8"})}
                         />
-
                     </div>
                 </div>
             </main>

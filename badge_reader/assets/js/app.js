@@ -9,49 +9,11 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
-// On importe Chart.js
-import Chart from 'chart.js/auto';
+import Hooks from "./hooks"
 
-// On récupère le token CSRF nécessaire à Phoenix
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
-// --- DÉFINITION DU HOOK DIRECTEMENT ICI ---
-let Hooks = {}
-
-Hooks.LineChart = {
-  mounted() {
-    const data = JSON.parse(this.el.dataset.points);
-
-    this.chart = new Chart(this.el, {
-      type: 'line',
-      data: {
-        labels: data.labels,
-        datasets: [{
-          label: this.el.getAttribute('data-label') || 'Données',
-          data: data.values,
-          borderColor: data.border_color || 'rgb(255, 212, 1)',
-          backgroundColor: data.background_color || 'transparent',
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    });
-  },
-
-  updated() {
-    const data = JSON.parse(this.el.dataset.points);
-    this.chart.data.labels = data.labels;
-    this.chart.data.datasets[0].data = data.values;
-    this.chart.update();
-  }
-}
-// ------------------------------------------
-
-// Configuration du LiveSocket avec nos Hooks intégrés
+// Configuration du LiveSocket avec l'objet Hooks complet
 let liveSocket = new LiveSocket("/live", Socket, {
   params: {_csrf_token: csrfToken},
   hooks: Hooks

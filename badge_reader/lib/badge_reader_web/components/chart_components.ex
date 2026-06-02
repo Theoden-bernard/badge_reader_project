@@ -7,7 +7,7 @@ defmodule BadgeReaderWeb.ChartComponents do
       <div id={"#{@id}-chart-container"} phx-update="ignore" style="position: relative; height: 100%; width: 100%;">
         <canvas
           id={"#{@id}-canvas"}
-          phx-hook="LineChart"
+          phx-hook="GenericChart"
           data-points={Jason.encode!(@points)}
         />
       </div>
