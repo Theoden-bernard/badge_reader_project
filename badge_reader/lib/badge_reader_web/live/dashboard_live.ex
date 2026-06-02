@@ -9,6 +9,39 @@ defmodule BadgeReaderWeb.DashboardLive do
       %{id: "4", image: "/images/img_users/user-36-09.jpg", name: "Burak Long", email: "longburak@gmail.com", status: "Etudiant", present: "🟢"},
     ]
 
+    # my_chart =
+    # LiveCharts.build(%{
+    #     # (Optional) a unique string id to differentiate the chart from other
+    #     # charts on the same page. If not set, a random id will be assigned
+    #     # to the chart.
+    #     id: "my-custom-chart-id",
+
+    #     # Set the chart type. Supports `:line`, `:bar`, `:pie`, `:donut`,
+    #     # `:area`, and many more. For a full list of supported types, see the
+    #     # adapter or JS library documentation.
+    #     type: :bar,
+
+    #     # A list of series data with all the datapoints to chart. Format of
+    #     # this data is determined by the adapter/JS library. This may also
+    #     # be empty, if you plan to push dynamic updates to the chart over
+    #     # the socket later.
+    #     series: [
+    #     %{name: "Sales", data: [10, 20, 30, 40, 50]},
+    #     ],
+
+    #     # (Optional) Other library and adapter-specific options.
+    #     options: %{
+    #     xaxis: %{
+    #         categories: [2021, 2022, 2023, 2024, 2025]
+    #     },
+    #     },
+
+    #     # (Optional) set the adapter to use for the chart. If not set, uses
+    #     # the global adapter configured in `config.exs` (defaults to
+    #     # `LiveCharts.Adapter.ApexCharts`).
+    #     adapter: LiveCharts.Adapter.ApexCharts,
+    # })
+
     @impl true
     def mount(_params, _session, socket) do
         current_user = socket.assigns.current_scope.user
@@ -20,6 +53,7 @@ defmodule BadgeReaderWeb.DashboardLive do
         |> assign(:customers, @customers)
         |> assign(:is_open, true)
         |> assign(:active_menu_id, nil)}
+        # |> assign(:my_chart, my_chart)}
     end
 
     @impl true

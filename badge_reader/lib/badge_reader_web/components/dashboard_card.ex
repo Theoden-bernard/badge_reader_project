@@ -44,8 +44,12 @@ defmodule BadgeReaderWeb.DashboardCard do
             +2%
           </div>
         </div>
-        <div class="grow max-h-[128px] -mx-2 -mb-2">
-        <.native_sparkline data={[2, 15, 8, 22, 18, 20, 12, 14, 18]} />
+        <div class="">
+          <.live_component
+          module={BadgeReaderWeb.ChartComponents}
+          id="nbr_staff"
+          points={%{labels: ["Jan", "Fév", "Mar"], values: [10, 23, 15]}}
+          />
         </div>
       </div>
     </div>
@@ -90,7 +94,7 @@ defmodule BadgeReaderWeb.DashboardCard do
         </div>
       </div>
       <div class="grow max-sm:max-h-[128px] max-h-[128px]">
-        <.native_sparkline data={[2, 6, 8, 18, 8, 20, 12, 14, 10]} />
+        <%!-- <.native_sparkline data={[2, 6, 8, 18, 8, 20, 12, 14, 10]} /> --%>
       </div>
     </div>
     """
@@ -130,9 +134,9 @@ defmodule BadgeReaderWeb.DashboardCard do
           <div class="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full">+20%</div>
         </div>
       </div>
-      <div class="grow max-sm:max-h-[128px] xl:max-h-[128px]">
-        <.native_sparkline data={[10, 15, 8, 22, 18, 20, 12, 14, 18]}/>
-      </div>
+      <%!-- <div class="grow max-sm:max-h-[128px] xl:max-h-[128px]"> --%>
+        <%!-- <.native_sparkline data={[10, 15, 8, 22, 18, 20, 12, 14, 18]}/> --%>
+      <%!-- </div> --%>
     </div>
     """
   end
@@ -197,7 +201,7 @@ defmodule BadgeReaderWeb.DashboardCard do
           </.edit_menu>
         </div>
       </header>
-      <.native_sparkline data={[10, 10, 24, 2, 5, 20, 10, 24, 18]}/>
+      <%!-- <.native_sparkline data={[10, 10, 24, 2, 5, 20, 10, 24, 18]}/> --%>
     </div>
     """
   end
@@ -229,13 +233,13 @@ defmodule BadgeReaderWeb.DashboardCard do
           </.edit_menu>
         </div>
       </header>
-      <.native_pie_chart
+      <%!-- <.native_pie_chart
         data={[
           ["Staff", 50],
           ["Étudiants", 17],
           ["Visiteurs", 37]
         ]}
-      />
+      /> --%>
     </div>
     """
   end
