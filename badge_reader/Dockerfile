@@ -14,6 +14,7 @@ COPY . .
 
 ENV MIX_ENV="prod"
 
+
 # Bash command
 RUN set -xe \
 && mix local.hex --force \
@@ -22,6 +23,8 @@ RUN set -xe \
 && mix deps.compile
 
 RUN mix compile
+
+RUN cd assets && npm install
 
 RUN mix assets.deploy \
     && mix phx.digest
