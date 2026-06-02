@@ -1,4 +1,4 @@
-defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard01 do
+defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard06 do
   use BadgeReaderWeb, :live_component
   import BadgeReaderWeb.EditMenu
 
@@ -6,21 +6,19 @@ defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard01 do
     {:ok, socket}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle}, socket)do
+  def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
     {:ok,
     socket
     |> assign(:is_open, is_open)
     |> assign(:on_toggle, on_toggle)}
   end
 
-  def render(assigns)do
-    ~H"""
-    <div class="flex flex-col h-full bg-white dark:bg-gray-800 shadow-xs rounded-xl">
-      <div class="w-full px-5">
-        <header class="flex justify-between items-start pt-4">
-          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-            Son Activiter
-          </h2>
+  def render(assigns) do
+  ~H"""
+    <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
+      <header class="border-b border-gray-100 dark:border-gray-700/60">
+        <div class="w-full px-5 pt-4 flex justify-between">
+          <h2 class="font-semibold text-gray-800 dark:text-gray-100">Présence</h2>
           <.edit_menu is_open={@is_open} on_toggle={@on_toggle}>
             <ul class="text-sm">
               <li>
@@ -40,25 +38,29 @@ defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard01 do
               </li>
             </ul>
           </.edit_menu>
-        </header>
-        <h3 class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
-          CETTE SEMAINE
-        </h3>
-      </div>
-      <div class="flex-1 min-h-0 w-full px-2 py-2">
+        </div>
+      </header>
+      <div class="px-2 py-2">
         <.live_component
           module={BadgeReaderWeb.ChartComponents}
-          id="nbr_hours"
+          id="graph_classes"
           points={%{
-            type: "bar",
-            label: "heur ",
-            labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"],
-            values: [6, 8, 4],
-            }
-          }
+            type: "doughnut",
+            label: "Etudiants ",
+            labels: ["B1", "B2", "B3", "M1", "M2"],
+            values: [10, 23, 15, 40, 12],
+            border_colors: "rgb(0, 0, 0)",
+            background_colors: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(153, 102, 255)"
+            ]
+          }}
         />
       </div>
     </div>
-    """
+  """
   end
 end

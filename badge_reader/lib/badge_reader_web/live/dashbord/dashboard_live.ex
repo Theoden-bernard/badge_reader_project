@@ -20,6 +20,7 @@ defmodule BadgeReaderWeb.DashboardLive do
         |> assign(:customers, @customers)
         |> assign(:is_open, true)
         |> assign(:active_menu_id, nil)}
+        # |> assign(:my_chart, my_chart)}
     end
 
     @impl true
@@ -102,47 +103,62 @@ defmodule BadgeReaderWeb.DashboardLive do
                     <%!--  Cards --%>
                     <div class="grid grid-cols-12 gap-6">
 
-                        <.dashboard_card_01
+                        <.live_component
+                            id="card__dashboard_01"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01}
                             is_open={@active_menu_id == "1"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
                         />
 
-                        <.dashboard_card_02
+                        <.live_component
+                            id="card__dashboard_02"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02}
                             is_open={@active_menu_id == "2"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "2"})}
                         />
 
-                        <.dashboard_card_03
+                        <.live_component
+                            id="card__dashboard_03"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03}
                             is_open={@active_menu_id == "3"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
                         />
 
-                        <.dashboard_card_04
+                        <.live_component
+                            id="card__dashboard_04"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard04}
                             is_open={@active_menu_id == "4"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "4"})}
                         />
 
-                        <.dashboard_card_05
+                        <.live_component
+                            id="card__dashboard_05"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard05}
                             is_open={@active_menu_id == "5"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "5"})}
                         />
 
-                        <.dashboard_card_06
+                        <.live_component
+                            id="card__dashboard_06"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard06}
                             is_open={@active_menu_id == "6"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "6"})}
                         />
 
-                        <.dashboard_card_07
+                        <.live_component
+                            id="card__dashboard_07"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard07}
                             customers={@customers}
                             is_open={@active_menu_id == "7"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "7"})}
                         />
 
-                        <.dashboard_card_08
+                        <.live_component
+                            id="card__dashboard_08"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08}
                             is_open={@active_menu_id == "8"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "8"})}
                         />
-
                     </div>
                 </div>
             </main>

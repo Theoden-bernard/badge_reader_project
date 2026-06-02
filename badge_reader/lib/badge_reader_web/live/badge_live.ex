@@ -93,9 +93,11 @@ defmodule BadgeReaderWeb.BadgeLive do
                   <%!--  Cards --%>
                   <div class="grid grid-cols-12 gap-6">
                     <div class="col-span-8 ">
-                            <.dashboard_card_08
-                                is_open={@active_menu_id == "1"}
-                                on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
+                            <.live_component
+                            id="card__dashboard_08"
+                            module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08}
+                            is_open={@active_menu_id == "1"}
+                            on_toggle={JS.push("toggle_menu", value: %{id: "1"})}
                             />
                         </div>
                   </div>
