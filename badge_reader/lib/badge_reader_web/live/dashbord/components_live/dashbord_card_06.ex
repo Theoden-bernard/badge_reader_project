@@ -46,8 +46,10 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard06 do
           id="graph_classes"
           points={%{
             type: "doughnut",
+            label: "Etudiants ",
             labels: ["B1", "B2", "B3", "M1", "M2"],
             values: [10, 23, 15, 40, 12],
+            border_colors: "rgb(0, 0, 0)",
             background_colors: [
               "rgb(255, 99, 132)",
               "rgb(54, 162, 235)",

@@ -54,7 +54,12 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
         <.live_component
         module={BadgeReaderWeb.ChartComponents}
         id="nbr_etudiants"
-        points={%{labels: ["jan", "fev", "mars", "avr", "mai"], values: [10, 23, 15, 50, 5]}}
+        points={%{
+          label: "Personnes ",
+          labels: ["jan", "fev", "mars", "avr", "mai"],
+          values: [10, 23, 15, 50, 5]
+          }
+        }
         />
       </div>
     </div>

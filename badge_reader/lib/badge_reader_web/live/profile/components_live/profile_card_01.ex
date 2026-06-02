@@ -43,8 +43,19 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard01 do
           CETTE SEMAINE
         </h3>
       </div>
-
-      <%!-- <BarChart data={chartData} width={595} height={248} /> --%>
+      <div class="flex-1 min-h-0 w-full px-2 py-2">
+        <.live_component
+            module={BadgeReaderWeb.ChartComponents}
+            id="nbr_hours"
+            points={%{
+              type: "bar",
+              label: "heur ",
+              labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"],
+              values: [6, 8, 4],
+              }
+            }
+          />
+      </div>
     </div>
     """
   end

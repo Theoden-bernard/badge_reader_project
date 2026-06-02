@@ -3,7 +3,7 @@ defmodule BadgeReaderWeb.ChartComponents do
 
   def render(assigns) do
     ~H"""
-    <div id={@id} class="w-full">
+    <div id={@id} class="w-full h-full">
       <div id={"#{@id}-chart-container"} phx-update="ignore" style="position: relative; height: 100%; width: 100%;">
         <canvas
           id={"#{@id}-canvas"}

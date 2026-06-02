@@ -23,7 +23,7 @@ Hooks.GenericChart = {
       finalDatasets = data.datasets;
     } else {
       finalDatasets = [{
-        label: this.el.getAttribute('data-label') || 'Données',
+        label: data.label || 'Données',
         data: data.values || [],
         backgroundColor: data.background_colors || data.background_color || 'rgba(247, 220, 106, 0.2)',
         borderColor: data.border_colors || data.border_color || 'rgb(255, 212, 1)',
