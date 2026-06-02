@@ -1,4 +1,4 @@
-defmodule BadgeReader.Accounts.AccessPoints do
+defmodule BadgeReader.AccessPointsManager.AccessPoints do
   use Ecto.Schema
   import Ecto.Changeset
 
