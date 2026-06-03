@@ -7,8 +7,8 @@ defmodule BadgeReader.Logs.Log do
     field :clocked_at, :utc_datetime
 
     belongs_to :user, BadgeReader.Accounts.User
-    belongs_to :badge, BadgeReader.Accounts.Badge
-    belongs_to :access_point, BadgeReader.Accounts.AccessPoints
+    belongs_to :badge, BadgeReader.BadgeManager.Badge
+    belongs_to :access_point, BadgeReader.AccessPointsManager.AccessPoints
 
     timestamps(type: :utc_datetime)
   end

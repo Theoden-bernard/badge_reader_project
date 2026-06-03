@@ -60,6 +60,10 @@ defmodule BadgeReader.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_lastname(lastname) do
+    Repo.get_by(User, lastname: lastname)
+  end
+
   @doc """
   Gets all user.
 
