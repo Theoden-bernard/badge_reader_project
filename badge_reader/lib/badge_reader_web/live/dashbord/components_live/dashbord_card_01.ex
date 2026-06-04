@@ -69,7 +69,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
         points={%{
           label: "Personnes ",
           labels: [CalculationOfTime.days(@week.seven_days_ago), CalculationOfTime.days(@week.six_days_ago), CalculationOfTime.days(@week.five_days_ago), CalculationOfTime.days(@week.four_days_ago), CalculationOfTime.days(@week.three_days_ago), CalculationOfTime.days(@week.yesteday), CalculationOfTime.days(@week.today)],
-          values: [10, 23, 15]
+          values: [10, 23, 0, 12, 24, 12, 41]
           }
         }
         />
