@@ -15,6 +15,31 @@ defmodule BadgeReader.Logs do
     |> Repo.all()
   end
 
+  def count_logs_user_today() do
+
+    today = Date.utc_today()
+
+    Log
+    |> where([d], fragment("?::date = ?", d.clocked_at, ^today))
+    |> where(type: :in)
+    # |> order_by(desc: :clocked_at)
+    |> select([d], count(d.user_id, :distinct))
+    |> Repo.one()
+  end
+
+  def count_logs_user_today_by_role(role) do
+
+    today = Date.utc_today()
+
+    Log
+    |> join(:inner, [l], u in assoc(l, :user))
+    |> where([l], fragment("?::date = ?", l.clocked_at, ^today))
+    |> where([l], type: :in)
+    |> where([l, u], u.role_id == ^BadgeReader.RoleManager.get_role_by_name(role).id)
+    |> select([l], count(l.user_id, :distinct))
+    |> Repo.one()
+  end
+
   def get_logs_user_today(lastname_user) do
 
     today = Date.utc_today()
@@ -26,4 +51,5 @@ defmodule BadgeReader.Logs do
     |> limit(1)
     |> Repo.one()
   end
+
 end

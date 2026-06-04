@@ -98,7 +98,5 @@ defmodule BadgeReader.AccessPointsManager do
           compare_role(badge, access_point)
       end
     end
-
   end
-
 end

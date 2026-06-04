@@ -2,15 +2,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
   use BadgeReaderWeb, :live_component
   import BadgeReaderWeb.EditMenu
 
+  alias BadgeReader.CalculationOfTime
+
   def mount(socket) do
-    {:ok, socket}
+    week = CalculationOfTime.calculation_of_the_week()
+
+    {:ok,
+    socket
+    |> assign(week: week)}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
+  def update(%{is_open: is_open, on_toggle: on_toggle, entry_number: total_etudiant}, socket) do
     {:ok,
     socket
     |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+    |> assign(:on_toggle, on_toggle)
+    |> assign(:total_etudiant, total_etudiant)}
   end
 
   def render(assigns) do
@@ -46,7 +53,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
           Personne
         </div>
         <div class="flex items-start">
-          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">17</div>
+          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{@total_etudiant}</div>
           <div class="text-sm font-medium text-red-500 px-1.5 bg-red-500/20 rounded-full">-5%</div>
         </div>
       </div>
@@ -56,8 +63,8 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
         id="nbr_etudiants"
         points={%{
           label: "Personnes ",
-          labels: ["jan", "fev", "mars", "avr", "mai"],
-          values: [10, 23, 15, 50, 5]
+          labels: [CalculationOfTime.days(@week.seven_days_ago), CalculationOfTime.days(@week.six_days_ago), CalculationOfTime.days(@week.five_days_ago), CalculationOfTime.days(@week.four_days_ago), CalculationOfTime.days(@week.three_days_ago), CalculationOfTime.days(@week.yesteday), CalculationOfTime.days(@week.today)],
+          values: [10, 23, 15, 50, @total_etudiant]
           }
         }
         />

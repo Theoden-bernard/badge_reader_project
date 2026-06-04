@@ -20,9 +20,14 @@ defmodule BadgeReader.RoleManager do
     |> Repo.insert()
   end
 
-    def list_roles() do
+  def list_roles() do
     Role
     |> Repo.all()
+  end
+
+  def get_role_by_name(name_role)do
+    Role
+    |> Repo.get_by(name_role: name_role)
   end
 
 

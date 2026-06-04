@@ -6,11 +6,12 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard05 do
     {:ok, socket}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
+  def update(%{is_open: is_open, on_toggle: on_toggle, entry_number: total_user}, socket) do
     {:ok,
     socket
     |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+    |> assign(:on_toggle, on_toggle)
+    |> assign(:total_user, total_user)}
   end
 
   def render(assigns) do
@@ -47,7 +48,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard05 do
           points={%{
             label: "Personne ",
             labels: ["jan", "fev", "mars"],
-            values: [10, 23, 15,]
+            values: [10, 23, 12]
             }
           }
           />
