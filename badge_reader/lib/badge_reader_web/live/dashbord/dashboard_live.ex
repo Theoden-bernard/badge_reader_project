@@ -115,7 +115,6 @@ defmodule BadgeReaderWeb.DashboardLive do
                             module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02}
                             is_open={@active_menu_id == "2"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "2"})}
-                            entry_number={BadgeReader.Logs.count_logs_user_today_by_role("Etudiant")}
                         />
 
                         <.live_component
@@ -123,7 +122,6 @@ defmodule BadgeReaderWeb.DashboardLive do
                             module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03}
                             is_open={@active_menu_id == "3"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
-                            entry_number={BadgeReader.Logs.count_logs_user_today()}
                         />
 
                         <.live_component

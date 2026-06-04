@@ -71,11 +71,11 @@ defmodule BadgeReader.AccessPointsManager do
     if (badge.user.role in access_point.roles) do
 
       type = case Logs.get_logs_user_today(badge.user.lastname) do
-        nil -> :in
-        %{type: :in} -> :out
-        %{type: :out} -> :in
-        %{type: "in"} -> :out
-        %{type: "out"} -> :in
+        {:ok, nil} -> :in
+        {:ok, %{type: :in}} -> :out
+        {:ok, %{type: :out}} -> :in
+        {:ok, %{type: "in"}} -> :out
+        {:ok, %{type: "out"}} -> :in
       end
       IO.inspect("USER PEUX SORTIR")
       Log.changeset_logs(%Log{}, %{type: type, clocked_at: DateTime.utc_now(), badge_id: badge.id, user_id: badge.user.id, access_point_id: access_point.id})

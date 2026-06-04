@@ -68,8 +68,8 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
         id="nbr_staff"
         points={%{
           label: "Personnes ",
-          labels: [CalculationOfTime.days(@week.seven_days_ago), CalculationOfTime.days(@week.six_days_ago), CalculationOfTime.days(@week.five_days_ago), CalculationOfTime.days(@week.four_days_ago), CalculationOfTime.days(@week.three_days_ago), CalculationOfTime.days(@week.yesteday), CalculationOfTime.days(@week.today)],
-          values: [10, 23, 0, 12, 24, 12, 41]
+          labels: [CalculationOfTime.days(@week.seven_days_ago.date), CalculationOfTime.days(@week.six_days_ago.date), CalculationOfTime.days(@week.five_days_ago.date), CalculationOfTime.days(@week.four_days_ago.date), CalculationOfTime.days(@week.three_days_ago.date), CalculationOfTime.days(@week.yesteday.date), CalculationOfTime.days(@week.today.date)],
+          values: [10, 23, 0, 12, 24, 12, @week.today.value]
           }
         }
         />
