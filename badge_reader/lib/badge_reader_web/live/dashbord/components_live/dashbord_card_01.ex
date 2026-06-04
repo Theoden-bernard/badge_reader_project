@@ -2,8 +2,15 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
   use BadgeReaderWeb, :live_component
   import BadgeReaderWeb.EditMenu
 
+  alias BadgeReader.CalculationOfTime
+
   def mount(socket) do
-    {:ok, socket}
+
+    week = CalculationOfTime.calculation_of_the_week()
+
+    {:ok,
+    socket
+    |> assign(week: week)}
   end
 
   def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
@@ -61,7 +68,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
         id="nbr_staff"
         points={%{
           label: "Personnes ",
-          labels: ["jan", "fev", "mars"],
+          labels: [CalculationOfTime.days(@week.seven_days_ago), CalculationOfTime.days(@week.six_days_ago), CalculationOfTime.days(@week.five_days_ago), CalculationOfTime.days(@week.four_days_ago), CalculationOfTime.days(@week.three_days_ago), CalculationOfTime.days(@week.yesteday), CalculationOfTime.days(@week.today)],
           values: [10, 23, 15]
           }
         }

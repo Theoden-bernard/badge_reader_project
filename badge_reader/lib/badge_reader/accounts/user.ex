@@ -12,7 +12,7 @@ defmodule BadgeReader.Accounts.User do
     field :lastname, :string
 
     belongs_to :role, BadgeReader.RoleManager.Role
-    has_one :badge, BadgeReader.Accounts.Badge
+    has_one :badge, BadgeReader.BadgeManager.Badge
 
     timestamps(type: :utc_datetime)
   end
