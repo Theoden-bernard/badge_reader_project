@@ -5,18 +5,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
   alias BadgeReader.CalculationOfTime
 
   def mount(socket) do
-    week = CalculationOfTime.calculation_of_the_week_by_role("Etudiant")
-
-    {:ok,
-    socket
-    |> assign(week: week)}
+    {:ok, socket}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
+  def update(%{is_open: is_open, on_toggle: on_toggle, week: week}, socket) do
     {:ok,
     socket
     |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+    |> assign(:on_toggle, on_toggle)
+    |> assign(:week, week)}
+  end
+
+  @impl true
+  def update(%{week: week}, socket) do
+    {:ok,
+    socket
+    |> assign(:week, week)}
   end
 
   def render(assigns) do

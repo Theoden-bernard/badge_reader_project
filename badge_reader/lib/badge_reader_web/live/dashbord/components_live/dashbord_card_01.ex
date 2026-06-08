@@ -6,7 +6,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
 
   def mount(socket) do
 
-    week = CalculationOfTime.calculation_of_the_week()
+    week = CalculationOfTime.calculation_of_the_week_by_role("Etudiant")
 
     {:ok,
     socket

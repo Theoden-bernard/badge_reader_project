@@ -31,7 +31,7 @@ defmodule BadgeReader.Logs do
     Log
     |> where([d], fragment("?::date = ?", d.clocked_at, ^today))
     |> where(type: :in)
-    |> select([d], count(d.user_id, :distinct))
+    |> select([d], count(d.user_id))
     |> Repo.one()
   end
 
