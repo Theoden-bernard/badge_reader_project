@@ -82,7 +82,10 @@ defmodule BadgeReaderWeb.ComposantsLive do
 
                   <%!--  Cards --%>
                 <div class="grid grid-cols-12 gap-6">
-
+                  <.live_component
+                  module={BadgeReaderWeb.Composant.ComponentsLive.ComposantCard01}
+                  id="composant_card_01"
+                  />
                 </div>
 
               </div>
