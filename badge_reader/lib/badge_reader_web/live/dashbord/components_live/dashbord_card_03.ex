@@ -4,22 +4,28 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03 do
 
   alias BadgeReader.CalculationOfTime
 
+  @impl true
   def mount(socket) do
-    week = CalculationOfTime.calculation_of_the_week()
-
-    {:ok,
-    socket
-    |> assign(week: week)}
+    {:ok, socket}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle, entry_number: total_user}, socket) do
+  @impl true
+  def update(%{is_open: is_open, on_toggle: on_toggle, week: week}, socket) do
     {:ok,
     socket
     |> assign(:is_open, is_open)
     |> assign(:on_toggle, on_toggle)
-    |> assign(:total_user, total_user)}
+    |> assign(:week, week)}
   end
 
+  @impl true
+  def update(%{week: week}, socket) do
+    {:ok,
+    socket
+    |> assign(:week, week)}
+  end
+
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
@@ -50,7 +56,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03 do
         </header>
         <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">Personne</div>
         <div class="flex items-start">
-          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{@total_user}</div>
+          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{@week.today.value}</div>
           <div class="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full">+20%</div>
         </div>
       </div>
@@ -60,8 +66,8 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03 do
           id="nbr_total"
           points={%{
             label: "Personnes ",
-            labels: [CalculationOfTime.days(@week.seven_days_ago), CalculationOfTime.days(@week.six_days_ago), CalculationOfTime.days(@week.five_days_ago), CalculationOfTime.days(@week.four_days_ago), CalculationOfTime.days(@week.three_days_ago), CalculationOfTime.days(@week.yesteday), CalculationOfTime.days(@week.today)],
-            values: [10, 23, 0, 24, 46, 34, @total_user]
+            labels: [CalculationOfTime.days(@week.seven_days_ago.date), CalculationOfTime.days(@week.six_days_ago.date), CalculationOfTime.days(@week.five_days_ago.date), CalculationOfTime.days(@week.four_days_ago.date), CalculationOfTime.days(@week.three_days_ago.date), CalculationOfTime.days(@week.yesteday.date), CalculationOfTime.days(@week.today.date)],
+            values: [@week.seven_days_ago.value, @week.six_days_ago.value, @week.five_days_ago.value, @week.four_days_ago.value, @week.three_days_ago.value, @week.yesteday.value, @week.today.value]
             }
           }
           />

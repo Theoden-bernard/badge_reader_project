@@ -13,14 +13,18 @@ defmodule BadgeReaderWeb.DashboardLive do
     def mount(_params, _session, socket) do
         current_user = socket.assigns.current_scope.user
         current_user = BadgeReader.Repo.preload(current_user, :role)
+        if connected?(socket) do
+            Phoenix.PubSub.subscribe(BadgeReader.PubSub, "logs:new")
+        end
 
         {:ok,
         socket
         |> assign(:current_user, current_user)
         |> assign(:customers, @customers)
         |> assign(:is_open, true)
+        |> assign(:week, BadgeReader.CalculationOfTime.calculation_of_the_week())
+        |> assign(:week_etudiant, BadgeReader.CalculationOfTime.calculation_of_the_week_by_role("Etudiant"))
         |> assign(:active_menu_id, nil)}
-        # |> assign(:my_chart, my_chart)}
     end
 
     @impl true
@@ -43,6 +47,16 @@ defmodule BadgeReaderWeb.DashboardLive do
     def handle_info({:toggle_sidebar}, socket) do
         send_update(BadgeReaderWeb.Sidebar, id: "main-sidebar", toggle_sidebar: true)
         {:noreply, socket}
+    end
+
+    @impl true
+    def handle_info({:new_log, _data}, socket) do
+        IO.inspect("handle_info reçu !")
+        new_week = BadgeReader.CalculationOfTime.calculation_of_the_week()
+        send_update(BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03, id: "card__dashboard_03", week: new_week)
+        {:noreply,
+        socket
+        |> assign(:week, new_week)}
     end
 
     @impl true
@@ -115,7 +129,7 @@ defmodule BadgeReaderWeb.DashboardLive do
                             module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02}
                             is_open={@active_menu_id == "2"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "2"})}
-                            entry_number={BadgeReader.Logs.count_logs_user_today_by_role("Etudiant")}
+                            week={@week_etudiant}
                         />
 
                         <.live_component
@@ -123,7 +137,7 @@ defmodule BadgeReaderWeb.DashboardLive do
                             module={BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03}
                             is_open={@active_menu_id == "3"}
                             on_toggle={JS.push("toggle_menu", value: %{id: "3"})}
-                            entry_number={BadgeReader.Logs.count_logs_user_today()}
+                            week={@week}
                         />
 
                         <.live_component

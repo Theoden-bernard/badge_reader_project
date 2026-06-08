@@ -219,6 +219,7 @@ defmodule BadgeReaderWeb.UserLive do
                       type="select"
                       label="Rôle"
                       options={Enum.map(@role, fn r -> {r.name_role, r.id} end)}
+                      prompt="-- Choisissez un Rôle --"
                       required
                     />
                     <.input field={@form[:email]} type="email" label="Email" required />
@@ -255,6 +256,7 @@ defmodule BadgeReaderWeb.UserLive do
                       type="select"
                       label="User"
                       options={Enum.map(@user, fn u -> {u.firstname, u.id} end)}
+                      prompt="-- Choisissez un Utilisateur --"
                       required
                     />
                     <.input field={@form[:firstname]} type="text" label="Prénom" required />
@@ -264,7 +266,7 @@ defmodule BadgeReaderWeb.UserLive do
                       type="select"
                       label="Rôle"
                       options={Enum.map(@role, fn r -> {r.name_role, r.id} end)}
-                      value="@role"
+                      prompt="-- Choisissez un Rôle --"
                       required
                     />
                     <.input field={@form[:email]} type="email" label="Email" required />

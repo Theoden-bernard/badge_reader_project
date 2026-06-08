@@ -10,9 +10,18 @@ defmodule BadgeReader.Logs do
   end
 
   def get_logs_user(lastname_user) do
-    Log
-    |> where(user_id: ^BadgeReader.Accounts.get_user_by_lastname(lastname_user).id)
-    |> Repo.all()
+
+    case BadgeReader.Accounts.get_user_by_lastname(lastname_user) do
+      nil ->
+        {:error, "le nom d'utilisateur '#{lastname_user}' n'existe pas."}
+      user ->
+        logs =
+          Log
+          |> where(user_id: ^user.id)
+          |> Repo.all()
+        {:ok, logs}
+    end
+
   end
 
   def count_logs_user_today() do
@@ -22,8 +31,7 @@ defmodule BadgeReader.Logs do
     Log
     |> where([d], fragment("?::date = ?", d.clocked_at, ^today))
     |> where(type: :in)
-    # |> order_by(desc: :clocked_at)
-    |> select([d], count(d.user_id, :distinct))
+    |> select([d], count(d.user_id))
     |> Repo.one()
   end
 
@@ -31,24 +39,76 @@ defmodule BadgeReader.Logs do
 
     today = Date.utc_today()
 
-    Log
-    |> join(:inner, [l], u in assoc(l, :user))
-    |> where([l], fragment("?::date = ?", l.clocked_at, ^today))
-    |> where([l], type: :in)
-    |> where([l, u], u.role_id == ^BadgeReader.RoleManager.get_role_by_name(role).id)
-    |> select([l], count(l.user_id, :distinct))
-    |> Repo.one()
+    case BadgeReader.RoleManager.get_role_by_name(role) do
+      nil ->
+        {:error, "Le rôle '#{role}' n'existe pas."}
+      role ->
+        count =
+          Log
+          |> join(:inner, [l], u in assoc(l, :user))
+          |> where([l], fragment("?::date = ?", l.clocked_at, ^today))
+          |> where([l], type: :in)
+          |> where([l, u], u.role_id == ^role.id)
+          |> select([l], count(l.user_id, :distinct))
+          |> Repo.one()
+        {:ok, count}
+    end
   end
 
   def get_logs_user_today(lastname_user) do
 
     today = Date.utc_today()
 
+    case BadgeReader.Accounts.get_user_by_lastname(lastname_user) do
+      nil ->
+        {:error, "l'utilisateur '#{lastname_user}' n'existe pas"}
+      lastname ->
+        user =
+          Log
+          |> where(user_id: ^lastname.id)
+          |> where([d], fragment("?::date = ?", d.clocked_at, ^today))
+          |> order_by(desc: :clocked_at)
+          |> limit(1)
+          |> Repo.one()
+        {:ok, user}
+    end
+  end
+
+  def list_logs_user_by_day_and_by_role(day, role) do
+    case BadgeReader.RoleManager.get_role_by_name(role) do
+      nil ->
+        {:error, "Le rôle '#{role}' n'existe pas."}
+      role ->
+        logs =
+          Log
+          |> join(:inner, [l], u in assoc(l, :user))
+          |> where([l], fragment("?::date = ?", l.clocked_at, ^DateTime.to_date(day)))
+          |> where([l, u], u.role_id == ^role.id)
+          |> Repo.all()
+        {:ok, logs}
+    end
+  end
+
+  def count_logs_user_by_day_and_by_role(day, role) do
+    case BadgeReader.RoleManager.get_role_by_name(role) do
+      nil ->
+        {:error, "Le rôle '#{role}' n'existe pas."}
+      role ->
+        count =
+          Log
+          |> join(:inner, [l], u in assoc(l, :user))
+          |> where([l], fragment("?::date = ?", l.clocked_at, ^day))
+          |> where([l, u], u.role_id == ^role.id)
+          |> select([l], count(l.user_id, :distinct))
+          |> Repo.one()
+        {:ok, count}
+    end
+  end
+
+  def count_logs_user_by_day(day) do
     Log
-    |> where(user_id: ^BadgeReader.Accounts.get_user_by_lastname(lastname_user).id)
-    |> where([d], fragment("?::date = ?", d.clocked_at, ^today))
-    |> order_by(desc: :clocked_at)
-    |> limit(1)
+    |> where([l], fragment("?::date = ?", l.clocked_at, ^day))
+    |> select([l], count(l.user_id, :distinct))
     |> Repo.one()
   end
 

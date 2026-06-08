@@ -5,19 +5,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
   alias BadgeReader.CalculationOfTime
 
   def mount(socket) do
-    week = CalculationOfTime.calculation_of_the_week()
-
-    {:ok,
-    socket
-    |> assign(week: week)}
+    {:ok, socket}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle, entry_number: total_etudiant}, socket) do
+  def update(%{is_open: is_open, on_toggle: on_toggle, week: week}, socket) do
     {:ok,
     socket
     |> assign(:is_open, is_open)
     |> assign(:on_toggle, on_toggle)
-    |> assign(:total_etudiant, total_etudiant)}
+    |> assign(:week, week)}
+  end
+
+  @impl true
+  def update(%{week: week}, socket) do
+    {:ok,
+    socket
+    |> assign(:week, week)}
   end
 
   def render(assigns) do
@@ -53,7 +56,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
           Personne
         </div>
         <div class="flex items-start">
-          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{@total_etudiant}</div>
+          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{@week.today.value}</div>
           <div class="text-sm font-medium text-red-500 px-1.5 bg-red-500/20 rounded-full">-5%</div>
         </div>
       </div>
@@ -63,8 +66,8 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
         id="nbr_etudiants"
         points={%{
           label: "Personnes ",
-          labels: [CalculationOfTime.days(@week.seven_days_ago), CalculationOfTime.days(@week.six_days_ago), CalculationOfTime.days(@week.five_days_ago), CalculationOfTime.days(@week.four_days_ago), CalculationOfTime.days(@week.three_days_ago), CalculationOfTime.days(@week.yesteday), CalculationOfTime.days(@week.today)],
-          values: [10, 3, 0, 4, 9, 4, @total_etudiant]
+          labels: [CalculationOfTime.days(@week.seven_days_ago.date), CalculationOfTime.days(@week.six_days_ago.date), CalculationOfTime.days(@week.five_days_ago.date), CalculationOfTime.days(@week.four_days_ago.date), CalculationOfTime.days(@week.three_days_ago.date), CalculationOfTime.days(@week.yesteday.date), CalculationOfTime.days(@week.today.date)],
+          values: [@week.seven_days_ago.value, @week.six_days_ago.value, @week.five_days_ago.value, @week.four_days_ago.value, @week.three_days_ago.value, @week.yesteday.value, @week.today.value]
           }
         }
         />
