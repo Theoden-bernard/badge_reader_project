@@ -88,6 +88,12 @@ defmodule BadgeReader.Accounts do
     |> Repo.preload([:role])
   end
 
+  def count_all_user() do
+    User
+    |> select([u], count(u.id))
+    |> Repo.one()
+  end
+
   @doc """
   Gets all user by role.
 
