@@ -6,7 +6,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
 
   def mount(socket) do
 
-    week = CalculationOfTime.calculation_of_the_week_by_role("Etudiant")
+    week = CalculationOfTime.calculation_of_the_week_by_role("Staff")
 
     {:ok,
     socket
@@ -55,7 +55,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
         </div>
         <div class="flex items-start">
           <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">
-            50
+            {@week.today.value}
           </div>
           <div class="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full">
             +2%
@@ -69,7 +69,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
         points={%{
           label: "Personnes ",
           labels: [CalculationOfTime.days(@week.seven_days_ago.date), CalculationOfTime.days(@week.six_days_ago.date), CalculationOfTime.days(@week.five_days_ago.date), CalculationOfTime.days(@week.four_days_ago.date), CalculationOfTime.days(@week.three_days_ago.date), CalculationOfTime.days(@week.yesteday.date), CalculationOfTime.days(@week.today.date)],
-          values: [10, 23, 0, 12, 24, 12, @week.today.value]
+          values: [@week.seven_days_ago.value, @week.six_days_ago.value, @week.five_days_ago.value, @week.four_days_ago.value, @week.three_days_ago.value, @week.yesteday.value, @week.today.value]
           }
         }
         />
