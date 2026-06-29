@@ -24,6 +24,8 @@ RUN set -xe \
 
 RUN mix compile
 
+RUN mix quality
+
 RUN cd assets && npm install
 
 RUN mix assets.deploy \
