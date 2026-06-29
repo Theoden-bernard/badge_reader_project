@@ -16,6 +16,7 @@ defmodule BadgeReaderWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias BadgeReader.Accounts.Scope
 
   using do
     quote do
@@ -46,7 +47,7 @@ defmodule BadgeReaderWeb.ConnCase do
   """
   def register_and_log_in_user(%{conn: conn} = context) do
     user = BadgeReader.AccountsFixtures.user_fixture()
-    scope = BadgeReader.Accounts.Scope.for_user(user)
+    scope = Scope.for_user(user)
 
     opts =
       context

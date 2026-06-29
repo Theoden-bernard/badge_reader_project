@@ -5,19 +5,15 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
   alias BadgeReader.CalculationOfTime
 
   def mount(socket) do
-
-    week = CalculationOfTime.calculation_of_the_week_by_role("Staff")
-
-    {:ok,
-    socket
-    |> assign(week: week)}
+    {:ok, socket}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
+  def update(%{is_open: is_open, on_toggle: on_toggle, week: week}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)
+     |> assign(week: week)}
   end
 
   def render(assigns) do
@@ -48,7 +44,6 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
               </li>
             </ul>
           </.edit_menu>
-
         </header>
         <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
           Personne
@@ -64,14 +59,31 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard01 do
       </div>
       <div class="px-2 py-2">
         <.live_component
-        module={BadgeReaderWeb.ChartComponents}
-        id="nbr_staff"
-        points={%{
-          label: "Personnes ",
-          labels: [CalculationOfTime.days(@week.seven_days_ago.date), CalculationOfTime.days(@week.six_days_ago.date), CalculationOfTime.days(@week.five_days_ago.date), CalculationOfTime.days(@week.four_days_ago.date), CalculationOfTime.days(@week.three_days_ago.date), CalculationOfTime.days(@week.yesteday.date), CalculationOfTime.days(@week.today.date)],
-          values: [@week.seven_days_ago.value, @week.six_days_ago.value, @week.five_days_ago.value, @week.four_days_ago.value, @week.three_days_ago.value, @week.yesteday.value, @week.today.value]
+          module={BadgeReaderWeb.ChartComponents}
+          id="nbr_staff"
+          points={
+            %{
+              label: "Personnes ",
+              labels: [
+                CalculationOfTime.days(@week.seven_days_ago.date),
+                CalculationOfTime.days(@week.six_days_ago.date),
+                CalculationOfTime.days(@week.five_days_ago.date),
+                CalculationOfTime.days(@week.four_days_ago.date),
+                CalculationOfTime.days(@week.three_days_ago.date),
+                CalculationOfTime.days(@week.yesteday.date),
+                CalculationOfTime.days(@week.today.date)
+              ],
+              values: [
+                @week.seven_days_ago.value,
+                @week.six_days_ago.value,
+                @week.five_days_ago.value,
+                @week.four_days_ago.value,
+                @week.three_days_ago.value,
+                @week.yesteday.value,
+                @week.today.value
+              ]
+            }
           }
-        }
         />
       </div>
     </div>

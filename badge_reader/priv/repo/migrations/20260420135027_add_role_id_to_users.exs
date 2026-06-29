@@ -3,7 +3,7 @@ defmodule BadgeReader.Repo.Migrations.AddRoleIdToUsers do
 
   def change do
     alter table(:users) do
-      add :role_id, references(:roles, on_delete: :nothing)
+      add :role_id, references(:roles, on_delete: :nilify_all)
     end
 
     create index(:users, [:role_id])

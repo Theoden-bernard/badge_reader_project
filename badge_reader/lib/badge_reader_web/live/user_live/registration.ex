@@ -14,7 +14,10 @@ defmodule BadgeReaderWeb.UserLive.Registration do
             Register for an account
             <:subtitle>
               Already registered ?
-              <.link navigate={~p"/users/log-in"} class="underline font-bold text-brand hover:underline">
+              <.link
+                navigate={~p"/users/log-in"}
+                class="underline font-bold text-brand hover:underline"
+              >
                 Log in
               </.link>
               to your account now.

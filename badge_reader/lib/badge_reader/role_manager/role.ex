@@ -20,6 +20,7 @@ defmodule BadgeReader.RoleManager.Role do
     role
     |> cast(attrs, [:name_role])
     |> validate_required([:name_role])
+    |> validate_length(:name_role, max: 50)
     |> put_change(:user_id, user_scope.user.id)
   end
 
@@ -28,6 +29,6 @@ defmodule BadgeReader.RoleManager.Role do
     role
     |> cast(attrs, [:name_role])
     |> validate_required([:name_role])
+    |> validate_length(:name_role, max: 50)
   end
-
 end

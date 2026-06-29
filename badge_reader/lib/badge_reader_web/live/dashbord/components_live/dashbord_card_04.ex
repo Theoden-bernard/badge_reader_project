@@ -8,9 +8,9 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard04 do
 
   def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)}
   end
 
   def render(assigns) do
@@ -45,14 +45,16 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard04 do
         <.live_component
           module={BadgeReaderWeb.ChartComponents}
           id="graph_compare"
-          points={%{
-            type: "bar",
-            labels: ["Jan", "Fév", "Mar"],
-            datasets: [
-              %{label: "Prog", data: [10, 23, 15], backgroundColor: "rgba(242, 216, 92)"},
-              %{label: "Market", data: [3, 12, 34], backgroundColor: "rgba(247, 220, 106, 0.7)"}
-            ]
-          }}
+          points={
+            %{
+              type: "bar",
+              labels: ["Jan", "Fév", "Mar"],
+              datasets: [
+                %{label: "Prog", data: [10, 23, 15], backgroundColor: "rgba(242, 216, 92)"},
+                %{label: "Market", data: [3, 12, 34], backgroundColor: "rgba(247, 220, 106, 0.7)"}
+              ]
+            }
+          }
         />
       </div>
     </div>

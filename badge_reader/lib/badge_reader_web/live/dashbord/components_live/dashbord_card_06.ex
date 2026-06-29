@@ -8,13 +8,13 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard06 do
 
   def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)}
   end
 
   def render(assigns) do
-  ~H"""
+    ~H"""
     <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
       <header class="border-b border-gray-100 dark:border-gray-700/60">
         <div class="w-full px-5 pt-4 flex justify-between">
@@ -44,23 +44,25 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard06 do
         <.live_component
           module={BadgeReaderWeb.ChartComponents}
           id="graph_classes"
-          points={%{
-            type: "doughnut",
-            label: "Etudiants ",
-            labels: ["B1", "B2", "B3", "M1", "M2"],
-            values: [10, 23, 15, 40, 12],
-            border_colors: "rgb(0, 0, 0)",
-            background_colors: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(153, 102, 255)"
-            ]
-          }}
+          points={
+            %{
+              type: "doughnut",
+              label: "Etudiants ",
+              labels: ["B1", "B2", "B3", "M1", "M2"],
+              values: [10, 23, 15, 40, 12],
+              border_colors: "rgb(0, 0, 0)",
+              background_colors: [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)",
+                "rgb(75, 192, 192)",
+                "rgb(153, 102, 255)"
+              ]
+            }
+          }
         />
       </div>
     </div>
-  """
+    """
   end
 end

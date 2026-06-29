@@ -1,8 +1,31 @@
 defmodule BadgeReaderWeb.UserCard do
+  @moduledoc """
+  A presentational Phoenix Component that displays human resource tracking lists
+  and real-time user activity dashboards.
+
+  This module encapsulates reusable UI cards tailored for back-office overview interfaces,
+  combining responsive structural tables with custom dropdown action submenus.
+
+  ## Features
+
+  * **Declarative Assignments:** Utilizes type-safe `attr` metadata to declare open and closed configuration flags for context settings.
+  * **Dynamic Multi-Tenant Queries:** Connects straight to the underlying `Accounts` state manager inline to loop, render, and catalog system workers.
+  * **Interactivity Engine:** Hooks custom client-side event bindings (`phx-click`) onto individual target rows to effortlessly push context changes back into background parent processes.
+
+  ## Examples
+
+  Embedding the component into an existing HEEx template layout block:
+
+    <.user_card01
+      is_open={@edit_menu_open?}
+      on_toggle="toggle_menu_state"
+    />
+  """
+
   use Phoenix.Component
   import BadgeReaderWeb.EditMenu
-  alias Phoenix.LiveView.JS
   alias BadgeReader.Accounts
+  alias Phoenix.LiveView.JS
 
   attr :is_open, :boolean, default: false
   attr :on_toggle, :any, default: nil
@@ -67,14 +90,18 @@ defmodule BadgeReaderWeb.UserCard do
                       <div class="w-10 h-10 shrink-0 mr-2 sm:mr-3">
                         <%!-- <img class="rounded-full" src={customer.image} width="40" height="40" alt={customer.name} /> --%>
                       </div>
-                      <div class="font-medium text-gray-800 dark:text-gray-100"><%= current_user.lastname %> <%= current_user.firstname %></div>
+                      <div class="font-medium text-gray-800 dark:text-gray-100">
+                        {current_user.lastname} {current_user.firstname}
+                      </div>
                     </div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left"><%= current_user.email %></div>
+                    <div class="text-left">{current_user.email}</div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left text-center"><%= if current_user.role, do: current_user.role.name_role, else: "Aucun rôle" %></div>
+                    <div class="text-left text-center">
+                      {if current_user.role, do: current_user.role.name_role, else: "Aucun rôle"}
+                    </div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
                     <%!-- <div class="text-lg text-center font-medium text-green-500"><%= current_user.present %></div> --%>

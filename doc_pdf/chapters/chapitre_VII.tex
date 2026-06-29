@@ -5,7 +5,6 @@ Pour \textbf{Badge Reader}, j’ai mis en place une stratégie de tests basée s
 \begin{itemize}
     \item Les \textbf{tests unitaires} (ExUnit) pour valider la logique métier.
     \item Les \textbf{tests d’intégration} pour vérifier les interactions entre composants.
-    \item Les \textbf{tests de performance} pour mesurer la latence sous charge.
 \end{itemize}
 
 \section{Tests de performance}
@@ -17,25 +16,14 @@ J’utilise \textbf{Benchfella} (outil Elixir) pour mesurer les performances de 
     \end{lstlisting}
 
     \textit{Résultats typiques} :
-    \begin{center}
-    \begin{tabular}{|l|c|c|}
-    \hline
-    \textbf{Métrique} & \textbf{Objectif} & \textbf{Mesuré} \\
-    \hline
-    Temps de réponse (P95) & < 500ms & 320ms \\
-    Débit (req/s) & > 100 & 150 \\
-    Taux d’erreur & < 1\% & 0.2\% \\
-    \hline
-    \end{tabular}
-    \end{center}
-
-    \textit{Configuration Benchfella} :
     \begin{lstlisting}
-    # config/config.exs
-    config :benchfella,
-      duration: 30,
-      warmup: 5,
-      parallel: 10
+    $ mix test
+    ......................................................................
+
+    Finished in 0.09 seconds (0.04s async, 0.05s sync)
+    70 tests, 0 failures
+
+    Randomized with seed 423581
     \end{lstlisting}
 \end{for_you}
 
@@ -73,7 +61,6 @@ Je mesure la qualité du code avec :
 \section{Liens utiles}
 \begin{itemize}
     \item ExUnit : \url{https://hexdocs.pm/ex_unit/ExUnit.html}
-    \item Benchfella : \url{https://hexdocs.pm/benchfella/Benchfella.html}
     \item Credo : \url{https://hexdocs.pm/credo/Credo.html}
     \item ExCoveralls : \url{https://hexdocs.pm/ex_coveralls/ExCoveralls.html}
     \item Dialyzer : \url{https://hexdocs.pm/dialyxir/Dialyxir.html}

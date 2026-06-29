@@ -8,13 +8,13 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
 
   def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)}
   end
 
   def render(assigns) do
-  ~H"""
+    ~H"""
     <div class="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
       <header class="border-b border-gray-100 dark:border-gray-700/60">
         <div class="w-full px-5 pt-4 flex justify-between">
@@ -41,11 +41,12 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
         </div>
       </header>
       <div class="p-3">
-
         <%!-- Card content --%>
         <%!-- "Today" group --%>
         <div>
-          <header class="text-xs uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700/50 rounded-xs font-semibold p-2">Aujourd'hui</header>
+          <header class="text-xs uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700/50 rounded-xs font-semibold p-2">
+            Aujourd'hui
+          </header>
           <ul class="my-1">
             <%!-- Item --%>
             <li class="flex px-2">
@@ -56,9 +57,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
               </div>
               <div class="grow flex items-center border-b border-gray-100 dark:border-gray-700/60 text-sm py-2">
                 <div class="grow flex justify-between">
-                  <div class="self-center"><a class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" href="#0">Olga Semklo</a> est arriver a Colint</div>
+                  <div class="self-center">
+                    <a
+                      class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white"
+                      href="#0"
+                    >
+                      Olga Semklo
+                    </a>
+                    est arriver a Colint
+                  </div>
                   <div class="shrink-0 self-end ml-2">
-                    <a class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400" href="#0">View<span class="hidden sm:inline"> -&gt;</span></a>
+                    <a
+                      class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400"
+                      href="#0"
+                    >
+                      View<span class="hidden sm:inline"> -&gt;</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -72,9 +86,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
               </div>
               <div class="grow flex items-center border-b border-gray-100 dark:border-gray-700/60 text-sm py-2">
                 <div class="grow flex justify-between">
-                  <div class="self-center"><a class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" href="#0">Nick Mark</a> viens de partir</div>
+                  <div class="self-center">
+                    <a
+                      class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white"
+                      href="#0"
+                    >
+                      Nick Mark
+                    </a>
+                    viens de partir
+                  </div>
                   <div class="shrink-0 self-end ml-2">
-                    <a class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400" href="#0">View<span class="hidden sm:inline"> -&gt;</span></a>
+                    <a
+                      class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400"
+                      href="#0"
+                    >
+                      View<span class="hidden sm:inline"> -&gt;</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -88,9 +115,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
               </div>
               <div class="grow flex items-center text-sm py-2">
                 <div class="grow flex justify-between">
-                  <div class="self-center"><a class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" href="#0">Patrick Sullivan</a> viens de partir</div>
+                  <div class="self-center">
+                    <a
+                      class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white"
+                      href="#0"
+                    >
+                      Patrick Sullivan
+                    </a>
+                    viens de partir
+                  </div>
                   <div class="shrink-0 self-end ml-2">
-                    <a class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400" href="#0">View<span class="hidden sm:inline"> -&gt;</span></a>
+                    <a
+                      class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400"
+                      href="#0"
+                    >
+                      View<span class="hidden sm:inline"> -&gt;</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -99,7 +139,9 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
         </div>
         <%!-- "Yesterday" group --%>
         <div>
-          <header class="text-xs uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700/50 rounded-xs font-semibold p-2">Hier</header>
+          <header class="text-xs uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700/50 rounded-xs font-semibold p-2">
+            Hier
+          </header>
           <ul class="my-1">
             <%!-- Item --%>
             <li class="flex px-2">
@@ -110,9 +152,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
               </div>
               <div class="grow flex items-center border-b border-gray-100 dark:border-gray-700/60 text-sm py-2">
                 <div class="grow flex justify-between">
-                  <div class="self-center"><a class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" href="#0">Burak Long</a> viens de partir</div>
+                  <div class="self-center">
+                    <a
+                      class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white"
+                      href="#0"
+                    >
+                      Burak Long
+                    </a>
+                    viens de partir
+                  </div>
                   <div class="shrink-0 self-end ml-2">
-                    <a class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400" href="#0">View<span class="hidden sm:inline"> -&gt;</span></a>
+                    <a
+                      class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400"
+                      href="#0"
+                    >
+                      View<span class="hidden sm:inline"> -&gt;</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -126,9 +181,22 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
               </div>
               <div class="grow flex items-center text-sm py-2">
                 <div class="grow flex justify-between">
-                  <div class="self-center"><a class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white" href="#0">Alex Shatov</a> est arriver a Colint</div>
+                  <div class="self-center">
+                    <a
+                      class="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white"
+                      href="#0"
+                    >
+                      Alex Shatov
+                    </a>
+                    est arriver a Colint
+                  </div>
                   <div class="shrink-0 self-end ml-2">
-                    <a class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-violet-400" href="#0">View<span class="hidden sm:inline"> -&gt;</span></a>
+                    <a
+                      class="font-medium text-yellow-500 hover:text-yellow-600 dark:hover:text-violet-400"
+                      href="#0"
+                    >
+                      View<span class="hidden sm:inline"> -&gt;</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -137,6 +205,6 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard08 do
         </div>
       </div>
     </div>
-  """
+    """
   end
 end

@@ -28,6 +28,7 @@ defmodule BadgeReader.AccountsFixtures do
     case BadgeReader.Repo.get_by(BadgeReader.RoleManager.Role, name_role: "test_role") do
       nil ->
         BadgeReader.Repo.insert!(%BadgeReader.RoleManager.Role{name_role: "test_role"})
+
       role ->
         role
     end

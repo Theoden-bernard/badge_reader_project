@@ -21,9 +21,7 @@ defmodule BadgeReaderWeb.Composant.ComponentsLive.ComposantCard01 do
         <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
           Selectionnée un utilisateur :
         </div>
-        <div class="flex items-start">
-
-        </div>
+        <div class="flex items-start"></div>
       </div>
     </div>
     """

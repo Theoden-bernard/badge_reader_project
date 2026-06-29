@@ -11,13 +11,8 @@
 # and so on) as they will fail if something goes wrong.
 
 alias BadgeReader.Repo
-alias BadgeReader.{Accounts, AccessPointsManager, Logs, RoleManager, BadgeManager}
-alias BadgeReader.Accounts.User
-alias BadgeReader.RoleManager.Role
-alias BadgeReader.BadgeManager.Badge
+alias BadgeReader.{Accounts, AccessPointsManager}
 alias BadgeReader.Logs.Log
-alias BadgeReader.AccessPointsManager.AccessPoints
-
 # ==========================================
 # STEPS 1 : Cleanup logs
 # ==========================================
@@ -44,12 +39,12 @@ Enum.each(week, fn day ->
 
   Enum.each(daily_users, fn user ->
     %Log{}
-    |> Log.changeset_logs(%{type: :in, clocked_at: DateTime.new!(day, Time.new!(Enum.random(8..10), 0, 0), "Etc/UTC"), user_id: user.id, badge_id: user.badge.id, access_point_id: pointeuse.id})
+    |> Log.changeset_logs(%{type: :in, clocked_at: DateTime.new!(day, Time.new!(Enum.random(8..10), 0, 0), "Etc/UTC"), badge_id: user.badge.id, access_point_id: pointeuse.id})
     |> Repo.insert!()
 
     if (day != Date.utc_today()) do
       %Log{}
-      |> Log.changeset_logs(%{type: :out, clocked_at: DateTime.new!(day, Time.new!(Enum.random(15..18), 0, 0), "Etc/UTC"), user_id: user.id, badge_id: user.badge.id, access_point_id: pointeuse.id})
+      |> Log.changeset_logs(%{type: :out, clocked_at: DateTime.new!(day, Time.new!(Enum.random(15..18), 0, 0), "Etc/UTC"), badge_id: user.badge.id, access_point_id: pointeuse.id})
       |> Repo.insert!()
     end
   end)

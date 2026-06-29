@@ -29,6 +29,7 @@ defmodule BadgeReaderWeb.CoreComponents do
   use Phoenix.Component
   use Gettext, backend: BadgeReaderWeb.Gettext
 
+  alias Phoenix.HTML.Form
   alias Phoenix.LiveView.JS
 
   @doc """
@@ -201,7 +202,7 @@ defmodule BadgeReaderWeb.CoreComponents do
   def input(%{type: "checkbox"} = assigns) do
     assigns =
       assign_new(assigns, :checked, fn ->
-        Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
+        Form.normalize_value("checkbox", assigns[:value])
       end)
 
     ~H"""
@@ -507,16 +508,24 @@ defmodule BadgeReaderWeb.CoreComponents do
 
   def modal(assigns) do
     ~H"""
-    <div id={@id} phx-mounted={@show && JS.add_class("block", to: "##{@id}")} class="relative z-50 hidden">
-      <div id={"#{@id}-bg"} class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true" />
+    <div
+      id={@id}
+      phx-mounted={@show && JS.add_class("block", to: "##{@id}")}
+      class="relative z-50 hidden"
+    >
+      <div
+        id={"#{@id}-bg"}
+        class="fixed inset-0 bg-gray-500/75 transition-opacity"
+        aria-hidden="true"
+      />
       <div class="fixed inset-0 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4 text-center">
           <div class="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl ring-1 ring-gray-900/5">
             <%= if @header != [] do %>
-              <div class="mb-4 text-lg font-semibold"><%= render_slot(@header) %></div>
+              <div class="mb-4 text-lg font-semibold">{render_slot(@header)}</div>
             <% end %>
-            <div class="mb-6 text-sm text-gray-600"><%= render_slot(@content) %></div>
-            <div class="flex justify-end gap-2"><%= render_slot(@actions) %></div>
+            <div class="mb-6 text-sm text-gray-600">{render_slot(@content)}</div>
+            <div class="flex justify-end gap-2">{render_slot(@actions)}</div>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ defmodule CreateUserTest do
   use ExUnit.Case
   use BadgeReader.DataCase
   alias BadgeReader.{Accounts, RoleManager}
-  alias BadgeReader.Accounts.{User}
+  alias BadgeReader.Accounts.User
 
   # setup do
   #   assert {:ok, role} = RoleManager.create_role(%{

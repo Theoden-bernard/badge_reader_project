@@ -1,8 +1,30 @@
 defmodule BadgeReader.Accounts.UserNotifier do
+  @moduledoc """
+  Handles dispatching transactional system emails to application users.
+
+  This module leverages `Swoosh` to compile and transmit critical notification accounts,
+  including passwordless magic link logins, email change confirmation links, and brand new
+  account registration verification setups.
+
+  ## Features
+
+  * **Adaptive Delivery:** Automatically alters workflows when requested to deliver a login link, redirecting unconfirmed profiles through the onboarding confirmation flow first.
+  * **Asynchronous Formatting:** Generates clean, secure, plain-text email bodies paired with dynamic verification tokens and callback URLs.
+
+  ## Examples
+
+  Sending multi-factor update sequences when an account requests a new email address:
+
+    BadgeReader.Accounts.UserNotifier.deliver_update_email_instructions(user, "https://example.com/verify")
+
+  Dispatching an instant authentication token loop:
+
+    BadgeReader.Accounts.UserNotifier.deliver_login_instructions(user, "https://example.com/magic-link")
+  """
   import Swoosh.Email
 
-  alias BadgeReader.Mailer
   alias BadgeReader.Accounts.User
+  alias BadgeReader.Mailer
 
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do

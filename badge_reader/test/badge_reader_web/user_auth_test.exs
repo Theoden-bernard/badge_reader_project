@@ -1,10 +1,10 @@
 defmodule BadgeReaderWeb.UserAuthTest do
   use BadgeReaderWeb.ConnCase, async: true
 
-  alias Phoenix.LiveView
   alias BadgeReader.Accounts
   alias BadgeReader.Accounts.Scope
   alias BadgeReaderWeb.UserAuth
+  alias Phoenix.LiveView
 
   import BadgeReader.AccountsFixtures
 
