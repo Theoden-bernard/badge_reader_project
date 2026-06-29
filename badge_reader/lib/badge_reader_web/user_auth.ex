@@ -1,4 +1,34 @@
 defmodule BadgeReaderWeb.UserAuth do
+  @moduledoc """
+  Handles user authentication, session tracking, and security state across HTTP requests and LiveViews.
+
+  This module provides plugs, macros, and lifecycle hooks (`on_mount`) to manage
+  user sign-in, sign-out, automatic session token reissuing, "Remember Me" cookies,
+  and route access control.
+
+  ## Features
+
+  * **Session Security:** Clears session signatures during status transitions to prevent session fixation attacks.
+  * **Token Rotation:** Automatically generates and updates session tokens if active sessions pass a preconfigured age threshold.
+  * **LiveView Hooks:** Plugs into the `on_mount` lifecycle to secure stateful routes (`:require_authenticated`) or track users (`:mount_current_scope`).
+  * **Socket Disconnection:** Broadcasts teardown events to channel clusters to force-disconnect stateful loops when logging out.
+
+  ## Examples
+
+  Using within a pipeline inside your router:
+
+    pipeline :auth do
+      plug :fetch_current_scope_for_user
+      plug :require_authenticated_user
+    end
+
+  Securing a group of stateful workflows inside a `live_session`:
+
+    live_session :protected, on_mount: [{BadgeReaderWeb.UserAuth, :require_authenticated}] do
+      live "/dashboard", DashboardLive, :index
+    end
+  """
+
   use BadgeReaderWeb, :verified_routes
 
   import Plug.Conn
@@ -66,17 +96,18 @@ defmodule BadgeReaderWeb.UserAuth do
   """
   def fetch_current_scope_for_user(conn, _opts) do
     with {token, conn} <- ensure_user_token(conn),
-    {user, token_inserted_at} <- Accounts.get_user_by_session_token(token) do
+         {user, token_inserted_at} <- Accounts.get_user_by_session_token(token) do
       user = BadgeReader.Repo.preload(user, :role)
+
       conn
       |> assign(:current_user, user)
       |> assign(:current_scope, Scope.for_user(user))
       |> maybe_reissue_user_session_token(user, token_inserted_at)
     else
       _ ->
-      conn
-      |> assign(:current_user, nil)
-      |> assign(:current_scope, Scope.for_user(nil))
+        conn
+        |> assign(:current_user, nil)
+        |> assign(:current_scope, Scope.for_user(nil))
     end
   end
 
@@ -221,10 +252,9 @@ defmodule BadgeReaderWeb.UserAuth do
     current_user = user_token && Accounts.get_user_by_session_token(user_token)
 
     {:cont,
-      socket
-      |> Phoenix.Component.assign(:current_user, current_user)
-      |> Phoenix.Component.assign(:current_scope, Scope.for_user(current_user))
-    }
+     socket
+     |> Phoenix.Component.assign(:current_user, current_user)
+     |> Phoenix.Component.assign(:current_scope, Scope.for_user(current_user))}
   end
 
   def on_mount(:require_authenticated, _params, session, socket) do

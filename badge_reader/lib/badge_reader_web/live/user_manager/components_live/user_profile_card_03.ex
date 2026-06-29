@@ -1,15 +1,16 @@
 defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard03 do
   use BadgeReaderWeb, :live_component
   import BadgeReaderWeb.EditMenu
+
   def mount(socket) do
     {:ok, socket}
   end
 
   def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)}
   end
 
   def render(assigns) do

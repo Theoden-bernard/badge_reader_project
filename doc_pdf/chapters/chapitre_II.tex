@@ -85,10 +85,6 @@ Chacun a des besoins spécifiques, détaillés ci-dessous :
               \newline
               \textit{Exemple} : Un étudiant en retard doit pouvoir entrer rapidement.
 
-        \item \textbf{Invités} :
-              Badge \textbf{temporaire} (ex. : intervenant pour une journée).
-              Droits limités à la durée de leur visite.
-
         \item \textbf{Staff} :
               Accès élargi (\textbf{lundi–samedi, 8h–19h}) pour les missions pédagogiques.
               \newline
@@ -129,7 +125,7 @@ Cette approche systémique permet de concevoir une solution alignée à la fois 
 
     \textbf{Critères d’acceptation :}
     \begin{itemize}
-        \item Étant donné que je suis un utilisateur autorisé (Étudiant, staff, Invité ou Administrateur) et que je possède un badge valide, lorsque je présente mon badge au lecteur, alors le système vérifie sa validité en base de données et autorise l’ouverture de la porte.
+        \item Étant donné que je suis un utilisateur autorisé (Étudiant, staff, ou Administrateur) et que je possède un badge valide, lorsque je présente mon badge au lecteur, alors le système vérifie sa validité en base de données et autorise l’ouverture de la porte.
         \item Étant donné que je suis administrateur et que je me trouve sur la page de connexion, lorsque je saisis un identifiant et un mot de passe valides et que je clique sur le bouton \emph{Connexion}, alors le système m’authentifie et m’accorde l’accès à l’application de gestion.
     \end{itemize}
 \end{for_you}
@@ -149,7 +145,7 @@ Voici les fonctionnalités \textbf{Front office} autrement dit les :
 \begin{for_you}{Fonctionnalités utilisateurs :}
 
     \textit{
-    Les étudiants, membres du staff et invités accèdent uniquement à leur badge, qu’il soit physique ou dématérialisé via un smartphone.  
+    Les étudiants et membres du staff accèdent uniquement à leur badge, qu’il soit physique ou dématérialisé via un smartphone.  
     }
 
     \begin{itemize}
@@ -165,7 +161,7 @@ Voici les fonctionnalités \textbf{Back office} autrement dit les :
 \begin{for_you}{Fonctionnalités administrateur :}
     \begin{itemize}
         \item Gérer les badges (création, suspension, réactivation).
-        \item Attribuer des \textbf{rôles} (étudiant, staff, invité).
+        \item Attribuer des \textbf{rôles} (étudiant, staff, administrateur).
         \item Exporter les \textbf{rapports d’activité} (ex. : fréquentation par jour).
     \end{itemize}
 \end{for_you}
@@ -189,10 +185,10 @@ Cette sous-section définit la matrice des permissions selon les rôles utilisat
             \hline
             \textbf{Rôle}         & \textbf{Accès admin} & \textbf{Accès badge} \\
             \hline
-            Administrateur        & \mycheckmark         & \mycheckmark         \\
+            Administrateur        & \mycheckmark          & \mycheckmark         \\
             Coach/Staff            & \mycross             & \mycheckmark         \\
             Étudiant               & \mycross             & \mycheckmark         \\
-            Invité                 & \mycross             & \mycheckmark*        \\
+            Invité                 & \mycross             & \mycross             \\
             \hline
             \multicolumn{3}{l}{*Badges temporaires (durée limitée)}
         \end{tabular}

@@ -1,8 +1,8 @@
 defmodule BadgeReaderWeb.UserLive.RegistrationTest do
   use BadgeReaderWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
-  import BadgeReader.AccountsFixtures
+  # import Phoenix.LiveViewTest
+  # import BadgeReader.AccountsFixtures
 
   # describe "Registration page" do
   #   test "renders registration page", %{conn: conn} do

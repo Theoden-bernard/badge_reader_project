@@ -11,7 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 alias BadgeReader.Repo
-alias BadgeReader.{Accounts, AccessPointsManager, Logs, RoleManager, BadgeManager}
+alias BadgeReader.{Accounts, AccessPointsManager, RoleManager, BadgeManager}
 alias BadgeReader.Accounts.User
 alias BadgeReader.RoleManager.Role
 alias BadgeReader.BadgeManager.Badge
@@ -39,76 +39,86 @@ IO.puts("Creation de Roles")
 # ==========================================
 # STEPS 3 : creation of Users and Creation to Badges
 # ==========================================
-admin_password = case System.fetch_env("PASSWORD_ADMIN") do
-{:ok, password} ->
-  password
-  :error ->
-    IO.puts(:stderr, "Erreur : La variable d'environnement SEED_ADMIN_PASSWORD n'est pas définie !")
-    System.halt(1)
-  end
+admin_password = System.get_env("PASSWORD_ADMIN", "password1234")
 
 IO.puts("Création des utilisateurs de test...")
 
-{:ok, admin} = Accounts.admin_create_user(%{
-  firstname: "Théoden",
-  lastname: "Bernard",
-  email: "tb@colint.school",
-  password: admin_password,
-  role_id: administrateur.id,
-})
-
-{:ok, badge_admin} = BadgeManager.create_badge(%{
-  rfid: 1,
-  name_badge: "badge_admin",
-  date_activation: DateTime.utc_now(),
-  date_expiration: DateTime.add(DateTime.utc_now(), 20),
-  statue: true,
-  user_id: admin.id
-})
-
-Enum.each(1..20, fn i ->
-  {:ok, _etudiant} = Accounts.admin_create_user(%{
-    firstname: Faker.Person.first_name(),
-    lastname: Faker.Person.last_name(),
-    email: "etudiant#{i}@example.com",
-    password: "MdpEtudiantFixe123!",
-    role_id: etudiant.id
+{:ok, admin} =
+  Accounts.admin_create_user(%{
+    firstname: "Théoden",
+    lastname: "Bernard",
+    email: "tb@colint.school",
+    password: admin_password,
+    role_id: administrateur.id
   })
 
-  {:ok, _badge_etudiant} = BadgeManager.create_badge(%{
-    rfid: "2#{i}",
-    name_badge: "badge_etudiant#{i}",
+{:ok, _badge_admin} =
+  BadgeManager.create_badge(%{
+    rfid: 1,
+    name_badge: "badge_admin",
     date_activation: DateTime.utc_now(),
     date_expiration: DateTime.add(DateTime.utc_now(), 20),
-    statue: true,
-    user_id: _etudiant.id
+    status: true,
+    user_id: admin.id
   })
+
+Enum.each(1..20, fn i ->
+  {:ok, user_etudiant} =
+    Accounts.admin_create_user(%{
+      firstname: Faker.Person.first_name(),
+      lastname: Faker.Person.last_name(),
+      email: "etudiant#{i}@example.com",
+      password: "MdpEtudiantFixe123!",
+      role_id: etudiant.id
+    })
+
+  {:ok, _badge_etudiant} =
+    BadgeManager.create_badge(%{
+      rfid: "2#{i}",
+      name_badge: "badge_etudiant#{i}",
+      date_activation: DateTime.utc_now(),
+      date_expiration: DateTime.add(DateTime.utc_now(), 20),
+      status: true,
+      user_id: user_etudiant.id
+    })
 end)
 
 Enum.each(1..10, fn i ->
-  {:ok, _staff} = Accounts.admin_create_user(%{
-    firstname: Faker.Person.first_name(),
-    lastname: Faker.Person.last_name(),
-    email: "staff#{i}@example.com",
-    password: "MdpStaffFixe123!",
-    role_id: staff.id
-  })
+  {:ok, user_staff} =
+    Accounts.admin_create_user(%{
+      firstname: Faker.Person.first_name(),
+      lastname: Faker.Person.last_name(),
+      email: "staff#{i}@example.com",
+      password: "MdpStaffFixe123!",
+      role_id: staff.id
+    })
 
-  {:ok, _badge_staff} = BadgeManager.create_badge(%{
-    rfid: "3#{i}",
-    name_badge: "badge_staff#{i}",
-    date_activation: DateTime.utc_now(),
-    date_expiration: DateTime.add(DateTime.utc_now(), 20),
-    statue: true,
-    user_id: _staff.id
-  })
+  {:ok, _badge_staff} =
+    BadgeManager.create_badge(%{
+      rfid: "3#{i}",
+      name_badge: "badge_staff#{i}",
+      date_activation: DateTime.utc_now(),
+      date_expiration: DateTime.add(DateTime.utc_now(), 20),
+      status: true,
+      user_id: user_staff.id
+    })
 end)
 
 # ==========================================
 # STEPS 5 : Creation to Access points
 # ==========================================
 IO.puts("Création des access points")
-AccessPointsManager.create_access_point(%{nom_access_points: "Batiment", places: "Acceuil"}, [1, 2, 3])
-AccessPointsManager.create_access_point(%{nom_access_points: "Pointeuse", places: "Acceuil"}, [1, 2, 3])
+
+AccessPointsManager.create_access_point(%{name_access_points: "Batiment", places: "Acceuil"}, [
+  1,
+  2,
+  3
+])
+
+AccessPointsManager.create_access_point(%{name_access_points: "Pointeuse", places: "Acceuil"}, [
+  1,
+  2,
+  3
+])
 
 IO.puts("Base de données initialisée avec succès")

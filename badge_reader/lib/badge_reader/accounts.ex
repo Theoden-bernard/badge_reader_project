@@ -6,7 +6,7 @@ defmodule BadgeReader.Accounts do
   import Ecto.Query, warn: false
   alias BadgeReader.Repo
 
-  alias BadgeReader.Accounts.{User, UserToken, UserNotifier}
+  alias BadgeReader.Accounts.{User, UserNotifier, UserToken}
 
   ## Database getters
 
@@ -39,7 +39,7 @@ defmodule BadgeReader.Accounts do
 
   """
   def get_user_by_email_and_password(email, password)
-    when is_binary(email) and is_binary(password) do
+      when is_binary(email) and is_binary(password) do
     user = Repo.get_by(User, email: email)
     if User.valid_password?(user, password), do: user
   end
@@ -58,10 +58,12 @@ defmodule BadgeReader.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id),
+    do: Repo.get!(User, id) |> user_preloads()
 
   def get_user_by_lastname(lastname) do
     Repo.get_by(User, lastname: lastname)
+    |> user_preloads()
   end
 
   @doc """
@@ -73,22 +75,20 @@ defmodule BadgeReader.Accounts do
     %User{}
 
   """
-  def get_all_user() do
+  def get_all_user do
     User
     |> Repo.all()
-    |> Repo.preload([:role])
+    |> user_preloads()
   end
 
   def list_all_users_except_the_logged_user(user) do
-    IO.inspect(user, label: "USER = ")
-
     User
     |> where([u], u.id != ^user.id)
     |> Repo.all()
     |> Repo.preload([:role])
   end
 
-  def count_all_user() do
+  def count_all_user do
     User
     |> select([u], count(u.id))
     |> Repo.one()
@@ -119,7 +119,7 @@ defmodule BadgeReader.Accounts do
     6
 
   """
-  def nbr_user() do
+  def nbr_user do
     User
     |> where([user], user.role_id != 4)
     |> Repo.aggregate(:count, :id)
@@ -167,7 +167,8 @@ defmodule BadgeReader.Accounts do
     |> User.password_changeset(attrs)
     |> User.confirm_changeset()
     |> Repo.insert()
-    |> user_preloads()
+
+    # |> user_preloads()
   end
 
   ## Settings
@@ -392,9 +393,21 @@ defmodule BadgeReader.Accounts do
     end)
   end
 
-  defp user_preloads({:ok, user}),
+  defp user_preloads(users_list) when is_list(users_list),
+    do: user_preloads(users_list, [])
+
+  defp user_preloads(%User{} = user),
+    do: Repo.preload(user, [:role])
+
+  defp user_preloads({:ok, %User{} = user}),
     do: {:ok, Repo.preload(user, [:role])}
 
   defp user_preloads(any),
     do: any
+
+  defp user_preloads([], new_users_list),
+    do: new_users_list
+
+  defp user_preloads([user | last], new_users_list),
+    do: user_preloads(last, [user_preloads(user) | new_users_list])
 end

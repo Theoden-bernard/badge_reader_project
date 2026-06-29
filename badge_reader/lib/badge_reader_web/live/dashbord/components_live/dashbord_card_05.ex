@@ -8,14 +8,14 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard05 do
 
   def update(%{is_open: is_open, on_toggle: on_toggle, entry_number: total_user}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)
-    |> assign(:total_user, total_user)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)
+     |> assign(:total_user, total_user)}
   end
 
   def render(assigns) do
-  ~H"""
+    ~H"""
     <div class="flex flex-col col-span-full sm:col-span-6 bg-white dark:bg-gray-800 shadow-xs rounded-xl">
       <header class="border-b border-gray-100 dark:border-gray-700/60 flex items-center">
         <div class="w-full px-5 pt-4 flex justify-between">
@@ -45,15 +45,16 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard05 do
         <.live_component
           module={BadgeReaderWeb.ChartComponents}
           id="live"
-          points={%{
-            label: "Personne ",
-            labels: ["jan", "fev", "mars"],
-            values: [10, 23, 12]
+          points={
+            %{
+              label: "Personne ",
+              labels: ["jan", "fev", "mars"],
+              values: [10, 23, 12]
             }
           }
-          />
+        />
       </div>
     </div>
-  """
+    """
   end
 end

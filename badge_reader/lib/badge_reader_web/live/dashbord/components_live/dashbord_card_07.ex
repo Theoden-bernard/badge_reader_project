@@ -8,10 +8,10 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard07 do
 
   def update(%{customers: customers, is_open: is_open, on_toggle: on_toggle}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)
-    |> assign(:customers, customers)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)
+     |> assign(:customers, customers)}
   end
 
   def render(assigns) do
@@ -69,19 +69,27 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard07 do
                   <td class="p-2 whitespace-nowrap">
                     <div class="flex items-center">
                       <div class="w-10 h-10 shrink-0 mr-2 sm:mr-3">
-                        <img class="rounded-full" src={customer.image} width="40" height="40" alt={customer.name} />
+                        <img
+                          class="rounded-full"
+                          src={customer.image}
+                          width="40"
+                          height="40"
+                          alt={customer.name}
+                        />
                       </div>
-                      <div class="font-medium text-gray-800 dark:text-gray-100"><%= customer.name %></div>
+                      <div class="font-medium text-gray-800 dark:text-gray-100">{customer.name}</div>
                     </div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left"><%= customer.email %></div>
+                    <div class="text-left">{customer.email}</div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-left"><%= customer.status %></div>
+                    <div class="text-left">{customer.status}</div>
                   </td>
                   <td class="p-2 whitespace-nowrap">
-                    <div class="text-lg text-center font-medium text-green-500"><%= customer.present %></div>
+                    <div class="text-lg text-center font-medium text-green-500">
+                      {customer.present}
+                    </div>
                   </td>
                 </tr>
               <% end %>

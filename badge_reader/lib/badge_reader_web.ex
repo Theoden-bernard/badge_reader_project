@@ -93,8 +93,8 @@ defmodule BadgeReaderWeb do
       import BadgeReaderWeb.ChartComponents
 
       # Common modules used in templates
-      alias Phoenix.LiveView.JS
       alias BadgeReaderWeb.Layouts
+      alias Phoenix.LiveView.JS
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())

@@ -20,6 +20,10 @@ defmodule BadgeReader.Accounts.Scope do
 
   defstruct user: nil
 
+  def for_user({%User{} = user, _authenticated_at}) do
+    for_user(user)
+  end
+
   @doc """
   Creates a scope for the given user.
 

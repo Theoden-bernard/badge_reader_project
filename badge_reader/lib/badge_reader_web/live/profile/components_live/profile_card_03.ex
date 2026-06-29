@@ -8,9 +8,9 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard03 do
 
   def update(%{is_open: is_open, on_toggle: on_toggle}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)}
   end
 
   def render(assigns) do

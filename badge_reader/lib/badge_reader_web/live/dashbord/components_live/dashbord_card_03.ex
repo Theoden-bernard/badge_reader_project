@@ -12,17 +12,17 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03 do
   @impl true
   def update(%{is_open: is_open, on_toggle: on_toggle, week: week}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)
-    |> assign(:week, week)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)
+     |> assign(:week, week)}
   end
 
   @impl true
   def update(%{week: week}, socket) do
     {:ok,
-    socket
-    |> assign(:week, week)}
+     socket
+     |> assign(:week, week)}
   end
 
   @impl true
@@ -54,23 +54,46 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard03 do
             </ul>
           </.edit_menu>
         </header>
-        <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">Personne</div>
+        <div class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase mb-1">
+          Personne
+        </div>
         <div class="flex items-start">
-          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">{@week.today.value}</div>
-          <div class="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full">+20%</div>
+          <div class="text-3xl font-bold text-gray-800 dark:text-gray-100 mr-2">
+            {@week.today.value}
+          </div>
+          <div class="text-sm font-medium text-green-700 px-1.5 bg-green-500/20 rounded-full">
+            +20%
+          </div>
         </div>
       </div>
       <div class="px-2 py-2">
         <.live_component
           module={BadgeReaderWeb.ChartComponents}
           id="nbr_total"
-          points={%{
-            label: "Personnes ",
-            labels: [CalculationOfTime.days(@week.seven_days_ago.date), CalculationOfTime.days(@week.six_days_ago.date), CalculationOfTime.days(@week.five_days_ago.date), CalculationOfTime.days(@week.four_days_ago.date), CalculationOfTime.days(@week.three_days_ago.date), CalculationOfTime.days(@week.yesteday.date), CalculationOfTime.days(@week.today.date)],
-            values: [@week.seven_days_ago.value, @week.six_days_ago.value, @week.five_days_ago.value, @week.four_days_ago.value, @week.three_days_ago.value, @week.yesteday.value, @week.today.value]
+          points={
+            %{
+              label: "Personnes ",
+              labels: [
+                CalculationOfTime.days(@week.seven_days_ago.date),
+                CalculationOfTime.days(@week.six_days_ago.date),
+                CalculationOfTime.days(@week.five_days_ago.date),
+                CalculationOfTime.days(@week.four_days_ago.date),
+                CalculationOfTime.days(@week.three_days_ago.date),
+                CalculationOfTime.days(@week.yesteday.date),
+                CalculationOfTime.days(@week.today.date)
+              ],
+              values: [
+                @week.seven_days_ago.value,
+                @week.six_days_ago.value,
+                @week.five_days_ago.value,
+                @week.four_days_ago.value,
+                @week.three_days_ago.value,
+                @week.yesteday.value,
+                @week.today.value
+              ]
             }
           }
-          />
+        />
       </div>
     </div>
     """

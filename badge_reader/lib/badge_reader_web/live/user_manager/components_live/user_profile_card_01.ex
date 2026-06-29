@@ -1,19 +1,21 @@
 defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard01 do
   use BadgeReaderWeb, :live_component
   import BadgeReaderWeb.EditMenu
+  alias BadgeReader.CalculationOfTime
 
   def mount(socket) do
     {:ok, socket}
   end
 
-  def update(%{is_open: is_open, on_toggle: on_toggle}, socket)do
+  def update(%{is_open: is_open, on_toggle: on_toggle, week: week}, socket) do
     {:ok,
-    socket
-    |> assign(:is_open, is_open)
-    |> assign(:on_toggle, on_toggle)}
+     socket
+     |> assign(:is_open, is_open)
+     |> assign(:on_toggle, on_toggle)
+     |> assign(:week, week)}
   end
 
-  def render(assigns)do
+  def render(assigns) do
     ~H"""
     <div class="flex flex-col h-full bg-white dark:bg-gray-800 shadow-xs rounded-xl">
       <div class="w-full px-5">
@@ -49,11 +51,28 @@ defmodule BadgeReaderWeb.UserManager.ComponentsLive.UserProfileCard01 do
         <.live_component
           module={BadgeReaderWeb.ChartComponents}
           id="nbr_hours"
-          points={%{
-            type: "bar",
-            label: "heur ",
-            labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"],
-            values: [6, 8, 4],
+          points={
+            %{
+              type: "bar",
+              label: "heur ",
+              labels: [
+                CalculationOfTime.days(@week.monday.date),
+                CalculationOfTime.days(@week.tuesday.date),
+                CalculationOfTime.days(@week.wenesday.date),
+                "Jeudi",
+                "Vendredi",
+                "Samedis",
+                "Dimanche"
+              ],
+              values: [
+                @week.monday.value,
+                @week.tuesday.value,
+                @week.wenesday.value,
+                @week.thesday.value,
+                @week.friday.value,
+                @week.saturday.value,
+                @week.sunday.value
+              ]
             }
           }
         />
