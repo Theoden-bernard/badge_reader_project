@@ -14,7 +14,6 @@ COPY . .
 
 ENV MIX_ENV="test"
 
-
 # Bash command
 RUN set -xe \
 && mix local.hex --force \
@@ -41,7 +40,6 @@ WORKDIR /app
 COPY . .
 
 ENV MIX_ENV="prod"
-
 
 # Bash command
 RUN set -xe \
