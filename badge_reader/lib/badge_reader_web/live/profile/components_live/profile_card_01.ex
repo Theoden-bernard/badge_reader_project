@@ -2,7 +2,6 @@ defmodule BadgeReaderWeb.Profile.ComponentsLive.ProfileCard01 do
   use BadgeReaderWeb, :live_component
   import BadgeReaderWeb.EditMenu
   alias BadgeReader.CalculationOfTime
-  alias BadgeReader.Logs
 
   def mount(socket) do
     {:ok, socket}

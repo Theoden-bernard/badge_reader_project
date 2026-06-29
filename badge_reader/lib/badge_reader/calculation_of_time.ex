@@ -25,7 +25,6 @@ defmodule BadgeReader.CalculationOfTime do
   """
 
   alias BadgeReader.Logs
-  alias BadgeReader.Logs.Log
 
   def days(1), do: "Lun"
   def days(2), do: "Mar"

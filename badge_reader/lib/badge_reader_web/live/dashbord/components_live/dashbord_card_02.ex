@@ -4,6 +4,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
 
   alias BadgeReader.CalculationOfTime
 
+  @impl true
   def mount(socket) do
     {:ok, socket}
   end
@@ -23,6 +24,7 @@ defmodule BadgeReaderWeb.Dashbord.ComponentsLive.DashbordCard02 do
      |> assign(:week, week)}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-gray-800 shadow-xs rounded-xl">

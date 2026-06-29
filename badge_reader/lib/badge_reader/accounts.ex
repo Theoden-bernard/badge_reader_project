@@ -393,21 +393,21 @@ defmodule BadgeReader.Accounts do
     end)
   end
 
+  defp user_preloads(users_list) when is_list(users_list),
+    do: user_preloads(users_list, [])
+
   defp user_preloads(%User{} = user),
     do: Repo.preload(user, [:role])
 
-  defp user_preloads({:ok, user}),
-    do: {:ok, Repo.preload(user)}
+  defp user_preloads({:ok, %User{} = user}),
+    do: {:ok, Repo.preload(user, [:role])}
+
+  defp user_preloads(any),
+    do: any
 
   defp user_preloads([], new_users_list),
     do: new_users_list
 
   defp user_preloads([user | last], new_users_list),
     do: user_preloads(last, [user_preloads(user) | new_users_list])
-
-  defp user_preloads(users_list) when is_list(users_list),
-    do: user_preloads(users_list, [])
-
-  defp user_preloads(any),
-    do: any
 end

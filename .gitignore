@@ -1,3 +1,11 @@
+# Elixir file
+/_build/
+/deps/
+/*.log
+/.elixir_ls/
+/*.ez
+/.mix/
+
 # LaTeX auxilliary files
 *.aux
 *.bbl

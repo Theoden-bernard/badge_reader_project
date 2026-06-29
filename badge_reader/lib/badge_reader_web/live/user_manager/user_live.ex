@@ -85,12 +85,12 @@ defmodule BadgeReaderWeb.UserLive do
       selected_user = Accounts.get_user!(params["current_user"])
 
       case Accounts.change_info_user(selected_user, params) do
-        {:ok, user} ->
+        {:ok, _user} ->
           {:noreply,
            socket
-           |> put_flash(:info, "Utilisateur modifier avec succès !")
-           |> assign(:modale_open, false)
-           |> assign(:user_table, Accounts.get_all_user())}
+            |> put_flash(:info, "Utilisateur modifier avec succès !")
+            |> assign(:modale_open, false)
+            |> assign(:user_table, Accounts.get_all_user())}
 
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign_form(socket, changeset)}
@@ -100,9 +100,9 @@ defmodule BadgeReaderWeb.UserLive do
         {:ok, _user} ->
           {:noreply,
            socket
-           |> put_flash(:info, "Utilisateur créé avec succès !")
-           |> assign(:modale_open, false)}
-          |> assign(:user_table, Accounts.get_all_user())
+            |> put_flash(:info, "Utilisateur créé avec succès !")
+            |> assign(:modale_open, false)
+            |> assign(:user_table, Accounts.get_all_user())}
 
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign_form(socket, changeset)}
@@ -121,10 +121,6 @@ defmodule BadgeReaderWeb.UserLive do
   end
 
   defp assign_form(socket, changeset) do
-    assign(socket, :form, to_form(changeset, as: "user"))
-  end
-
-  defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     assign(socket, :form, to_form(changeset, as: "user"))
   end
 

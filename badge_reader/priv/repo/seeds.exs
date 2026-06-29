@@ -11,7 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 alias BadgeReader.Repo
-alias BadgeReader.{Accounts, AccessPointsManager, Logs, RoleManager, BadgeManager}
+alias BadgeReader.{Accounts, AccessPointsManager, RoleManager, BadgeManager}
 alias BadgeReader.Accounts.User
 alias BadgeReader.RoleManager.Role
 alias BadgeReader.BadgeManager.Badge
@@ -39,19 +39,7 @@ IO.puts("Creation de Roles")
 # ==========================================
 # STEPS 3 : creation of Users and Creation to Badges
 # ==========================================
-admin_password =
-  case System.fetch_env("PASSWORD_ADMIN") do
-    {:ok, password} ->
-      password
-
-    :error ->
-      IO.puts(
-        :stderr,
-        "Erreur : La variable d'environnement SEED_ADMIN_PASSWORD n'est pas définie !"
-      )
-
-      System.halt(1)
-  end
+admin_password = System.get_env("PASSWORD_ADMIN", "password1234")
 
 IO.puts("Création des utilisateurs de test...")
 
@@ -64,7 +52,7 @@ IO.puts("Création des utilisateurs de test...")
     role_id: administrateur.id
   })
 
-{:ok, badge_admin} =
+{:ok, _badge_admin} =
   BadgeManager.create_badge(%{
     rfid: 1,
     name_badge: "badge_admin",
@@ -75,7 +63,7 @@ IO.puts("Création des utilisateurs de test...")
   })
 
 Enum.each(1..20, fn i ->
-  {:ok, _etudiant} =
+  {:ok, user_etudiant} =
     Accounts.admin_create_user(%{
       firstname: Faker.Person.first_name(),
       lastname: Faker.Person.last_name(),
@@ -91,12 +79,12 @@ Enum.each(1..20, fn i ->
       date_activation: DateTime.utc_now(),
       date_expiration: DateTime.add(DateTime.utc_now(), 20),
       status: true,
-      user_id: _etudiant.id
+      user_id: user_etudiant.id
     })
 end)
 
 Enum.each(1..10, fn i ->
-  {:ok, _staff} =
+  {:ok, user_staff} =
     Accounts.admin_create_user(%{
       firstname: Faker.Person.first_name(),
       lastname: Faker.Person.last_name(),
@@ -112,7 +100,7 @@ Enum.each(1..10, fn i ->
       date_activation: DateTime.utc_now(),
       date_expiration: DateTime.add(DateTime.utc_now(), 20),
       status: true,
-      user_id: _staff.id
+      user_id: user_staff.id
     })
 end)
 

@@ -11,7 +11,9 @@ defmodule BadgeReader.MixProject do
       aliases: aliases(),
       deps: deps(),
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
-      listeners: [Phoenix.CodeReloader]
+      listeners: [Phoenix.CodeReloader],
+      test_coverage: [tool: ExCoveralls],
+      dialyzer: [plt_add_apps: [:ex_unit]]
     ]
   end
 
@@ -27,7 +29,11 @@ defmodule BadgeReader.MixProject do
 
   def cli do
     [
-      preferred_envs: [precommit: :test]
+      preferred_envs: [
+        precommit: :test,
+        quality: :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -67,7 +73,7 @@ defmodule BadgeReader.MixProject do
       {:gettext, "~> 1.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.18", only: [:test]},
+      {:excoveralls, "~> 0.18", only: [:test, :dev], runtime: false},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
@@ -86,7 +92,7 @@ defmodule BadgeReader.MixProject do
       setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "run priv/repo/seeds.exs", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["compile", "tailwind badge_reader", "esbuild badge_reader"],
       "assets.deploy": [
@@ -95,7 +101,7 @@ defmodule BadgeReader.MixProject do
         "phx.digest"
       ],
       precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
-      quality: ["credo --strict", "dialyzer", "coveralls"]
+      quality: ["credo --strict", "dialyzer", "coveralls.html"]
     ]
   end
 end
