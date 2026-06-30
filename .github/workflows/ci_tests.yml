@@ -13,7 +13,7 @@ jobs:
     
         steps:
             - name: Clonage du repo
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Instalation d'Elixir et Erlan
               uses: erlef/setup-beam@v1
@@ -36,7 +36,7 @@ jobs:
 
         steps:
             - name: Clonage du repo
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
           
             - name: Installation docker
               uses: docker/setup-qemu-action@v3
