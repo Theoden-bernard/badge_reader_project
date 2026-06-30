@@ -7,11 +7,8 @@ on:
     pull_request:
         branches: ["main", "develop"] 
 
-# 🌟 LA SOLUTION EN DIRECT DE GITHUB : On force globalement Node 24
-# pour éliminer le warning sur n'importe quelle action obsolète.
 env:
     MIX_ENV: test
-    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
     test:
@@ -42,7 +39,6 @@ jobs:
             - 5432:5432
       
       steps:
-          # V7 officielle sortie en juin 2026, ou v4 si tu préfères rester conservateur
           - uses: actions/checkout@v7 
 
           - name: Set up Elixir & Erlang
