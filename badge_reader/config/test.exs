@@ -9,10 +9,10 @@ config :bcrypt_elixir, :log_rounds, 1
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :badge_reader, BadgeReader.Repo,
-  username: System.get_env("POSTGRES_USER"),
-  password: System.get_env("POSTGRES_PASSWORD"),
+  username: "postgres",
+  password: "postgres",
   hostname: "localhost",
-  database: "badge_reader_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "badge_reader_test",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 

@@ -19,17 +19,17 @@ jobs:
           working-directory: ./badge_reader
 
       env:
-        POSTGRES_USERNAME: ${{ secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_DATABASE: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USERNAME: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_DATABASE: "badge_reader_test"
 
       services:
         postgres:
           image: postgres:15
           env:
-            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-            POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            POSTGRES_DB: "badge_reader_test"
           options: >-
             --health-cmd pg_isready
             --health-interval 10s
