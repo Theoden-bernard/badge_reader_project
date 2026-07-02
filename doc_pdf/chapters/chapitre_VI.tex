@@ -301,25 +301,16 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     # lib/badge_reader/accounts.ex
     defmodule BadgeReader.Accounts do
       ...
-      # Droit d'accès (Article 15 RGPD)
-      def get_user_data(user_id) do
-        case Repo.get(User, user_id) do
-          %User{} = user ->
-            badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
-            {:ok, %{
-              email: user.email,
-              inserted_at: user.inserted_at,
-              badges: badges
-            }}
-          nil -> {:error, :not_found}
-        end
+      def get_user_data(id) do
+        Repo.get!(User, id)
+        |> user_preloads()
+        |> Repo.preload([badge: :log])
       end
-    end
     \end{lstlisting}
 
     \textit{Conformité RGPD} :
     \begin{itemize}
-        \item \textbf{Droit d’accès} : \texttt{get\_user\_data/1} retourne uniquement les données personnelles.
+        \item \textbf{Droit d’accès} : \texttt{get\_user/1} retourne uniquement les données personnelles.
     \end{itemize}
 \end{for_you}
 
@@ -331,24 +322,41 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     defmodule BadgeReader.Accounts do
       ...
       # Droit à l'effacement (Article 17 RGPD)
-      def delete_user_and_anonymize(%User{} = user) do
-        Repo.transaction(fn ->
-          BadgeReader.Badges.delete_all_user_badges(user.id)
+      # Attention les logs de connexion sont gardés par Yggdrasil (logiciel de gestion des étudiants)
 
-          user
-          |> Ecto.Changeset.change(%{
-            email: "deleted-user-#{user.id}@badge-reader.local",
-            hashed_password: "ANONYMIZED_#{Ecto.UUID.generate()}"
-          })
-          |> Repo.update()
-          |> case do
-            {:ok, updated_user} -> updated_user
-            {:error, changeset} -> Repo.rollback(changeset)
-          end
-        end)
+      def delete_user(%User{} = user) do
+        user
+        |> Repo.delete()
       end
     end
-    \end{lstlisting}
+
+  defmodule Mix.Tasks.PurgeLogs do
+  @moduledoc "When call this module zill delete all badge entry logs older thant 6 months. This is laucnh in CRON"
+  use Mix.Task
+
+  alias BadgeReader.Logs
+
+  def run(_) do
+    Ecto.Migrator.with_repo(BadgeReader.Repo, &purge_logs(&1))
+  end
+
+  defp purge_logs(_) do
+    date =
+      DateTime.utc_now()
+      |> DateTime.add(-180, :day)
+
+      Logs.list_logs()
+      |> Enum.filter(fn log ->
+          DateTime.before?(log.clocked_at, date)
+        end)
+        |> Enum.map(&Logs.delete())
+      end
+  end
+  ##
+  ## crontab (on server) - installation de la cron dans Docker
+  5 4 * * * cd /app ; mix purge_logs
+
+\end{lstlisting}
 
     \textit{Conformité RGPD} :
     \begin{itemize}
@@ -362,21 +370,12 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     defmodule BadgeReader.Accounts do
       ...
       # Droit à la portabilité (Article 20 RGPD)
+      # fonction a etendre pour les autres champs utilisateur
+      # Attention aux champs exportables en matière de sécurité.
       def export_user_data(user_id) do
-        user = Repo.get!(User, user_id)
-        badges = Repo.all(from b in BadgeReader.Badges.Badge, where: b.user_id == ^user_id)
-
-        %{
-          user_id: user.id,
-          email: user.email,
-          created_at: user.inserted_at,
-          badges: Enum.map(badges, fn b -> %{
-            rfid: b.rfid,
-            name: b.name_badge,
-            activated_at: b.date_activation,
-            expired_at: b.date_expiration
-          } end)
-        }
+        User
+        |> Repo.get!(user_id)
+        |> Jason.encode!() 
       end
     end
     \end{lstlisting}
@@ -386,64 +385,6 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
         \item \textbf{Portabilité} : \texttt{export\_user\_data/1} retourne un JSON structuré.
     \end{itemize}
 \end{for_you}
-
-
-\textbf{\newline}
-\begin{for_you}{5. Chiffrement des données sensibles (sécurité RGPD)}
-    Phoenix 1.8.3 utilise \textbf{Bcrypt} pour les mots de passe et permet d’ajouter du chiffrement supplémentaire pour les données critiques.
-
-    \begin{lstlisting}
-    # lib/badge_reader/security.ex
-    defmodule BadgeReader.Security do
-      @aes_key Application.compile_env(:badge_reader, :aes_key) || raise "AES_KEY missing"
-
-      def encrypt(data) when is_binary(data) do
-        iv = :crypto.strong_rand_bytes(16)  # Vecteur d'initialisation
-        encrypted = :crypto.block_encrypt(:aes_256_cbc, @aes_key, iv, data)
-        Base.encode64(iv <> encrypted)  # Format stockage
-      end
-
-      def decrypt(encoded_data) do
-        decoded = Base.decode64!(encoded_data)
-        <<iv::binary-16, encrypted::binary>> = decoded
-        :crypto.block_decrypt(:aes_256_cbc, @aes_key, iv, encrypted)
-      end
-    end
-    \end{lstlisting}
-
-    \textit{Exemple d’utilisation} :
-    \begin{lstlisting}
-    # Dans un schéma Ecto pour chiffrer un champ sensible
-    defmodule BadgeReader.Badge do
-      use Ecto.Schema
-
-      schema "badges" do
-        field :user_id, :integer
-        field :badge_number, :string, encrypted: true  # Champ chiffré
-        field :expiry_date, :date
-      end
-
-      def changeset(badge, attrs) do
-        badge
-        |> cast(attrs, [:badge_number, :expiry_date])
-        |> validate_required([:badge_number])
-        |> encrypt_sensitive_fields()
-      end
-
-      defp encrypt_sensitive_fields(changeset) do
-        case changeset do
-          %Ecto.Changeset{changes: %{badge_number: number}} ->
-            encrypted = Security.encrypt(number)
-            put_change(changeset, :badge_number, encrypted)
-          _ ->
-            changeset
-        end
-      end
-    end
-    \end{lstlisting}
-  \end{for_you}
-
-\newpage
 
 \section{Liens utiles}
 

@@ -1,10 +1,15 @@
 # Image of elixir
-FROM elixir:1.18 AS runner
+FROM elixir:1.18
 
 RUN apt-get update \
     && apt-get install -y nodejs npm \
     && rm -rf /var/lib/apt/list/* \
     && apt-get update && apt-get install -y inotify-tools
+
+# installation de la Cron de purge des logs de connexion :
+## crontab (on server)
+# 5 4 * * * cd /app ; mix purge_logs
+
 
 # Working directory 
 WORKDIR /app
