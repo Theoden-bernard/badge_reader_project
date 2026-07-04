@@ -185,6 +185,6 @@ defmodule BadgeReader.Logs do
   end
 
   def delete_log(%Log{} = log) do
-    Repo.delete(Log, log)
+    Repo.delete(log)
   end
 end

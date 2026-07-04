@@ -13,7 +13,7 @@ defmodule BadgeReader.MixProject do
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
       listeners: [Phoenix.CodeReloader],
       test_coverage: [tool: ExCoveralls],
-      dialyzer: [plt_add_apps: [:ex_unit, :wallaby]]
+      dialyzer: [plt_add_apps: [:ex_unit, :wallaby, :mix]]
     ]
   end
 

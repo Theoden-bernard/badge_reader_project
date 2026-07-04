@@ -4,7 +4,6 @@ defmodule BadgeReaderWeb.FeatureCase do
   use ExUnit.CaseTemplate
 
   alias Ecto.Adapters.SQL.Sandbox
-  alias Wallaby.Experimental.Chrome
 
   using do
     quote do
