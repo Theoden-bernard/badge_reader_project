@@ -183,4 +183,8 @@ defmodule BadgeReader.Logs do
       {_, _} -> DateTime.diff(outs.clocked_at, ins.clocked_at)
     end
   end
+
+  def delete_log(%Log{} = log) do
+    Repo.delete(log)
+  end
 end

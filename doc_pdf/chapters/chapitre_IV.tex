@@ -20,11 +20,12 @@ Ils garantissent que les fonctionnalités développées répondent aux \textbf{b
 
 \begin{for_you}{Diagramme de cas d'utilisation :}
     \begin{center}
-    \includegraphics[width=15cm,height=80mm]{./assets/uml/diagramme_de_cas_d'utilisation.png}
+    \includegraphics[width=10cm]{./assets/uml/diagramme_de_cas_d'utilisation.png}
     \end{center}
 
-    \textit{Seul l'administrateur est représenté, étant donné que seul l'administrateur aura accès au site web. L'application n'étant pas accessible au public, elle est exclusivement réservée aux utilisateurs authentifiés et autorisés.\newline}
-    \textit{Le serveur mail est un acteur externe qui nous permettra d'envoyer les badges virtuels aux utilisateurs.}
+    \textit{Seul l'administrateur est représenté, étant donné que seul l'administrateur aura accès au site web. Le site n'étant pas accessible au public, il est exclusivement réservée aux utilisateurs authentifiés et autorisés.\newline}
+    \textit{Le serveur mail est un acteur externe qui nous permettra d'envoyer les badges virtuels aux utilisateurs.\newline}
+    \textit{\newline Les cas d'utilisation reliés par un <<extend>> ne sont pas obligatoires : on peut consulter un utilisateur sans gérer les badges. En revanche, on est obligé de passer par la consultation d'un utilisateur pour pouvoir gérer les badges.}
 \end{for_you}
 
 \newpage
@@ -37,25 +38,25 @@ Ils clarifient :
     \item La gestion des erreurs (ex. : badge invalide).
 \end{itemize}
 
-\begin{for_you}{Diagramme de séquence accès site :}
+\begin{for_you}{Diagramme de séquence authentification :}
     \begin{center}
-        \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence_acces_site.png}
+        \includegraphics[width=10cm]{./assets/uml/diagramme_de_sequence_login.png}
     \end{center}
 
     \textit{Scénario} :
-    L’utilisateur saisit ses identifiants $\rightarrow$ le système vérifie en base $\rightarrow$ accès accordé ou refusé.
+    L'utilisateur saisit ses identifiants $\rightarrow$ le système vérifie en base $\rightarrow$ accès accordé ou refusé.
+
+    \begin{itemize}
+        \item Le stickman $\rightarrow$ navigateur internet.
+        \item Les objets $\rightarrow$  mes différents fichiers/defmodules
+    \end{itemize}
+
+    Les flèches synchrones ou flèches d’auto-appel représentent mes différentes fonctions ou retours de fonction.
+    Elles sont disposées du haut vers le bas, le bas correspondant au moment le plus éloigné dans le temps. Les rectangles alt représentent les conditions.
+    
+    Le reste de \hyperlink{cible:Sequence}{\textbf{mes Diagramme de séquence (Annex)}}
 \end{for_you}
 
-\textit{\newline}
-
-\begin{for_you}{Diagramme de séquence accès bâtiment :}
-    \begin{center}
-        \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence_acces_batiment.png}
-    \end{center}
-
-    \textit{Scénario} :
-    Le badge est scanné $\rightarrow$ le lecteur interroge la base $\rightarrow$ la porte s’ouvre si le badge est valide.
-\end{for_you}
 
 \section{Conception de l’interface utilisateur}
 
@@ -73,9 +74,11 @@ Chaque zoning respecte une \textbf{hiérarchie visuelle claire} pour guider l’
 \newline
 
 \begin{for_you}{Dashboard}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/zoning/dashboard.png}
-    \end{center}
+    
+    \includegraphics[height=7cm]{./assets/zoning/dashboard.png}
+    \hfil
+    \includegraphics[height=7cm]{./assets/zoning/dashboard_mobile.png}
+    
 
     \textit{Choix de la disposition :}
 
@@ -96,17 +99,17 @@ Le choix des card's a été fait car il permet de séparer les différentes info
 \newline
 
 \begin{for_you}{Dashboard}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/wireframe/dashboard.png}
-    \end{center}
+    \includegraphics[height=8cm]{./assets/wireframe/dashboard.png}
+    \hfil
+    \includegraphics[height=8cm]{./assets/wireframe/dashboard_mobile.png}
 \end{for_you}
 
 \textbf{\newline}
 
 \begin{for_you}{Modale de création d'utilisateur}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/wireframe/page_creation_utilisateur.png}
-    \end{center}
+    \includegraphics[height=8cm]{./assets/wireframe/page_creation_utilisateur.png}
+    \hfil
+    \includegraphics[height=8cm]{./assets/wireframe/page_creation_utilisateur_mobile.png}
 
     \textit{J'ai décidé de créer un système de modales pour fluidifier la gestion des utilisateurs, badges, etc.}
 \end{for_you}
@@ -134,7 +137,7 @@ Les \textbf{maquettes} représentent le rendu final, avec :
     \hfil
     \includegraphics[height=7.2cm]{./assets/maquette/page_creation_utilisateur_mobile.png}
     \textbf{\newline}
-    Le reste de \hyperlink{cible:Maquettage}{\textbf{mes maquettes}}
+    Le reste de \hyperlink{cible:Maquettage}{\textbf{mes maquettes (Annex)}}
 \end{for_you}
 
 \textbf{\newline}
@@ -173,15 +176,18 @@ Elle facilite l’intégration future dans l’intranet existant.
             \hline
             \textbf{Couleurs} & \textbf{Typographie} & \textbf{Composants} \\
             \hline
-            Primaire : \#FFD401 & Farro (titres) & Boutons arrondis \\
-            Secondaire : \#000000 & Farro (corps) & Cartes avec ombres \\
-            Neutre : \#FFFFFF & Monospace (code) & Icônes Material Design \\
+            Primaire : (Jaune)\#FFD401 & Inter (titres) & Boutons arrondis \\
+            Secondaire : (blanc)\#000000 & Inter (corps) & Cartes avec ombres \\
+            Neutre : (noire)\#FFFFFF & Monospace (code) & Icônes Material Design \\
             \hline
             \hline
         \end{tabular}
     \end{center}
     \textit{Exemple} :
     Le logo de Colint est utilisé sans variante pour renforcer l’identité visuelle.
+    \begin{center}
+        \includegraphics[height=5.5cm]{./assets/colint-logo-complet.png}
+    \end{center}
 \end{for_you}
 
 \newpage
@@ -202,7 +208,7 @@ Cette approche garantit \textbf{l’intégrité des données} et \textbf{l’opt
         \includegraphics[width=15cm]{./assets/uml/mcd.png}
     \end{center}
     
-    D'après mon \hyperlink{cible:dictionnaire}{\textbf{dictionnaire de données}}, voici mes entités et relations :
+    D'après mon \hyperlink{cible:dictionnaire}{\textbf{dictionnaire de données (Annex)}}, voici mes entités et relations :
     \newline
 
     \begin{center}
@@ -273,5 +279,4 @@ Cette approche permet de regrouper l'ensemble du système dans un seul déploiem
     \item UML : \url{https://www.uml-diagrams.org/}
     \item Merise (FR) : \url{https://perso.liris.cnrs.fr/pierre-antoine.champin/enseignement/intro-merise.html}
     \item PostgreSQL : \url{https://www.postgresql.org/docs/}
-    \item PlantUML : \url{https://plantuml.com/}
 \end{itemize}

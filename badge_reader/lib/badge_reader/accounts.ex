@@ -61,6 +61,18 @@ defmodule BadgeReader.Accounts do
   def get_user!(id),
     do: Repo.get!(User, id) |> user_preloads()
 
+  def get_user_data(id) do
+    Repo.get!(User, id)
+    |> user_preloads()
+    |> Repo.preload([badge: :log])
+  end
+
+  def exporte_data(user_id) do
+    User
+    |> Repo.get!(user_id)
+    |> Jason.encode!()
+  end
+
   def get_user_by_lastname(lastname) do
     Repo.get_by(User, lastname: lastname)
     |> user_preloads()
@@ -377,6 +389,11 @@ defmodule BadgeReader.Accounts do
   def delete_user_session_token(token) do
     Repo.delete_all(from(UserToken, where: [token: ^token, context: "session"]))
     :ok
+  end
+
+  def delete_user(%User{} = user) do
+    user
+    |> Repo.delete()
   end
 
   ## Token helper

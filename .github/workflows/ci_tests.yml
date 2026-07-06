@@ -1,4 +1,4 @@
-name: test_action
+name: CI
 
 on:
     push:
@@ -7,36 +7,75 @@ on:
     pull_request:
         branches: ["main", "develop"] 
 
+env:
+    MIX_ENV: test
+
 jobs:
-    elixir_ci:
-        runs-on: ubuntu-latest
-    
-        steps:
-            - name: Clonage du repo
-              uses: actions/checkout@v4
+    test:
+      runs-on: ubuntu-latest
 
-            - name: Instalation d'Elixir et Erlan
-              uses: erlef/setup-beam@v1
-              with:
-                elixir-version: '1.18' 
-                otp-version: '27'
-            
-            - name: Installation des dépendances Mix
-              working-directory: ./badge_reader
-              run: mix deps.get
+      defaults:
+        run:
+          working-directory: ./badge_reader
 
-            - name: Compilation elixir
-              working-directory: ./badge_reader  
-              run: mix compile
-    
+      env:
+        POSTGRES_USERNAME: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_DATABASE: "badge_reader_test"
+
+      services:
+        postgres:
+          image: postgres:15
+          env:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            POSTGRES_DB: "badge_reader_test"
+          options: >-
+            --health-cmd "pg_isready -U postgres -d badge_reader_test"
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 5432:5432
+      
+      steps:
+          - uses: actions/checkout@v7 
+
+          - name: Set up Elixir & Erlang
+            uses: erlef/setup-beam@v1
+            with:
+              elixir-version: "1.18"
+              otp-version: "27"
+
+          - name: Restore dependencies cache
+            uses: actions/cache@v4
+            with:
+              path: badge_reader/deps
+              key: ${{ runner.os }}-mix-${{ hashFiles('badge_reader/**/mix.lock') }}
+              restore-keys: ${{ runner.os }}-mix-
+
+          - name: Install dependencies
+            run: mix deps.get
+
+          - name: Setup Database
+            run: |
+              mix ecto.create
+              mix ecto.migrate
+              mix run priv/repo/seeds.exs
+
+          - name: Compile
+            run: mix compile --warnings-as-errors
+
+          - name: Run tests
+            run: mix quality
+
     build_and_push_image:
         runs-on: ubuntu-latest
-        
-        needs: elixir_ci
+        needs: test
 
         steps:
             - name: Clonage du repo
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
           
             - name: Installation docker
               uses: docker/setup-qemu-action@v3

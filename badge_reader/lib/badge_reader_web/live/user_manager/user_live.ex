@@ -110,6 +110,21 @@ defmodule BadgeReaderWeb.UserLive do
     end
   end
 
+  def handle_event("delete_user", %{"user" => params}, socket) do
+
+    select_user = Accounts.get_user!(params["current_user"])
+
+    case Accounts.delete_user(select_user) do
+      {:ok, _user} ->
+        {:noreply, socket
+          |> put_flash(:info, "Utilisateur supprimer avec succès !")
+          |> assign(:modale_open, false)
+          |> assign(:user_table, Accounts.get_all_user())}
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign_form(socket, changeset)}
+    end
+  end
+
   @impl true
   def handle_event("toggle_menu", %{"id" => id}, socket) do
     new_active_id = if socket.assigns.active_menu_id == id, do: nil, else: id
@@ -305,12 +320,21 @@ defmodule BadgeReaderWeb.UserLive do
                     </button>
                   </div>
 
+
                   <.form
                     for={@form}
                     id="delete_user"
-                    phx-submit="submit_user"
+                    phx-submit="delete_user"
                     phx-change="validate_user"
                   >
+                    <.input
+                      field={@form[:current_user]}
+                      type="select"
+                      label="User"
+                      options={Enum.map(@user, fn u -> {u.firstname, u.id} end)}
+                      prompt="-- Choisissez un Utilisateur --"
+                      required
+                    />
                     <.input field={@form[:firstname]} type="text" label="Prénom" required />
                     <.input field={@form[:lastname]} type="text" label="Nom" required />
                     <.input
@@ -318,13 +342,13 @@ defmodule BadgeReaderWeb.UserLive do
                       type="select"
                       label="Rôle"
                       options={Enum.map(@role, fn r -> {r.name_role, r.id} end)}
+                      prompt="-- Choisissez un Rôle --"
                       required
                     />
                     <.input field={@form[:email]} type="email" label="Email" required />
-                    <.input field={@form[:password]} type="password" label="Mot de passe" required />
 
                     <.button class="btn btn-primary w-full mt-4">
-                      Créer l'utilisateur
+                      Supprimer l'utilisateur
                     </.button>
                   </.form>
                 </div>

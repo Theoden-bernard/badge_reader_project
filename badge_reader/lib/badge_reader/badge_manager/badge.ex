@@ -10,6 +10,7 @@ defmodule BadgeReader.BadgeManager.Badge do
     field :status, :boolean, default: false
 
     belongs_to :user, BadgeReader.Accounts.User
+    has_many :log, BadgeReader.Logs.Log
 
     timestamps(type: :utc_datetime)
   end
