@@ -392,7 +392,8 @@ defmodule BadgeReader.Accounts do
   end
 
   def delete_user(%User{} = user) do
-    Repo.delete(user)
+    user
+    |> Repo.delete()
   end
 
   ## Token helper

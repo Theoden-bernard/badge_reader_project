@@ -31,7 +31,7 @@ jobs:
             POSTGRES_PASSWORD: "postgres"
             POSTGRES_DB: "badge_reader_test"
           options: >-
-            --health-cmd pg_isready
+            --health-cmd "pg_isready -U postgres -d badge_reader_test"
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5

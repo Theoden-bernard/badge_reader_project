@@ -5,15 +5,16 @@ Pour \textbf{Badge Reader}, j’ai mis en place une stratégie de tests basée s
 \begin{itemize}
     \item Les \textbf{tests unitaires} (ExUnit) pour valider la logique métier.
     \item Les \textbf{tests d’intégration} pour vérifier les interactions entre composants.
-    \item Les \textbf{tests e2e} (\textit("End To End")) pour vérifier que tout puisse fonctionner en se mettant à la place d'un utilisateur.
+    \item Les \textbf{tests e2e avec wallaby} (\textit"End To End") pour vérifier que tout puisse fonctionner en se mettant à la place d'un utilisateur.
 \end{itemize}
 
 \section{Tests de performance}
-J’utilise \textbf{Exunit} (outil Elixir) pour mesurer les performances de \textbf{Badge Reader} sous charge.
+J’utilise \textbf{Exunit} (outil Elixir) pour mesurer les performances de \textbf{Badge Reader} sous charge. \newline
 
 
 \begin{for_you}{Mes tests de performance}
     Je peux effectuer des tests en local ou bien dans ma chaîne CI/CD pour garder un code propre avant de push quoi que ce soit.
+    vous pouvez retrouver des exemple de \hyperlink{cible:test}{\underline{\textbf{test en (Annex)}}} \newline
 
     \textit{Résultats possitife typiques} :
     Je peux effectuer des tests en local ou bien dans ma chaîne CI/CD pour garder un code propre avant de push quoi que ce soit.
@@ -34,7 +35,6 @@ Je mesure la qualité du code avec :
     \item \textbf{Credo} (analyse statique pour Elixir).
     \item \textbf{ExCoveralls} (couverture de tests).
     \item \textbf{Dialyzer} (détection d’incohérences de types).
-    \item \textbf{wallaby} (test e2e).
 \end{itemize}
 
 \begin{for_you}{Mes outils de qualité}

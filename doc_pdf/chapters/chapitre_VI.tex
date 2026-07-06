@@ -96,7 +96,6 @@ Pour sécuriser \textbf{Badge Reader}, j’ai mis en place un système d’\text
         |> put_session(:user_return_to, ~p"/")
         |> UserAuth.log_in_user(user, user_params)
       else
-        # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
         conn
         |> put_flash(:error, "Invalid email or password")
         |> put_flash(:email, String.slice(email, 0, 160))
@@ -292,7 +291,6 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
     \begin{itemize}
         \item \textbf{Hachage des mots de passe} : Utilisation de \textbf{Bcrypt} (intégré à Phoenix).
         \item \textbf{Validation des emails} : Format strict et unicité en base.
-        \item \textbf{Champs RGPD} : \texttt{confirmed\_at} pour le consentement explicite.
     \end{itemize}
 \end{for_you}
 
@@ -310,7 +308,7 @@ Pour respecter le \textbf{RGPD}, j’ai implémenté :
 
     \textit{Conformité RGPD} :
     \begin{itemize}
-        \item \textbf{Droit d’accès} : \texttt{get\_user/1} retourne uniquement les données personnelles.
+        \item \textbf{Droit d’accès} : \texttt{get\_user\_data/1} retourne uniquement les données personnelles.
     \end{itemize}
 \end{for_you}
 

@@ -1,7 +1,7 @@
 \chapter{Bilan et retour d'expérience (REX)}
 
 \section{Objectifs atteints et non atteints}
-Pour \textbf{Badge Reader}, j’ai atteint \textbf{85\% des objectifs initiaux}. Voici un bilan détaillé des résultats et des ajustements réalisés.
+Pour \textbf{Badge Reader}, j’ai atteint \textbf{70\% des objectifs initiaux}. Voici un bilan détaillé des résultats et des ajustements réalisés.
 \newline
 
 \begin{for_you}{Bilan des objectifs SMART}
@@ -41,15 +41,14 @@ Ce projet m’a permis d’acquérir des compétences clés.
               \end{itemize}
         \item \textbf{DevOps} :
               \begin{itemize}
-                  \item Configuration de \textbf{Docker multi-stage} pour les déploiements.
+                  \item Configuration d'une \textbf{CI/CD}.
                   \item Automatisation des tests avec \textbf{GitHub Actions}.
-                  \item Monitoring avec \textbf{Prometheus/Grafana}.
               \end{itemize}
         \item \textbf{Sécurité} :
               \begin{itemize}
                   \item Implémentation du \textbf{RGPD} (droits utilisateurs, chiffrement).
                   \item Protection contre les \textbf{OWASP Top 10}.
-                  \item Gestion des \textbf{sessions sécurisées}.
+                  \item Gestion de \textbf{sessions sécurisées}.
                   \newline
               \end{itemize}
     \end{itemize}
@@ -77,16 +76,6 @@ Ce projet m’a permis d’acquérir des compétences clés.
       end
     end
 
-    # Dans lib/badge_reader/badges.ex
-    def create_badge(attrs) do
-      %Badge{}
-      |> Badge.changeset(attrs)
-      |> Repo.insert()
-      |> case do
-        {:ok, badge} -> {:ok, send_welcome_email(badge)}
-        error -> error
-      end
-    end
     \end{lstlisting}
 \end{for_you}
 
@@ -109,7 +98,7 @@ Ce projet a été une expérience formatrice, tant sur le plan technique qu’hu
               \begin{itemize}
                   \item Gestion de projet \textbf{Agile} (Kanban, sprints).
                   \item Rédaction de \textbf{documentation technique}.
-                  \item Revue de code et \textbf{pair programming}.
+                  \item Revue de \textbf{code}.
               \end{itemize}
         \item \textbf{Humain} :
               \begin{itemize}
@@ -118,12 +107,15 @@ Ce projet a été une expérience formatrice, tant sur le plan technique qu’hu
               \end{itemize}
     \end{itemize}
 
+    \text{\newline}
+
     \textbf{Perspectives pour la v1.0} :
     \begin{itemize}
         \item \textbf{Fonctionnalités} :
               \begin{itemize}
                   \item Integration de badge Physique
                   \item Renforcement du RGPD
+                  \item Finalisation de l'interface
               \end{itemize}
         \item \textbf{Organisation} :
               \begin{itemize}

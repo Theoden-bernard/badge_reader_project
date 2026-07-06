@@ -190,3 +190,94 @@ Ce dictionnaire de données constitue le document de référence qui m'a permis 
         \texttt{clocked\_at} & Date/Heure (Timestamp) & -- & Date et heure précises du passage \\
 
 \end{longtable}
+
+\newpage
+
+\section{Testing}
+\hypertarget{cible:test}{}
+Dans mon projet, j’ai mis en place des tests unitaires qui me permettent de tester les fonctions de manière individuelle.
+Voici quelques exemples : \newline
+(J’ai créé une commande mix quality qui teste la qualité du code, sans inclure les tests E2E.) \newline
+
+
+\begin{for_you}{Test unitaires}
+    Test pour la recuperation d'utilisateur :
+    \begin{lstlisting}
+    describe "get_user_by_email/1" do
+        test "does not return the user if the email does not exist" do
+            refute Accounts.get_user_by_email("unknown@example.com")
+        end
+
+        test "returns the user if the email exists" do
+            %{id: id} = user = user_fixture()
+            assert %User{id: ^id} = Accounts.get_user_by_email(user.email)
+        end
+    end
+    \end{lstlisting}
+\end{for_you}
+
+\text{\newline}
+
+\begin{for_you}{Test d'integration}
+    Test pour la verification de l'Authentification :
+    \begin{lstlisting}
+    describe "on_mount :require_authenticated" do
+        test "authenticates current_scope based on a valid user_token", %{conn: conn, user: user} do
+            user_token = Accounts.generate_user_session_token(user)
+            session = conn |> put_session(:user_token, user_token) |> get_session()
+
+            {:cont, updated_socket} =
+            UserAuth.on_mount(:require_authenticated, %{}, session, %LiveView.Socket{})
+
+            assert updated_socket.assigns.current_scope.user.id == user.id
+        end
+
+        test "redirects to login page if there isn't a valid user_token", %{conn: conn} do
+            user_token = "invalid_token"
+            session = conn |> put_session(:user_token, user_token) |> get_session()
+
+            socket = %LiveView.Socket{
+                endpoint: BadgeReaderWeb.Endpoint,
+                assigns: %{__changed__: %{}, flash: %{}}
+            }
+
+            {:halt, updated_socket} = UserAuth.on_mount(:require_authenticated, %{}, session, socket)
+                assert updated_socket.assigns.current_scope == nil
+        end
+
+        test "redirects to login page if there isn't a user_token", %{conn: conn} do
+            session = conn |> get_session()
+
+            socket = %LiveView.Socket{
+                endpoint: BadgeReaderWeb.Endpoint,
+                assigns: %{__changed__: %{}, flash: %{}}
+            }
+
+            {:halt, updated_socket} = UserAuth.on_mount(:require_authenticated, %{}, session, socket)
+                assert updated_socket.assigns.current_scope == nil
+        end
+    end
+    \end{lstlisting}
+\end{for_you}
+
+\text{\newline}
+
+\begin{for_you}{Test E2e}
+    J’ai séparé les tests E2E des autres tests. Ils s’exécutent avec la commande mix test --only e2e. \newline
+
+    Simulation d'un utilisateur qui se connecte :
+    
+        \begin{lstlisting}
+    test "l'utilisateur peut voir la page d'accueil et ce connecter", %{session: session} do
+        session
+        |> visit("/users/log-in")
+        |> fill_in(Query.css("#login_form_password input[type='email']"), with: "tb@colint.school")
+        |> fill_in(Query.text_field("mot de passe"), with: System.get_env("PASSWORD_ADMIN"))
+        |> Kernel.tap(fn _ -> :timer.sleep(3000) end)
+        |> click(Query.css("#login_form_password button[name='user[remember_me]']"))
+        |> Kernel.tap(fn _ -> :timer.sleep(1000) end)
+        |> assert_has(Query.css("h1", text: "Dashboard"))
+    end
+    \end{lstlisting}
+
+\end{for_you}

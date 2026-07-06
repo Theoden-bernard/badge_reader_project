@@ -202,6 +202,8 @@ jobs:
                 push: true
                 tags: ${{ secrets.LOGIN }}/badge_reader:latest
 \end{lstlisting}
+
+Ma CI me permet de tester mon code et de vérifier que tout fonctionne avant de continuer. Si tout est correct, alors la CI peut continuer et vas builde mon image puis la push sur Docker Hub.
 \end{for_you}
 
 \begin{for_you}{Workflow GitHub Actions partie CD :}
@@ -243,6 +245,7 @@ jobs:
             - name: Supression de la clef
               run: rm -f key.pem
 \end{lstlisting}
+Ma CD, quant à elle, me permet de me connecter à mon instance EC2, de récupérer mon image et de relancer le service.
 \end{for_you}
 
 \section{Liens utiles}

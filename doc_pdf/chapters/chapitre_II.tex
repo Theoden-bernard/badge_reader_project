@@ -81,12 +81,12 @@ Chacun a des besoins spécifiques, détaillés ci-dessous :
 \begin{for_you}{Utilisateurs clés et leurs besoins :}
     \begin{itemize}
         \item \textbf{Étudiants} :
-              Accès du \textbf{lundi au vendredi (8h–17h)} pour les cours et projets.
+              Accès du \textbf{lundi au vendredi (8h–18h)} pour les cours et projets.
               \newline
               \textit{Exemple} : Un étudiant en retard doit pouvoir entrer rapidement.
 
         \item \textbf{Staff} :
-              Accès élargi (\textbf{lundi–samedi, 8h–19h}) pour les missions pédagogiques.
+              Accès élargi \textbf{lundi–samedi, (8h–20h)} pour les missions pédagogiques.
               \newline
               \textit{Exemple} : Un formateur qui prépare une salle le samedi matin.
 
@@ -102,7 +102,6 @@ Chacun a des besoins spécifiques, détaillés ci-dessous :
 \begin{for_you}{Parties prenantes :}
     \begin{itemize}
         \item \textbf{Étudiants/Staff} : Utilisateurs quotidiens -> besoin de \textbf{fluidité}.
-        \item \textbf{Invités} : Accès ponctuel -> besoin de \textbf{simplicité}.
         \item \textbf{Administrateurs} : Décideurs -> priorité à la \textbf{sécurité}.
     \end{itemize}
 
@@ -119,7 +118,6 @@ Cette approche systémique permet de concevoir une solution alignée à la fois 
     \textbf{User Stories prioritaires :}
     \begin{itemize}
         \item En tant qu’\textbf{Étudiant ou membre du staff}, je souhaite accéder au bâtiment afin de pouvoir travailler dans de bonnes conditions.
-        \item En tant qu’\textbf{Invité}, je souhaite accéder au bâtiment afin d'y intervenir pendant la durée autorisée.
         \item En tant qu’\textbf{Administrateur}, je souhaite accéder au bâtiment, consulter l’historique des entrées/sorties et gérer les rôles et badges des utilisateurs.
     \end{itemize}
 
@@ -188,9 +186,7 @@ Cette sous-section définit la matrice des permissions selon les rôles utilisat
             Administrateur        & \mycheckmark          & \mycheckmark         \\
             Coach/Staff            & \mycross             & \mycheckmark         \\
             Étudiant               & \mycross             & \mycheckmark         \\
-            Invité                 & \mycross             & \mycross             \\
             \hline
-            \multicolumn{3}{l}{*Badges temporaires (durée limitée)}
         \end{tabular}
     \end{center}
 \end{for_you}
@@ -203,7 +199,7 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 \begin{for_you}{Système d’authentification :}
 
     \begin{itemize}
-        \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de jetons depuis une socket LiveView.
+        \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de sessions depuis une socket LiveView.
         \item \textbf{Sécurité :} Politique de mots de passe forts et vérification des informations envoyées.
         \item \textbf{Récupération de compte :} Procédure de réinitialisation du mot de passe par email sécurisé.
     \end{itemize}
