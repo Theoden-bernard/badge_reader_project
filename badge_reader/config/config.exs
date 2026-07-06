@@ -61,16 +61,15 @@ config :esbuild,
   ]
 
 # Configure tailwind (the version is required)
-#config :tailwind,
-#  version: "4.1.12",
-#  install: [
-#    args: ~w(
-#      --config=tailwind.config.js
-#      --input=css/app.css
-#      --output=../priv/static/assets/app.css
-#    ),
-#    cd: Path.expand("../assets", __DIR__)
-#  ]
+config :tailwind,
+  version: "4.1.12",
+  badge_reader: [
+    args: ~w(
+      --input=assets/css/app.css
+      --output=priv/static/assets/css/app.css
+    ),
+    cd: Path.expand("..", __DIR__)
+  ]
 
 # Configure Elixir's Logger
 config :logger, :default_formatter,

@@ -26,9 +26,7 @@ config :badge_reader, BadgeReaderWeb.Endpoint,
   secret_key_base: "TLdyH07y4KM0qmowjTPikkjqjZFx0VwXqQRggnRQB7yZcfeC3pCxzLapJjeLXsAg",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:badge_reader, ~w(--sourcemap=inline --watch)]},
-    tailwind_watch: {
-      System, :cmd, ["npx", ["tailwindcss", "-i", "css/app.css", "-o", "../priv/static/assets/app.css", "--watch"], [cd: Path.expand("../assets", __DIR__)]]
-    }
+    tailwind: {Tailwind, :install_and_run, [:badge_reader, ~w(--watch)]}
   ]
 
 # ## SSL Support
