@@ -3,6 +3,8 @@ ExUnit.start(
 )
 
 {:ok, _} = Application.ensure_all_started(:badge_reader)
-{:ok, _} = Application.ensure_all_started(:wallaby)
+if System.get_env("CI") != "true" do
+  {:ok, _} = Application.ensure_all_started(:wallaby)
+end
 
 Ecto.Adapters.SQL.Sandbox.mode(BadgeReader.Repo, :manual)
