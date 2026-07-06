@@ -1,5 +1,11 @@
 {
   "dependencies": {
     "chart.js": "^4.5.1"
+  },
+  "scripts": {
+    "deploy": "esbuild app.js --minify --outfile=../priv/static/assets/app.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
   }
 }
