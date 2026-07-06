@@ -112,10 +112,10 @@ defmodule BadgeReaderWeb.UserLive do
 
   def handle_event("delete_user", %{"user" => params}, socket) do
 
-    user = Accounts.get_user!(params["current_user"])
+    select_user = Accounts.get_user!(params["current_user"])
 
-    case Accounts.delete_user(user) do
-      {:ok, user} ->
+    case Accounts.delete_user(select_user) do
+      {:ok, _user} ->
         {:noreply, socket
           |> put_flash(:info, "Utilisateur supprimer avec succès !")
           |> assign(:modale_open, false)
