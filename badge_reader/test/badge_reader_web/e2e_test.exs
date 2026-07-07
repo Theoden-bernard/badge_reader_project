@@ -9,7 +9,7 @@ defmodule BadgeReaderWeb.E2eTest do
     session
     |> visit("/users/log-in")
     |> fill_in(Query.css("#login_form_password input[type='email']"), with: "tb@colint.school")
-    |> fill_in(Query.text_field("mot de passe"), with: System.get_env("PASSWORD_ADMIN"))
+    |> fill_in(Query.text_field("Mot de passe"), with: System.get_env("PASSWORD_ADMIN"))
     |> Kernel.tap(fn _ -> :timer.sleep(3000) end)
     |> click(Query.css("#login_form_password button[name='user[remember_me]']"))
     |> Kernel.tap(fn _ -> :timer.sleep(1000) end)
