@@ -7,11 +7,14 @@ defmodule BadgeReaderWeb.UserLive.Login do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto max-w-sm space-y-4">
+      <div class="flex flex-col items-center mx-auto max-w-sm space-y-4">
         <div class="text-center">
+          <img
+            src="../images/colint-logo-complet.png"
+          />
           <.header>
             Authentification
-            <:subtitle>
+            <%!-- <:subtitle>
               <%= if @current_scope do %>
                 You need to reauthenticate to perform sensitive actions on your account.
               <% else %>
@@ -21,11 +24,11 @@ defmodule BadgeReaderWeb.UserLive.Login do
                   phx-no-format
                 >Sign up</.link> for an account now.
               <% end %>
-            </:subtitle>
+            </:subtitle> --%>
           </.header>
         </div>
 
-        <div :if={local_mail_adapter?()} class="alert alert-info">
+        <%!-- <div :if={local_mail_adapter?()} class="alert alert-info">
           <.icon name="hero-information-circle" class="size-6 shrink-0" />
           <div>
             <p>Vous exécutez l'adaptateur de messagerie local.</p>
@@ -33,7 +36,7 @@ defmodule BadgeReaderWeb.UserLive.Login do
               Pour voir les courriels envoyés, visitez <.link href="/dev/mailbox" class="underline">La page mailbox</.link>.
             </p>
           </div>
-        </div>
+        </div> --%>
 
         <.form
           :let={f}
@@ -77,7 +80,7 @@ defmodule BadgeReaderWeb.UserLive.Login do
           <.input
             field={@form[:password]}
             type="password"
-            label="mot de passe"
+            label="Mot de passe"
             autocomplete="current-password"
           />
           <.button class="btn btn-primary w-full" name={@form[:remember_me].name} value="true">
@@ -125,7 +128,7 @@ defmodule BadgeReaderWeb.UserLive.Login do
      |> push_navigate(to: ~p"/users/log-in")}
   end
 
-  defp local_mail_adapter? do
-    Application.get_env(:badge_reader, BadgeReader.Mailer)[:adapter] == Swoosh.Adapters.Local
-  end
+  # defp local_mail_adapter? do
+  #   Application.get_env(:badge_reader, BadgeReader.Mailer)[:adapter] == Swoosh.Adapters.Local
+  # end
 end
