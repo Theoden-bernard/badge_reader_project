@@ -33,4 +33,4 @@ RUN cd assets && npm install
 RUN mix assets.deploy \
     && mix phx.digest
 
-CMD ["mix", "phx.server"]
+CMD ["iex", "-S", "mix", "phx.server"]
