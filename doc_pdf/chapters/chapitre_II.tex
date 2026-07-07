@@ -16,7 +16,7 @@ Ces objectifs guident le développement et garantissent la cohérence du systèm
 
     \textbf{\underline{Objectifs techniques :}}
     \begin{itemize}
-        \item Concevoir et développer une \textbf{application web} intégrant un système de badge et de contrôle d’accès.
+        \item Concevoir et développer une \textbf{Site web} intégrant un système de badge et de contrôle d’accès.
         \item Mettre en œuvre des \textbf{mécanismes de sécurité robustes} : chiffrement des données, authentification par identifiant/mot de passe.
         \newline
     \end{itemize}
@@ -47,7 +47,7 @@ Il permet de :
             \hline
             \textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Justification} \\
             \hline
-            Must Have & Application web & \textbf{Indispensable} : sans elle, le système ne peut pas fonctionner. \\
+            Must Have & Site web & \textbf{Indispensable} : sans elle, le système ne peut pas fonctionner. \\
             \hline
             Must Have & Authentification et chiffrement & \textbf{Critique} : sécuriser les accès et les données. \\
             \hline
@@ -81,16 +81,12 @@ Chacun a des besoins spécifiques, détaillés ci-dessous :
 \begin{for_you}{Utilisateurs clés et leurs besoins :}
     \begin{itemize}
         \item \textbf{Étudiants} :
-              Accès du \textbf{lundi au vendredi (8h–17h)} pour les cours et projets.
+              Accès du \textbf{lundi au vendredi (8h–18h)} pour les cours et projets.
               \newline
               \textit{Exemple} : Un étudiant en retard doit pouvoir entrer rapidement.
 
-        \item \textbf{Invités} :
-              Badge \textbf{temporaire} (ex. : intervenant pour une journée).
-              Droits limités à la durée de leur visite.
-
         \item \textbf{Staff} :
-              Accès élargi (\textbf{lundi–samedi, 8h–19h}) pour les missions pédagogiques.
+              Accès élargi \textbf{lundi–samedi, (8h–20h)} pour les missions pédagogiques.
               \newline
               \textit{Exemple} : Un formateur qui prépare une salle le samedi matin.
 
@@ -106,7 +102,6 @@ Chacun a des besoins spécifiques, détaillés ci-dessous :
 \begin{for_you}{Parties prenantes :}
     \begin{itemize}
         \item \textbf{Étudiants/Staff} : Utilisateurs quotidiens -> besoin de \textbf{fluidité}.
-        \item \textbf{Invités} : Accès ponctuel -> besoin de \textbf{simplicité}.
         \item \textbf{Administrateurs} : Décideurs -> priorité à la \textbf{sécurité}.
     \end{itemize}
 
@@ -123,14 +118,13 @@ Cette approche systémique permet de concevoir une solution alignée à la fois 
     \textbf{User Stories prioritaires :}
     \begin{itemize}
         \item En tant qu’\textbf{Étudiant ou membre du staff}, je souhaite accéder au bâtiment afin de pouvoir travailler dans de bonnes conditions.
-        \item En tant qu’\textbf{Invité}, je souhaite accéder au bâtiment afin d'y intervenir pendant la durée autorisée.
         \item En tant qu’\textbf{Administrateur}, je souhaite accéder au bâtiment, consulter l’historique des entrées/sorties et gérer les rôles et badges des utilisateurs.
     \end{itemize}
 
     \textbf{Critères d’acceptation :}
     \begin{itemize}
-        \item Étant donné que je suis un utilisateur autorisé (Étudiant, staff, Invité ou Administrateur) et que je possède un badge valide, lorsque je présente mon badge au lecteur, alors le système vérifie sa validité en base de données et autorise l’ouverture de la porte.
-        \item Étant donné que je suis administrateur et que je me trouve sur la page de connexion, lorsque je saisis un identifiant et un mot de passe valides et que je clique sur le bouton \emph{Connexion}, alors le système m’authentifie et m’accorde l’accès à l’application de gestion.
+        \item Étant donné que je suis un utilisateur autorisé (Étudiant, staff, ou Administrateur) et que je possède un badge valide, lorsque je présente mon badge au lecteur, alors le système vérifie sa validité en base de données et autorise l’ouverture de la porte.
+        \item Étant donné que je suis administrateur et que je me trouve sur la page de connexion, lorsque je saisis un identifiant et un mot de passe valides et que je clique sur le bouton \emph{Connexion}, alors le système m’authentifie et m’accorde l’accès aux site de gestion.
     \end{itemize}
 \end{for_you}
 
@@ -149,7 +143,7 @@ Voici les fonctionnalités \textbf{Front office} autrement dit les :
 \begin{for_you}{Fonctionnalités utilisateurs :}
 
     \textit{
-    Les étudiants, membres du staff et invités accèdent uniquement à leur badge, qu’il soit physique ou dématérialisé via un smartphone.  
+    Les étudiants et membres du staff accèdent uniquement à leur badge, qu’il soit physique ou dématérialisé via un smartphone.  
     }
 
     \begin{itemize}
@@ -165,7 +159,7 @@ Voici les fonctionnalités \textbf{Back office} autrement dit les :
 \begin{for_you}{Fonctionnalités administrateur :}
     \begin{itemize}
         \item Gérer les badges (création, suspension, réactivation).
-        \item Attribuer des \textbf{rôles} (étudiant, staff, invité).
+        \item Attribuer des \textbf{rôles} (étudiant, staff, administrateur).
         \item Exporter les \textbf{rapports d’activité} (ex. : fréquentation par jour).
     \end{itemize}
 \end{for_you}
@@ -189,12 +183,10 @@ Cette sous-section définit la matrice des permissions selon les rôles utilisat
             \hline
             \textbf{Rôle}         & \textbf{Accès admin} & \textbf{Accès badge} \\
             \hline
-            Administrateur        & \mycheckmark         & \mycheckmark         \\
+            Administrateur        & \mycheckmark          & \mycheckmark         \\
             Coach/Staff            & \mycross             & \mycheckmark         \\
             Étudiant               & \mycross             & \mycheckmark         \\
-            Invité                 & \mycross             & \mycheckmark*        \\
             \hline
-            \multicolumn{3}{l}{*Badges temporaires (durée limitée)}
         \end{tabular}
     \end{center}
 \end{for_you}
@@ -207,7 +199,7 @@ Cette sous-section décrit le mécanisme d’authentification et de gestion des 
 \begin{for_you}{Système d’authentification :}
 
     \begin{itemize}
-        \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de jetons depuis une socket LiveView.
+        \item \textbf{Connexion :} Authentification par identifiant et mot de passe avec génération de sessions depuis une socket LiveView.
         \item \textbf{Sécurité :} Politique de mots de passe forts et vérification des informations envoyées.
         \item \textbf{Récupération de compte :} Procédure de réinitialisation du mot de passe par email sécurisé.
     \end{itemize}

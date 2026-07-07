@@ -5,37 +5,27 @@ Pour \textbf{Badge Reader}, j’ai mis en place une stratégie de tests basée s
 \begin{itemize}
     \item Les \textbf{tests unitaires} (ExUnit) pour valider la logique métier.
     \item Les \textbf{tests d’intégration} pour vérifier les interactions entre composants.
-    \item Les \textbf{tests de performance} pour mesurer la latence sous charge.
+    \item Les \textbf{tests e2e avec wallaby} (\textit"End To End") pour vérifier que tout puisse fonctionner en se mettant à la place d'un utilisateur.
 \end{itemize}
 
 \section{Tests de performance}
-J’utilise \textbf{Benchfella} (outil Elixir) pour mesurer les performances de \textbf{Badge Reader} sous charge.
+J’utilise \textbf{Exunit} (outil Elixir) pour mesurer les performances de \textbf{Badge Reader} sous charge. \newline
+
 
 \begin{for_you}{Mes tests de performance}
-    \textbf{Script de test avec Benchfella} :
-    \begin{lstlisting}
-    \end{lstlisting}
+    Je peux effectuer des tests en local ou bien dans ma chaîne CI/CD pour garder un code propre avant de push quoi que ce soit.
+    vous pouvez retrouver des exemple de \hyperlink{cible:test}{\underline{\textbf{test en (Annex)}}} \newline
 
-    \textit{Résultats typiques} :
-    \begin{center}
-    \begin{tabular}{|l|c|c|}
-    \hline
-    \textbf{Métrique} & \textbf{Objectif} & \textbf{Mesuré} \\
-    \hline
-    Temps de réponse (P95) & < 500ms & 320ms \\
-    Débit (req/s) & > 100 & 150 \\
-    Taux d’erreur & < 1\% & 0.2\% \\
-    \hline
-    \end{tabular}
-    \end{center}
-
-    \textit{Configuration Benchfella} :
+    \textit{Résultats possitife typiques} :
+    Je peux effectuer des tests en local ou bien dans ma chaîne CI/CD pour garder un code propre avant de push quoi que ce soit.
     \begin{lstlisting}
-    # config/config.exs
-    config :benchfella,
-      duration: 30,
-      warmup: 5,
-      parallel: 10
+    $ mix test
+    ......................................................................
+
+    Finished in 0.09 seconds (0.04s async, 0.05s sync)
+    70 tests, 0 failures
+
+    Randomized with seed 423581
     \end{lstlisting}
 \end{for_you}
 
@@ -48,32 +38,34 @@ Je mesure la qualité du code avec :
 \end{itemize}
 
 \begin{for_you}{Mes outils de qualité}
-    \textbf{Configuration Credo} :
-    \begin{lstlisting}
-    \end{lstlisting}
+    \textbf{Analyse statique pour Elixir (Credo) si un ou plusieurs problèmes sont détectés} :
+    \begin{center}
+        \includegraphics[width=15cm]{./assets/test_quality.png}
+    \end{center}
+    Credo me permet de respecter les bonnes pratiques Elixir et d'avoir un code propre.
+
+    \textbf{\newline}
 
     \textbf{Rapport de couverture (ExCoveralls)} :
-    \begin{center}
-    \begin{tabular}{|l|c|c|}
-    \hline
-    \textbf{Module} & \textbf{Couverture} & \textbf{Objectif} \\
-    \hline
-    Accounts & 92\% & 90\% \\
-    Badges & 88\% & 85\% \\
-    Web.Controllers & 95\% & 90\% \\
-    \hline
-    \end{tabular}
-    \end{center}
-
-    \textit{Exemple de correction de code smell} :
     \begin{lstlisting}
+COV    FILE                                      LINES RELEVANT   MISSED
+0.0%   lib/badge_reader.ex                          9        0       0
+100.0% lib/badge_reader_web/live/dashbord/compo     103      12      0
+100.0% lib/badge_reader_web/live/dashbord/compo     210      4       0
+80.9%  lib/badge_reader_web/live/dashbord/dashb     233      42      8
+0.0%   lib/badge_reader_web/live/evenement_live     91       14      14
+100.0% lib/badge_reader_web/live/user_live/conf     94       27      0
+100.0% test/support/data_case.ex                    59       7       0
+89.6%  test/support/fixtures/accounts_fixtures.     105      29      3
+...
+[TOTAL]  51.4%
     \end{lstlisting}
+    Quant à lui, ExCoveralls me permet d'avoir une idée claire du pourcentage de lignes de code testées par fichier.
 \end{for_you}
 
 \section{Liens utiles}
 \begin{itemize}
     \item ExUnit : \url{https://hexdocs.pm/ex_unit/ExUnit.html}
-    \item Benchfella : \url{https://hexdocs.pm/benchfella/Benchfella.html}
     \item Credo : \url{https://hexdocs.pm/credo/Credo.html}
     \item ExCoveralls : \url{https://hexdocs.pm/ex_coveralls/ExCoveralls.html}
     \item Dialyzer : \url{https://hexdocs.pm/dialyxir/Dialyxir.html}

@@ -12,38 +12,36 @@ Cette solution permet :
 
 \begin{for_you}{Dockerfile :}
 \begin{lstlisting}[language=dockerfile]
-# Image d'Elixir
+# Image of elixir
 FROM elixir:1.18
 
-# Installation des outils
 RUN apt-get update \
     && apt-get install -y nodejs npm \
     && rm -rf /var/lib/apt/list/* \
     && apt-get update && apt-get install -y inotify-tools
 
-# Dossier de travaille 
+# Working directory 
 WORKDIR /app
 
-# Copie des fichiers du project dans le dossier actuel 
+# Copy my file -> conteneur
 COPY . .
 
-# Mise en mode production
 ENV MIX_ENV="prod"
 
-# Installation des dépendances et installation de Phoenix
+# Bash command
 RUN set -xe \
 && mix local.hex --force \
 && mix archive.install hex phx_new --force \
 && mix deps.get \
 && mix deps.compile
 
-# Compilation
 RUN mix compile
+
+RUN cd assets && npm install
 
 RUN mix assets.deploy \
     && mix phx.digest
 
-# Lancement d'un localhost
 CMD ["mix", "phx.server"]
 
 \end{lstlisting}
@@ -99,9 +97,9 @@ Ces données sont directement stockées et gérées par GitHub.
 
 Le pipeline CI/CD automatise les étapes de linting, build, test, scan de sécurité et déploiement. GitHub Actions exécute ces étapes à chaque push et Pull Request, garantissant la qualité du code avant intégration. Les secrets et variables d'environnement sécurisent les informations sensibles.
 
-\begin{for_you}{Workflow GitHub Actions partie CI}
+\begin{for_you}{Workflow GitHub Actions partie CI 1/2}
 \begin{lstlisting}[language=yaml]
-name: CI/CD Pipeline
+name: CI
 
 on:
     push:
@@ -110,33 +108,80 @@ on:
     pull_request:
         branches: ["main", "develop"] 
 
+env:
+    MIX_ENV: test
+
 jobs:
-    elixir_ci:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Clonage du repo
-              uses: actions/checkout@v4
+    test:
+      runs-on: ubuntu-latest
 
-            - name: Instalation d Elixir et Erlan
-              uses: erlef/setup-beam@v1
-              with:
-                elixir-version: '1.18' 
-                otp-version: '27'
-            
-            - name: Installation des dépendances Mix
-              working-directory: ./badge_reader
-              run: mix deps.get
+      defaults:
+        run:
+          working-directory: ./badge_reader
 
-            - name: Compilation elixir
-              working-directory: ./badge_reader  
-              run: mix compile
-    
+      env:
+        POSTGRES_USERNAME: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_DATABASE: "badge_reader_test"
+
+      services:
+        postgres:
+          image: postgres:15
+          env:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            POSTGRES_DB: "badge_reader_test"
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 5432:5432
+      
+      steps:
+          - uses: actions/checkout@v7 
+
+          - name: Set up Elixir & Erlang
+            uses: erlef/setup-beam@v1
+            with:
+              elixir-version: "1.18"
+              otp-version: "27"
+\end{lstlisting}
+\end{for_you}
+
+\begin{for_you}{Workflow GitHub Actions partie CI 2/2}
+
+\begin{lstlisting}[language=yaml]
+          - name: Restore dependencies cache
+          uses: actions/cache@v4
+          with:
+            path: badge_reader/deps
+            key: ${{ runner.os }}-mix-${{ hashFiles('badge_reader/**/mix.lock') }}
+            restore-keys: ${{ runner.os }}-mix-
+
+          - name: Install dependencies
+            run: mix deps.get
+
+          - name: Setup Database
+            run: |
+              mix ecto.create
+              mix ecto.migrate
+              mix run priv/repo/seeds.exs
+
+          - name: Compile
+            run: mix compile --warnings-as-errors
+
+          - name: Run tests
+            run: mix quality  
+
     build_and_push_image:
         runs-on: ubuntu-latest
-        needs: elixir_ci
+        needs: test
+
         steps:
             - name: Clonage du repo
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
           
             - name: Installation docker
               uses: docker/setup-qemu-action@v3
@@ -151,12 +196,14 @@ jobs:
                 password: ${{ secrets.PASSWORD }}
 
             - name: Build & Push
-              uses: docker/build-push-action@v5
+              uses: docker/build-push-action@v6
               with:
                 context: ./badge_reader
                 push: true
                 tags: ${{ secrets.LOGIN }}/badge_reader:latest
 \end{lstlisting}
+
+Ma CI me permet de tester mon code et de vérifier que tout fonctionne avant de continuer. Si tout est correct, alors la CI peut continuer et vas builde mon image puis la push sur Docker Hub.
 \end{for_you}
 
 \begin{for_you}{Workflow GitHub Actions partie CD :}
@@ -198,103 +245,8 @@ jobs:
             - name: Supression de la clef
               run: rm -f key.pem
 \end{lstlisting}
+Ma CD, quant à elle, me permet de me connecter à mon instance EC2, de récupérer mon image et de relancer le service.
 \end{for_you}
-
-\section{Documentation et monitoring}
-
-La documentation technique couvre l'API avec Swagger/OpenAPI, les procédures opérationnelles dans un runbook, et le monitoring avec des dashboards temps réel. Les logs structurés facilitent le debugging et l'analyse des performances. Les alertes automatiques notifient l'équipe en cas d'anomalie.
-
-Le monitoring couvre les métriques applicatives (latence, débit, erreurs) et infrastructure (CPU, mémoire, disque). Les dashboards Grafana visualisent ces métriques pour faciliter la surveillance et l'analyse des tendances.
-
-\begin{exemple}
-\textbf{Runbook opérationnel (1/3) :}
-\begin{lstlisting}[language=markdown]
-# Runbook - Project Management Application
-
-## Procédures de démarrage
-
-### Démarrage de l'application
-```bash
-# Environnement de développement
-docker-compose up -d
-
-# Environnement de production
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-### Vérification de santé
-```bash
-curl -f http://localhost:3000/health
-```
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Runbook opérationnel (2/3) :}
-\begin{lstlisting}[language=markdown]
-## Procédures de maintenance
-
-### Sauvegarde des données
-```bash
-# PostgreSQL
-pg_dump -h localhost -U user projectdb > backup_$(date +%Y%m%d).sql
-
-# MongoDB
-mongodump --host localhost:27017 --db projectlogs --out backup_mongo_$(date +%Y%m%d)
-```
-
-### Mise à jour de l'application
-```bash
-# Pull de la nouvelle image
-docker-compose pull
-
-# Redémarrage avec la nouvelle image
-docker-compose up -d
-```
-\end{lstlisting}
-\end{exemple}
-
-\begin{exemple}
-\textbf{Configuration de monitoring :}
-\begin{lstlisting}[language=yaml]
-\# docker-compose.monitoring.yml
-version: '3.8'
-
-services:
-  prometheus:
-    image: prom/prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-
-  grafana:
-    image: grafana/grafana
-    ports:
-      - "3001:3000"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    volumes:
-      - grafana_data:/var/lib/grafana
-
-  node-exporter:
-    image: prom/node-exporter
-    ports:
-      - "9100:9100"
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-
-volumes:
-  grafana_data:
-\end{lstlisting}
-\end{exemple}
 
 \section{Liens utiles}
 

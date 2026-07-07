@@ -2,6 +2,7 @@ defmodule BadgeReader.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:email, :firstname, :lastname]}
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true, redact: true
@@ -11,8 +12,8 @@ defmodule BadgeReader.Accounts.User do
     field :firstname, :string
     field :lastname, :string
 
-    belongs_to :role, BadgeReader.Accounts.Role
-    has_one :badge, BadgeReader.Accounts.Badge
+    belongs_to :role, BadgeReader.RoleManager.Role
+    has_one :badge, BadgeReader.BadgeManager.Badge
 
     timestamps(type: :utc_datetime)
   end
@@ -100,10 +101,7 @@ defmodule BadgeReader.Accounts.User do
 
     if hash_password? && password && changeset.valid? do
       changeset
-      # If using Bcrypt, then further validate it is at most 72 bytes long
       |> validate_length(:password, max: 72, count: :bytes)
-      # Hashing could be done with `Ecto.Changeset.prepare_changes/2`, but that
-      # would keep the database transaction open longer and hurt performance.
       |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
       |> delete_change(:password)
     else
@@ -141,10 +139,12 @@ defmodule BadgeReader.Accounts.User do
   It requires the firstname, lastname and role_id to change otherwise an error is added.
 
   """
-  def profile_changeset(user, attrs) do
+  def profile_changeset(user, attrs, _opt \\ []) do
     user
-    |> cast(attrs, [:firstname, :lastname, :role_id])
-    |> validate_required([:firstname, :lastname])
+    |> cast(attrs, [:firstname, :lastname, :role_id, :email])
+    |> validate_required([:firstname, :lastname, :role_id, :email])
+    |> validate_length(:firstname, max: 50)
+    |> validate_length(:lastname, max: 50)
+    |> validate_email(validate_unique: false)
   end
-
 end

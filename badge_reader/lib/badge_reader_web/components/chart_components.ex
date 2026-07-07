@@ -1,59 +1,43 @@
 defmodule BadgeReaderWeb.ChartComponents do
-  use Phoenix.Component
-  alias Contex.{Dataset, Plot, LinePlot}
+  @moduledoc """
+  A reusable, stateful LiveComponent that handles hardware-accelerated charting and visual graphing canvas instances.
 
-  def native_sparkline(assigns) do
-    indexed_data =
-      assigns.data
-      |> Enum.with_index()
-      |> Enum.map(fn {val, idx} -> [idx, val] end)
+  This component acts as a generic bridge to a client-side JavaScript graphing framework (e.g., Chart.js)
+  by rendering a responsive canvas tag linked to a custom Phoenix client Hook.
 
-    dataset = Dataset.new(indexed_data, ["x", "y"])
+  ## Features
 
-    _line_plot = LinePlot.new(dataset)
+  * **DOM Isolation:** Employs `phx-update="ignore"` on the graphic element container to allow client-side layout updates to persist across state pushes safely without server side re-rendering conflicts.
+  * **Inter-op Data Streaming:** Encodes data maps into standardized JSON lists using `Jason.encode!/1` inside a declarative HTML data property pipeline (`data-points`), allowing instant ingestion by client hooks.
+  * **Asynchronous Lifecycles:** Pairs cleanly with a matching frontend JavaScript hook (`GenericChart`) to initialize, update, or resize specific canvas contexts dynamically.
 
-    plot =
-    Plot.new(dataset, LinePlot, 550, 150)
-    |> Plot.titles("", "")
-    |> Plot.plot_options(%{
-      smoothed: true,
-      fill_opacity: 0.2,
-      stroke_width: 3,
-      colour_palette: ["#fed401"],
-      show_x_axis: false,
-      show_y_axis: false
-    })
+  ## Examples
 
-    assigns = assign(assigns, :svg_render, Plot.to_svg(plot))
+  Embedding a bar or line chart instance into a statistics dashboard container:
 
+    <.live_component
+      module={BadgeReaderWeb.ChartComponents}
+      id="weekly-attendance-chart"
+      points={[%{label: "Lun", value: 45}, %{label: "Mar", value: 52}]}
+    />
+  """
+
+  use Phoenix.LiveComponent
+
+  def render(assigns) do
     ~H"""
-    <div class="w-full h-full overflow-hidden flex items-end">
-      <%= Phoenix.HTML.raw(@svg_render) %>
-    </div>
-    """
-  end
-
-  attr :data, :list, required: true
-  attr :title, :string, default: ""
-
-  def native_pie_chart(assigns) do
-    dataset = Dataset.new(assigns.data, [:category, :value])
-
-    mapping = %{category_col: :category, value_col: :value}
-
-    plot =
-      Plot.new(dataset, Contex.PieChart, 300, 250, [mapping: mapping])
-      |> Plot.titles(assigns.title, "")
-      |> Plot.plot_options(%{
-        show_labels: true,
-        colour_scheme: ["#4F46E5", "#F43F5E", "#F59E0B"]
-      })
-
-    assigns = assign(assigns, :svg, Plot.to_svg(plot))
-
-    ~H"""
-    <div class="flex justify-center items-center w-full h-full native-pie-container">
-      <%= Phoenix.HTML.raw(@svg) %>
+    <div id={@id} class="w-full h-full">
+      <div
+        id={"#{@id}-chart-container"}
+        phx-update="ignore"
+        style="position: relative; height: 100%; width: 100%;"
+      >
+        <canvas
+          id={"#{@id}-canvas"}
+          phx-hook="GenericChart"
+          data-points={Jason.encode!(@points)}
+        />
+      </div>
     </div>
     """
   end

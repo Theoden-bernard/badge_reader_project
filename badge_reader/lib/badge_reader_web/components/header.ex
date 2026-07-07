@@ -1,4 +1,30 @@
 defmodule BadgeReaderWeb.Header do
+  @moduledoc """
+  A LiveComponent that renders the top navigation header for the application dashboard.
+
+  This component manages the main application toolbar, handling global actions such as
+  toggling the navigation sidebar, global search, notification dropdowns, help shortcuts,
+  theme switching, and user account actions.
+
+  ## Features
+
+  * **Dropdown Management:** Independently controls dropdown interfaces (notifications, help, and user menu) while ensuring only one is open at a time.
+  * **Global Layout Interoperability:** Dispatches structural sidebar toggles back to the parent view.
+  * **Theme Integration:** Pairs with a client-side hook (`ThemeToggle`) to manage light and dark mode presentation.
+  * **Dynamic Stylings:** Adjusts background blur and borders dynamically based on the requested visual design variant.
+
+  ## Examples
+
+  This component can be embedded into a layout file or LiveView wrapper as follows:
+
+      <.live_component
+        module={BadgeReaderWeb.Header}
+        id="header"
+        current_user={@current_user}
+        variant="v1"
+      />
+  """
+
   use Phoenix.LiveComponent
   alias Phoenix.LiveView.JS
 
@@ -65,7 +91,8 @@ defmodule BadgeReaderWeb.Header do
   end
 
   defp header_classes(variant) do
-    base = "sticky top-0 before:absolute before:inset-0 before:backdrop-blur-md max-lg:before:bg-white/90 dark:max-lg:before:bg-gray-800/90 before:-z-10 z-30"
+    base =
+      "sticky top-0 before:absolute before:inset-0 before:backdrop-blur-md max-lg:before:bg-white/90 dark:max-lg:before:bg-gray-800/90 before:-z-10 z-30"
 
     variant_classes =
       case variant do
@@ -90,8 +117,11 @@ defmodule BadgeReaderWeb.Header do
     ~H"""
     <header class={header_classes(@variant) <> "bg-base-100"} phx-target={@myself}>
       <div class="px-4 sm:px-6 lg:px-8 bg-base-100">
-        <div class={["flex items-center justify-between h-16", border_class(@variant)]}>
-
+        <div
+          phx-click-away="close_all_dropdowns"
+          phx-target={@myself}
+          class={["flex items-center justify-between h-16", border_class(@variant)]}
+        >
           <%!-- Header: Left side --%>
           <div class="flex">
             <%!-- Hamburger button --%>
@@ -112,7 +142,6 @@ defmodule BadgeReaderWeb.Header do
 
           <%!-- Header: Right side --%>
           <div class="flex items-center space-x-3">
-
             <%!-- Search button --%>
             <div>
               <button
@@ -125,7 +154,13 @@ defmodule BadgeReaderWeb.Header do
                 aria-controls="search-modal"
               >
                 <span class="sr-only">Search</span>
-                <svg class="fill-current text-gray-500/80 dark:text-gray-400/80" width={16} height={16} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  class="fill-current text-gray-500/80 dark:text-gray-400/80"
+                  width={16}
+                  height={16}
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7ZM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5Z" />
                   <path d="m13.314 11.9 2.393 2.393a.999.999 0 1 1-1.414 1.414L11.9 13.314a8.019 8.019 0 0 0 1.414-1.414Z" />
                 </svg>
@@ -205,7 +240,8 @@ defmodule BadgeReaderWeb.Header do
                   <path d="M7 0a7 7 0 0 0-7 7c0 1.202.308 2.33.84 3.316l-.789 2.368a1 1 0 0 0 1.265 1.265l2.595-.865a1 1 0 0 0-.632-1.898l-.698.233.3-.9a1 1 0 0 0-.104-.85A4.97 4.97 0 0 1 2 7a5 5 0 0 1 5-5 4.99 4.99 0 0 1 4.093 2.135 1 1 0 1 0 1.638-1.148A6.99 6.99 0 0 0 7 0Z" />
                   <path d="M11 6a5 5 0 0 0 0 10c.807 0 1.567-.194 2.24-.533l1.444.482a1 1 0 0 0 1.265-1.265l-.482-1.444A4.962 4.962 0 0 0 16 11a5 5 0 0 0-5-5Zm-3 5a3 3 0 0 1 6 0c0 .588-.171 1.134-.466 1.6a1 1 0 0 0-.115.82 1 1 0 0 0-.82.114A2.973 2.973 0 0 1 11 14a3 3 0 0 1-3-3Z" />
                 </svg>
-                <div class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-gray-800 rounded-full"></div>
+                <div class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-gray-800 rounded-full">
+                </div>
               </button>
 
               <%= if @notifications_open do %>
@@ -321,14 +357,24 @@ defmodule BadgeReaderWeb.Header do
                 <span class="sr-only">Switch to light / dark version</span>
 
                 <%!-- Icône Soleil (Visible en mode clair) --%>
-                <svg class="dark:hidden fill-current text-gray-500/80 dark:text-gray-400/80" width="16" height="16" viewBox="0 0 16 16">
+                <svg
+                  class="dark:hidden fill-current text-gray-500/80 dark:text-gray-400/80"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                >
                   <path d="M8 0a1 1 0 0 1 1 1v.5a1 1 0 1 1-2 0V1a1 1 0 0 1 1-1Z" />
                   <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-4 2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
                   <path d="M13.657 3.757a1 1 0 0 0-1.414-1.414l-.354.354a1 1 0 0 0 1.414 1.414l.354-.354ZM13.5 8a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2h-.5a1 1 0 0 1-1-1ZM13.303 11.889a1 1 0 0 0-1.414 1.414l.354.354a1 1 0 0 0 1.414-1.414l-.354-.354ZM8 13.5a1 1 0 0 1 1 1v.5a1 1 0 1 1-2 0v-.5a1 1 0 0 1 1-1ZM4.111 13.303a1 1 0 1 0-1.414-1.414l-.354.354a1 1 0 1 0 1.414 1.414l.354-.354ZM0 8a1 1 0 0 1 1-1h.5a1 1 0 0 1 0 2H1a1 1 0 0 1-1-1ZM3.757 2.343a1 1 0 1 0-1.414 1.414l.354.354A1 1 0 1 0 4.11 2.697l-.354-.354Z" />
                 </svg>
 
                 <%!-- Icône Lune (Visible en mode sombre) --%>
-                <svg class="hidden dark:block fill-current text-gray-500/80 dark:text-gray-400/80" width="16" height="16" viewBox="0 0 16 16">
+                <svg
+                  class="hidden dark:block fill-current text-gray-500/80 dark:text-gray-400/80"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                >
                   <path d="M11.875 4.375a.625.625 0 1 0 1.25 0c.001-.69.56-1.249 1.25-1.25a.625.625 0 1 0 0-1.25 1.252 1.252 0 0 1-1.25-1.25.625.625 0 1 0-1.25 0 1.252 1.252 0 0 1-1.25 1.25.625.625 0 1 0 0 1.25c.69.001 1.249.56 1.25 1.25Z" />
                   <path d="M7.019 1.985a1.55 1.55 0 0 0-.483-1.36 1.44 1.44 0 0 0-1.53-.277C2.056 1.553 0 4.5 0 7.9 0 12.352 3.648 16 8.1 16c3.407 0 6.246-2.058 7.51-4.963a1.446 1.446 0 0 0-.25-1.55 1.554 1.554 0 0 0-1.372-.502c-4.01.552-7.539-2.987-6.97-7ZM2 7.9C2 5.64 3.193 3.664 4.961 2.6 4.82 7.245 8.72 11.158 13.36 11.04 12.265 12.822 10.341 14 8.1 14 4.752 14 2 11.248 2 7.9Z" />
                 </svg>
@@ -359,7 +405,12 @@ defmodule BadgeReaderWeb.Header do
                 />
                 <div class="flex items-center truncate">
                   <span class="truncate ml-2 text-sm font-medium text-gray-600 dark:text-gray-100 group-hover:text-gray-800 dark:group-hover:text-white">
-                    <%= if @current_user, do: "#{@current_user.lastname} #{@current_user.firstname}", else: "Non connecté" %>
+                    <%= if @current_user do %>
+                      {"#{@current_user.lastname} #{@current_user.firstname}"}
+                      <span class="hidden">{@current_user.email}</span>
+                    <% else %>
+                      Non connecté
+                    <% end %>
                   </span>
                   <svg
                     class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500"
@@ -373,8 +424,12 @@ defmodule BadgeReaderWeb.Header do
               <%= if @user_menu_open do %>
                 <div class="origin-top-right z-10 absolute top-full right-0 min-w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 py-1.5 rounded-lg shadow-lg overflow-hidden mt-1">
                   <div class="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
-                    <div class="font-medium text-gray-800 dark:text-gray-100"><%= if @current_user, do: @current_user.firstname, else: "Non connecté" %></div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400 italic"><%= if @current_user.role, do: @current_user.role.name_role, else: "Aucun rôle" %></div>
+                    <div class="font-medium text-gray-800 dark:text-gray-100">
+                      {if @current_user, do: @current_user.firstname, else: "Non connecté"}
+                    </div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 italic">
+                      {if @current_user.role, do: @current_user.role.name_role, else: "Aucun rôle"}
+                    </div>
                   </div>
                   <ul>
                     <li>
@@ -389,14 +444,14 @@ defmodule BadgeReaderWeb.Header do
                     </li>
                     <li>
                       <.link
-                      href="/users/log-out"
-                      method="delete"
-                      class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
-                      phx-click="close_all_dropdowns"
-                      phx-target={@myself}
-                    >
-                      Se déconnecter
-                    </.link>
+                        href="/users/log-out"
+                        method="delete"
+                        class="font-medium text-sm text-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-400 flex items-center py-1 px-3"
+                        phx-click="close_all_dropdowns"
+                        phx-target={@myself}
+                      >
+                        Se déconnecter
+                      </.link>
                     </li>
                   </ul>
                 </div>

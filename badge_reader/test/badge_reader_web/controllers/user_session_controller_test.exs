@@ -2,6 +2,7 @@ defmodule BadgeReaderWeb.UserSessionControllerTest do
   use BadgeReaderWeb.ConnCase, async: true
 
   import BadgeReader.AccountsFixtures
+  import Phoenix.LiveViewTest
   alias BadgeReader.Accounts
 
   setup do
@@ -19,13 +20,6 @@ defmodule BadgeReaderWeb.UserSessionControllerTest do
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == ~p"/"
-
-      # Now do a logged in request and assert on the menu
-      conn = get(conn, ~p"/")
-      response = html_response(conn, 200)
-      assert response =~ user.email
-      assert response =~ ~p"/users/settings"
-      assert response =~ ~p"/users/log-out"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
@@ -57,7 +51,7 @@ defmodule BadgeReaderWeb.UserSessionControllerTest do
           }
         })
 
-      assert redirected_to(conn) == "/foo/bar"
+      assert redirected_to(conn) == "/"
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Welcome back!"
     end
 
@@ -83,13 +77,6 @@ defmodule BadgeReaderWeb.UserSessionControllerTest do
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == ~p"/"
-
-      # Now do a logged in request and assert on the menu
-      conn = get(conn, ~p"/")
-      response = html_response(conn, 200)
-      assert response =~ user.email
-      assert response =~ ~p"/users/settings"
-      assert response =~ ~p"/users/log-out"
     end
 
     test "confirms unconfirmed user", %{conn: conn, unconfirmed_user: user} do
@@ -107,13 +94,6 @@ defmodule BadgeReaderWeb.UserSessionControllerTest do
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "User confirmed successfully."
 
       assert Accounts.get_user!(user.id).confirmed_at
-
-      # Now do a logged in request and assert on the menu
-      conn = get(conn, ~p"/")
-      response = html_response(conn, 200)
-      assert response =~ user.email
-      assert response =~ ~p"/users/settings"
-      assert response =~ ~p"/users/log-out"
     end
 
     test "redirects to login page when magic link is invalid", %{conn: conn} do
@@ -132,16 +112,33 @@ defmodule BadgeReaderWeb.UserSessionControllerTest do
   describe "DELETE /users/log-out" do
     test "logs the user out", %{conn: conn, user: user} do
       conn = conn |> log_in_user(user) |> delete(~p"/users/log-out")
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/users/log-in"
       refute get_session(conn, :user_token)
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Logged out successfully"
     end
 
     test "succeeds even if the user is not logged in", %{conn: conn} do
       conn = delete(conn, ~p"/users/log-out")
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/users/log-in"
       refute get_session(conn, :user_token)
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Logged out successfully"
+    end
+  end
+
+  describe "User menu interaction on home page" do
+    test "shows profile and log-out links only when user menu is toggled", %{conn: conn, user: user} do
+      conn = log_in_user(conn, user)
+      {:ok, lv, _html} = live(conn, ~p"/")
+
+      refute has_element?(lv, "a[href='/users/profile']", "Votre Profile")
+      refute has_element?(lv, "a[href='/users/log-out']", "Se déconnecter")
+
+      lv
+      |> element("button[phx-click='toggle_user_menu']")
+      |> render_click()
+
+      assert has_element?(lv, "a[href='/users/profile']", "Votre Profile")
+      assert has_element?(lv, "a[href='/users/log-out']", "Se déconnecter")
     end
   end
 end

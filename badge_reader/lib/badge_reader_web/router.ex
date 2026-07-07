@@ -25,7 +25,7 @@ defmodule BadgeReaderWeb.Router do
   scope "/", BadgeReaderWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
     get "/login", BadgeReaderController, :login_page
   end
 
@@ -60,7 +60,7 @@ defmodule BadgeReaderWeb.Router do
       on_mount: [{BadgeReaderWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
-      live "/users/dashboard", DashboardLive, :index
+      live "/", DashboardLive, :index
       live "/users/utilisateur", UserLive, :index
       live "/users/badge", BadgeLive, :index
       live "/users/parametre", ParametreLive, :index
@@ -68,6 +68,7 @@ defmodule BadgeReaderWeb.Router do
       live "/users/evenement", EvenementLive, :index
       live "/users/composants", ComposantsLive, :index
       live "/users/profile", ProfileLive, :index
+      live "/user_profile/:id", UserProfileLive, :index
     end
 
     post "/users/update-password", UserSessionController, :update_password

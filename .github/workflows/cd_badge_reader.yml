@@ -34,3 +34,4 @@ jobs:
 
             - name: Supression de la clef
               run: rm -f key.pem
+              

@@ -18,10 +18,14 @@ Les \textbf{cas d’usage} décrivent les interactions entre les acteurs et le s
 Ils garantissent que les fonctionnalités développées répondent aux \textbf{besoins métier} identifiés.
 \newline
 
-\begin{for_you}{Diagramme de cas d'usage simplifié :}
+\begin{for_you}{Diagramme de cas d'utilisation :}
     \begin{center}
-    \includegraphics[width=15cm,height=80mm]{./assets/uml/diagramme_de_cas_d'utilisation.png}
+    \includegraphics[width=10cm]{./assets/uml/diagramme_de_cas_d'utilisation.png}
     \end{center}
+
+    \textit{Seul l'administrateur est représenté, étant donné que seul l'administrateur aura accès au site web. Le site n'étant pas accessible au public, il est exclusivement réservée aux utilisateurs authentifiés et autorisés.\newline}
+    \textit{Le serveur mail est un acteur externe qui nous permettra d'envoyer les badges virtuels aux utilisateurs.\newline}
+    \textit{\newline Les cas d'utilisation reliés par un <<extend>> ne sont pas obligatoires : on peut consulter un utilisateur sans gérer les badges. En revanche, on est obligé de passer par la consultation d'un utilisateur pour pouvoir gérer les badges.}
 \end{for_you}
 
 \newpage
@@ -34,25 +38,25 @@ Ils clarifient :
     \item La gestion des erreurs (ex. : badge invalide).
 \end{itemize}
 
-\begin{for_you}{Diagramme de séquence accès site :}
+\begin{for_you}{Diagramme de séquence authentification :}
     \begin{center}
-        \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence_acces_site.png}
+        \includegraphics[width=10cm]{./assets/uml/diagramme_de_sequence_login.png}
     \end{center}
 
     \textit{Scénario} :
-    L’utilisateur saisit ses identifiants $\rightarrow$ le système vérifie en base $\rightarrow$ accès accordé ou refusé.
+    L'utilisateur saisit ses identifiants $\rightarrow$ le système vérifie en base $\rightarrow$ accès accordé ou refusé.
+
+    \begin{itemize}
+        \item Le stickman $\rightarrow$ navigateur internet.
+        \item Les objets $\rightarrow$  mes différents fichiers/defmodules
+    \end{itemize}
+
+    Les flèches synchrones ou flèches d’auto-appel représentent mes différentes fonctions ou retours de fonction.
+    Elles sont disposées du haut vers le bas, le bas correspondant au moment le plus éloigné dans le temps. Les rectangles alt représentent les conditions.
+    
+    Le reste de \hyperlink{cible:Sequence}{\textbf{mes Diagramme de séquence (Annex)}}
 \end{for_you}
 
-\textit{\newline}
-
-\begin{for_you}{Diagramme de séquence accès bâtiment :}
-    \begin{center}
-        \includegraphics[width=10cm,height=80mm]{./assets/uml/diagramme_de_sequence_acces_batiment.png}
-    \end{center}
-
-    \textit{Scénario} :
-    Le badge est scanné $\rightarrow$ le lecteur interroge la base $\rightarrow$ la porte s’ouvre si le badge est valide.
-\end{for_you}
 
 \section{Conception de l’interface utilisateur}
 
@@ -69,85 +73,48 @@ Voici l’organisation spatiale des \textbf{pages clés} :
 Chaque zoning respecte une \textbf{hiérarchie visuelle claire} pour guider l’utilisateur.
 \newline
 
-\begin{for_you}{Page de connexion}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/zoning/page_de_connexion.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
-
 \begin{for_you}{Dashboard}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/zoning/dashboard.png}
-    \end{center}
+    
+    \includegraphics[height=7cm]{./assets/zoning/dashboard.png}
+    \hfil
+    \includegraphics[height=7cm]{./assets/zoning/dashboard_mobile.png}
+    
+
+    \textit{Choix de la disposition :}
+
+    \begin{itemize}
+        \item \textbf{Sidebare} : Permet de naviguer sur le site.
+        \item \textbf{Header} : Raccourci et accès aux profils.
+        \item \textbf{Titre} : Titre de la page
+        \item \textbf{Main} : Contenu principal avec un système de card's pour interagir et voir différentes informations.
+    \end{itemize}
 \end{for_you}
 
-\textbf{\newline}
-
-\begin{for_you}{Page de gestion d'utilisateur}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/zoning/page_utilisateur.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
-
-\begin{for_you}{Page de gestion de badges}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/zoning/page_badge.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
-
-\begin{for_you}{Page profil}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/zoning/page_profil.png}
-    \end{center}
-\end{for_you}
+\newpage
 
 \subsection{Wireframe}
 Les \textbf{wireframes} détaillent la structure et les interactions des pages principales.
 \newline
-
-\begin{for_you}{Page de connexion}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/wireframe/page_de_connexion.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
+Le choix des card's a été fait car il permet de séparer les différentes informations de manière stylisée. Cela permet également de personnaliser sa vue comme bon lui semble, en disposant les card's comme l’utilisateur le souhaite. De plus, chaque card's est un LiveView qui se gère lui-même.
+\newline
 
 \begin{for_you}{Dashboard}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/wireframe/dashboard.png}
-    \end{center}
+    \includegraphics[height=8cm]{./assets/wireframe/dashboard.png}
+    \hfil
+    \includegraphics[height=8cm]{./assets/wireframe/dashboard_mobile.png}
 \end{for_you}
 
 \textbf{\newline}
 
-\begin{for_you}{Page de gestion d'utilisateur}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/wireframe/page_utilisateur.png}
-    \end{center}
+\begin{for_you}{Modale de création d'utilisateur}
+    \includegraphics[height=8cm]{./assets/wireframe/page_creation_utilisateur.png}
+    \hfil
+    \includegraphics[height=8cm]{./assets/wireframe/page_creation_utilisateur_mobile.png}
+
+    \textit{J'ai décidé de créer un système de modales pour fluidifier la gestion des utilisateurs, badges, etc.}
 \end{for_you}
 
-\textbf{\newline}
-
-\begin{for_you}{Page de gestion de badges}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/wireframe/page_badge.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
-
-\begin{for_you}{Page profil}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/wireframe/page_profil.png}
-    \end{center}
-\end{for_you}
+\newpage
 
 \subsection{Maquettage}
 Les \textbf{maquettes} représentent le rendu final, avec :
@@ -157,59 +124,45 @@ Les \textbf{maquettes} représentent le rendu final, avec :
     \newline
 \end{itemize}
 
-\begin{for_you}{Page de connexion}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/maquette/page_de_conextion.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
-
 \begin{for_you}{Dashboard}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/maquette/dashboard.png}
-    \end{center}
+    \includegraphics[height=7.5cm]{./assets/maquette/dashboard.png}
+    \hfil
+    \includegraphics[height=7.5cm]{./assets/maquette/dashboard_mobile.png}
 \end{for_you}
 
 \textbf{\newline}
 
-\begin{for_you}{Page de gestion d'utilisateur}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/maquette/page_utilisateur.png}
-    \end{center}
+\begin{for_you}{Modale de création d'utilisateur}
+    \includegraphics[height=7.2cm]{./assets/maquette/page_creation_utilisateur.png}
+    \hfil
+    \includegraphics[height=7.2cm]{./assets/maquette/page_creation_utilisateur_mobile.png}
+    \textbf{\newline}
+    Le reste de \hyperlink{cible:Maquettage}{\textbf{mes maquettes (Annex)}}
 \end{for_you}
 
 \textbf{\newline}
-
-\begin{for_you}{Page de gestion de badge}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/maquette/page_badge.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
-
-\begin{for_you}{Page profil}
-    \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/maquette/page_profil.png}
-    \end{center}
-\end{for_you}
-
-\textbf{\newline}
-
 
 \subsection{Outils de conception et diagrammes}
 
 Dans cette sous-section, je vais vous présenter les outils que j'ai utilisés pour créer mes diagrammes. Nous verrons des diagrammes clairs et bien conçus qui facilitent la compréhension de votre architecture.
 \newline
 
+\begin{for_you}{Création de l'interface utilisateur}
+    J’ai utilisé \textbf{Figma} pour créer les Zoning, Wireframe et Maquette, car :
+    \begin{itemize}
+        \item Gratuit et accessible en ligne.
+        \item Interface moderne avec des tutoriels vidéo.
+    \end{itemize}
+\end{for_you}
+
+\textbf{\newline}
+
 \begin{for_you}{Création de diagrammes}
-J’ai utilisé \textbf{Lucidchart} pour créer les diagrammes, car :
-\begin{itemize}
-    \item Gratuit et accessible en ligne.
-    \item Interface moderne avec des tutoriels vidéo.
-    \item Intégration facile avec GitHub.
-\end{itemize}
+    J’ai utilisé \textbf{diagram.io} pour créer les diagrammes, car :
+    \begin{itemize}
+        \item Gratuit et accessible en ligne.
+        \item Interface moderne avec des tutoriels vidéo.
+    \end{itemize}
 \end{for_you}
 
 \subsection{Charte graphique}
@@ -223,16 +176,18 @@ Elle facilite l’intégration future dans l’intranet existant.
             \hline
             \textbf{Couleurs} & \textbf{Typographie} & \textbf{Composants} \\
             \hline
-            Primaire : \#FFD401 & Farro (titres) & Boutons arrondis \\
-            Secondaire : \#000000 & Farro (corps) & Cartes avec ombres \\
-            Neutre : \#FFFFFF & Monospace (code) & Icônes Material Design \\
+            Primaire : (Jaune)\#FFD401 & Inter (titres) & Boutons arrondis \\
+            Secondaire : (blanc)\#000000 & Inter (corps) & Cartes avec ombres \\
+            Neutre : (noire)\#FFFFFF & Monospace (code) & Icônes Material Design \\
             \hline
-            \textbf{Espacement} & \textbf{Grille 8px} & \textbf{Marges cohérentes} \\
             \hline
         \end{tabular}
     \end{center}
     \textit{Exemple} :
     Le logo de Colint est utilisé sans variante pour renforcer l’identité visuelle.
+    \begin{center}
+        \includegraphics[height=5.5cm]{./assets/colint-logo-complet.png}
+    \end{center}
 \end{for_you}
 
 \newpage
@@ -250,28 +205,62 @@ Cette approche garantit \textbf{l’intégrité des données} et \textbf{l’opt
 
 \begin{for_you}{Mon MCD :}
     \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/uml/mcd.png}
+        \includegraphics[width=15cm]{./assets/uml/mcd.png}
     \end{center}
+    
+    D'après mon \hyperlink{cible:dictionnaire}{\textbf{dictionnaire de données (Annex)}}, voici mes entités et relations :
+    \newline
+
+    \begin{center}
+        \begin{tabular}{|p{3cm}|p{11cm}|}
+            \hline
+            \textbf{identités} & \textbf{Relation} \\
+            \hline
+            Utilisateurs & Un utilisateur \textbf{peux} avoir \textbf{un seul} badge et \textbf{un seul} Utilisateur token mais \textbf{doit} avoir \textbf{un seul} Role \\
+            \hline
+            Utilisateurs token & Un utilisateur token \textbf{doit} avoir \textbf{un seul} Utilisateur \\ 
+            \hline
+            Badges & Un badge \textbf{doit} avoir \textbf{un seul} Utilisateur \\
+            \hline
+            Roles & Un role \textbf{peux} avoir \textbf{un ou plusieurs} Utilisateur et \textbf{un ou plusieurs} point d'acés \\
+            \hline
+            Point d'accés & Un point d'acces \textbf{doit} avoir \textbf{un ou plusieurs} role et \textbf{peux} avoir \textbf{un ou plusieurs} log \\
+            \hline
+            Logs & log \textbf{doit} avoir \textbf{un seul} point d'accés \\
+            \hline
+        \end{tabular}
+        \newline
+    \end{center}
+
+    Choix technique :
+    \begin{itemize}
+        \item \textbf{Les badges} sont séparées des utilisateurs pour des questions pratique avec les logs
+        \item \textbf{Les roles} sont séparées des utilisateurs pour pouvoir ajouter des role dans le future
+    \end{itemize}
 \end{for_you}
 
 \subsection{MLD (Modèle Logique de Données)}
 
 \begin{for_you}{Mon MLD :}
     \begin{center}
-        \includegraphics[width=15cm,height=80mm]{./assets/uml/mld.png}
+        \includegraphics[width=15cm]{./assets/uml/mld.png}
     \end{center}
+    
+    Les entités deviennent des tables et les relations en clés ou tables de jointure, comme par exemple la table to\_authorize, qui est devenue une table de jointure pour les tables access\_points et roles.
 \end{for_you}
 
-\newpage
 \subsection{MPD (Modèle Physique de Données)}
 
 \begin{for_you}{Mon MPD :}
-\begin{center}
-    \includegraphics[width=15cm,height=80mm]{./assets/uml/mpd.png}
-\end{center}
+    \begin{center}
+        \includegraphics[width=15cm]{./assets/uml/mpd.png}
+    \end{center}
+
+    Le MPD est la version la plus aboutie : il est ce qui se rapproche le plus d'une base de données.
+    On parle maintenant de tables, de colonnes et de types.
 \end{for_you}
 
-\textit{\newline}
+\newpage
 
 \section{Architecture MVC Monolithique}
 L’architecture retenue repose sur un modèle \textbf{MVC Monolithique modulaire}, séparant clairement l'interface utilisateur (Phoenix LiveView), la logique métier via les Contextes (Elixir) et la couche de persistance (PostgreSQL). 
@@ -284,14 +273,10 @@ Cette approche permet de regrouper l'ensemble du système dans un seul déploiem
     \end{center}
 \end{for_you}
 
-\newpage
-
 \section{Liens utiles}
 
 \begin{itemize}
     \item UML : \url{https://www.uml-diagrams.org/}
     \item Merise (FR) : \url{https://perso.liris.cnrs.fr/pierre-antoine.champin/enseignement/intro-merise.html}
     \item PostgreSQL : \url{https://www.postgresql.org/docs/}
-    \item Lucidchart : \url{https://www.lucidchart.com/}
-    \item PlantUML : \url{https://plantuml.com/}
 \end{itemize}

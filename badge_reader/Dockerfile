@@ -6,6 +6,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/list/* \
     && apt-get update && apt-get install -y inotify-tools
 
+# installation de la Cron de purge des logs de connexion :
+## crontab (on server)
+# 5 4 * * * cd /app ; mix purge_logs
+
+
 # Working directory 
 WORKDIR /app
 
@@ -23,9 +28,9 @@ RUN set -xe \
 
 RUN mix compile
 
+RUN cd assets && npm install
+
 RUN mix assets.deploy \
     && mix phx.digest
 
-#CMD ["iex", "-S", "mix"]
 CMD ["mix", "phx.server"]
-#CMD ["ls", "/app"]

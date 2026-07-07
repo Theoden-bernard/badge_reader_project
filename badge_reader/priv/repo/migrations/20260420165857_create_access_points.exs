@@ -3,13 +3,10 @@ defmodule BadgeReader.Repo.Migrations.CreateAccessPoints do
 
   def change do
     create table(:access_points) do
-      add :nom_access_points, :string
-      add :places, :string
-      add :user_id, references(:users, type: :id, on_delete: :delete_all)
+      add :name_access_points, :string, size: 50, null: false
+      add :places, :string, size: 50, null: false
 
       timestamps(type: :utc_datetime)
     end
-
-    create index(:access_points, [:user_id])
   end
 end

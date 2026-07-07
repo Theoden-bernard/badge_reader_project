@@ -1,5 +1,7 @@
 import Config
 
+System.put_env("PHOENIX_SERVER", "true")
+
 # Only in tests, remove the complexity from the password hashing algorithm
 config :bcrypt_elixir, :log_rounds, 1
 
@@ -9,22 +11,25 @@ config :bcrypt_elixir, :log_rounds, 1
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :badge_reader, BadgeReader.Repo,
-  username: "theoden",
-  password: "postgres",
+  username: System.get_env("POSTGRES_USER") || "postgres",
+  password: System.get_env("POSTGRES_PASSWORD") || "postgres",
   hostname: "localhost",
-  database: "badge_reader_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "badge_reader_test#{System.get_env("MIX_TEST_PARTITION")}" || "badge_reader_test",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :badge_reader, BadgeReaderWeb.Endpoint,
+  url: [host: "localhost", port: 4002],
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "LObTy2VoaUo4vGMnF7fnp2AclhaRzCM98vWnltSB0nwa19FnxIdhxb0XpeRTqjs/",
-  server: false
+  server: true
 
 # In test we don't send emails
 config :badge_reader, BadgeReader.Mailer, adapter: Swoosh.Adapters.Test
+
+config :badge_reader, :sql_sandbox, true
 
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
@@ -42,3 +47,15 @@ config :phoenix_live_view,
 # Sort query params output of verified routes for robust url comparisons
 config :phoenix,
   sort_verified_routes_query_params: true
+
+config :wallaby,
+  driver: Wallaby.Chrome,
+  base_url: "http://localhost:4002",
+  chromedriver: [
+    path: "/Users/theoden/chromedriver/mac_arm-134.0.6998.165/chromedriver-mac-arm64/chromedriver"
+  ],
+  capabilities: %{
+    "goog:chromeOptions" => %{
+      "args" => ["--window-size=1280,800", "--no-sandbox", "--disable-gpu"]
+    }
+  }
