@@ -110,15 +110,15 @@ end)
 IO.puts("Création des access points")
 
 AccessPointsManager.create_access_point(%{name_access_points: "Batiment", places: "Acceuil"}, [
-  1,
-  2,
-  3
+  BadgeReader.RoleManager.get_role_by_name("Administrateur").id,
+  BadgeReader.RoleManager.get_role_by_name("Etudiant").id,
+  BadgeReader.RoleManager.get_role_by_name("Staff").id
 ])
 
 AccessPointsManager.create_access_point(%{name_access_points: "Pointeuse", places: "Acceuil"}, [
-  1,
-  2,
-  3
+  BadgeReader.RoleManager.get_role_by_name("Administrateur").id,
+  BadgeReader.RoleManager.get_role_by_name("Etudiant").id,
+  BadgeReader.RoleManager.get_role_by_name("Staff").id
 ])
 
 IO.puts("Base de données initialisée avec succès")

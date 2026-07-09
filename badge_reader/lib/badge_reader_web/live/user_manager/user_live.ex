@@ -90,7 +90,7 @@ defmodule BadgeReaderWeb.UserLive do
            socket
             |> put_flash(:info, "Utilisateur modifier avec succès !")
             |> assign(:modale_open, false)
-            |> assign(:user_table, Accounts.get_all_user())}
+            |> assign(:user_table, Accounts.list_all_users_except_the_logged_user(socket.current_user))}
 
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign_form(socket, changeset)}
@@ -102,7 +102,7 @@ defmodule BadgeReaderWeb.UserLive do
            socket
             |> put_flash(:info, "Utilisateur créé avec succès !")
             |> assign(:modale_open, false)
-            |> assign(:user_table, Accounts.get_all_user())}
+            |> assign(:user_table, Accounts.list_all_users_except_the_logged_user(socket.current_user))}
 
         {:error, %Ecto.Changeset{} = changeset} ->
           {:noreply, assign_form(socket, changeset)}

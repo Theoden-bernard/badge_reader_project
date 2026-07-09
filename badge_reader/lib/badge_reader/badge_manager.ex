@@ -28,12 +28,32 @@ defmodule BadgeReader.BadgeManager do
 
   import Ecto.Query
 
+  @doc """
+  Create_badge
+
+  ## Examples
+    iex> create_badge(%{rfid: 1234, name_badge: "badge_user", user_id: 1})
+    {:ok, %Badge{}}
+
+    iex> create_badge(%{rfid: "hello", name_badge: "badge_user", user_id: 1})
+    {:error, %Ecto.changeset{}}
+  """
   def create_badge(attrs) do
     %Badge{}
     |> Badge.changeset_badge(attrs)
     |> Repo.insert()
   end
 
+  @doc """
+  list_badge
+  ## Examples
+
+    iex> list_badge
+    [%Badge{}, %Badge{}]
+
+    iex> list_badge
+    []
+  """
   def list_badge do
     Badge
     |> Repo.all()
